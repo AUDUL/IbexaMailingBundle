@@ -6,7 +6,6 @@ services:
         public: false
         bind:
             $logger: "@monolog.logger.novaezmailing"
-            $translationHelper: "@ezpublish.translation_helper"
 
     Novactive\Bundle\eZMailingBundle\Command\:
         resource: '../../Command'
@@ -56,7 +55,7 @@ services:
     novaezmailing.menu.campaigns:
         class: Knp\Menu\MenuItem
         factory: ['@Novactive\Bundle\eZMailingBundle\Menu\Builder','createCampaignMenu']
-        arguments: ["@request_stack", "@novaezmailing.doctrine.entity_manager"]
+        arguments: ["@request_stack"]
         tags:
             - { name: knp_menu.menu, alias: novaezmailing.menu.campaigns }
 
