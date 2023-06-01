@@ -1,6 +1,0 @@
-services:
-
-    ez_mailing.ezpublish.core.io_service:
-        parent: ezpublish.core.io.service
-        calls:
-        - [ setPrefix, [ "files" ] ]
