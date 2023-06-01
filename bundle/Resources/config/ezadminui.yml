@@ -2,19 +2,19 @@ services:
 
     nova_ezmailing.ezadminui.component.stylesheets:
         parent: Ibexa\AdminUi\Component\TwigComponent
-         public: false
-         arguments:
+        public: false
+        arguments:
             $template: "@@NovaeZMailing/ezadminui/stylesheets.html.twig"
-         tags:
-             - { name: ezplatform.admin_ui.component, group: 'stylesheet-head' }
+        tags:
+            - { name: ezplatform.admin_ui.component, group: 'stylesheet-head' }
 
     nova_ezmailing.ezadminui.component.javascripts:
         parent: Ibexa\AdminUi\Component\TwigComponent
-         public: false
-         arguments:
-             $template: "@@NovaeZMailing/ezadminui/javascripts.html.twig"
-         tags:
-             - { name: ezplatform.admin_ui.component, group: 'script-body' }
+        public: false
+        arguments:
+            $template: "@@NovaeZMailing/ezadminui/javascripts.html.twig"
+        tags:
+            - { name: ezplatform.admin_ui.component, group: 'script-body' }
 
     Novactive\Bundle\eZMailingBundle\Listener\TopMenu:
         tags:
