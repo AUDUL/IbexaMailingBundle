@@ -19,11 +19,11 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class NamesValidator extends ConstraintValidator
 {
-    public function validate($values, Constraint $constraint): void
+    public function validate($value, Constraint $constraint): void
     {
         $empty = true;
-        foreach ($values as $value) {
-            if (null !== $value) {
+        foreach ($value as $element) {
+            if (null !== $element) {
                 $empty = false;
                 break;
             }

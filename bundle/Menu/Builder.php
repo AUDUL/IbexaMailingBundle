@@ -51,8 +51,8 @@ class Builder
 
     public function createAdminMenu(RequestStack $requestStack): ItemInterface
     {
-        $request = $requestStack->getMasterRequest();
-        $route = null !== $request ? $request->attributes->get('_route') : null;
+        $request = $requestStack->getMainRequest();
+        $route = $request?->attributes->get('_route');
         $mailingRoute = 'novaezmailing_mailinglist';
         $userRoute = 'novaezmailing_user';
 

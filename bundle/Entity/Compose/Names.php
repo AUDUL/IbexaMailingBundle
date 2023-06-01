@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Novactive\Bundle\eZMailingBundle\Entity\Compose;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
 
 trait Names
 {

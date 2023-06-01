@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Novactive\Bundle\eZMailingBundle\DependencyInjection;
 
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class Configuration extends SiteAccessAware\Configuration
