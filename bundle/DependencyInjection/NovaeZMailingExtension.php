@@ -54,7 +54,7 @@ class NovaeZMailingExtension extends Extension implements PrependExtensionInterf
     {
         $configFile = __DIR__.'/../Resources/config/views.yml';
         $config = Yaml::parse(file_get_contents($configFile));
-        $container->prependExtensionConfig('ezpublish', $config);
+        $container->prependExtensionConfig('ibexa', $config);
         $container->addResource(new FileResource($configFile));
 
         $loggerFile = __DIR__.'/../Resources/config/logger.yml';

@@ -117,7 +117,7 @@ class MigrateCjwnlCommand extends Command
         $contentLanguageService = $this->ezRepository->getContentLanguageService();
         $languages = $contentLanguageService->loadLanguages();
         $defaultLanguageCode = $contentLanguageService->getDefaultLanguageCode();
-        $siteAccessList = $this->configResolver->getParameter('list', 'ezpublish', 'siteaccess');
+        $siteAccessList = $this->configResolver->getParameter('list', 'ibexa', 'siteaccess');
 
         $lists = $campaigns = [];
 
