@@ -118,7 +118,7 @@ class MigrateCjwnlCommand extends Command
 
         $siteAccessList = array_map(function (SiteAccess $siteAccess) {
             return $siteAccess->name;
-        }, $this->siteAccessAware->getAll());
+        }, iterator_to_array($this->siteAccessAware->getAll()));
 
         $lists = $campaigns = [];
 
