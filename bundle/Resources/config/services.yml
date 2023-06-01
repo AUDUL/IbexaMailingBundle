@@ -102,4 +102,4 @@ services:
         tags: ['doctrine.fixture.orm']
 
     Novactive\Bundle\eZMailingBundle\Core\IOService:
-        arguments: ['@ez_mailing.ezpublish.core.io_service']
+        arguments: [ '@ibexa.core.io.service' ]

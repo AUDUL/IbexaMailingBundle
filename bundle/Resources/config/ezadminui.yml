@@ -6,7 +6,7 @@ services:
         arguments:
             $template: "@@NovaeZMailing/ezadminui/stylesheets.html.twig"
         tags:
-            - { name: ezplatform.admin_ui.component, group: 'stylesheet-head' }
+            - { name: ibexa.admin_ui.component, group: 'stylesheet-head' }
 
     nova_ezmailing.ezadminui.component.javascripts:
         parent: Ibexa\AdminUi\Component\TwigComponent
@@ -14,7 +14,7 @@ services:
         arguments:
             $template: "@@NovaeZMailing/ezadminui/javascripts.html.twig"
         tags:
-            - { name: ezplatform.admin_ui.component, group: 'script-body' }
+            - { name: ibexa.admin_ui.component, group: 'script-body' }
 
     Novactive\Bundle\eZMailingBundle\Listener\TopMenu:
         tags:
