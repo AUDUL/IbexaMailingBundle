@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Novactive\Bundle\eZMailingBundle\Core;
 
-use eZ\Publish\Core\IO\IOServiceInterface;
+use Ibexa\Core\IO\IOServiceInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class IOService

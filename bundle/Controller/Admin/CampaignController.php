@@ -16,9 +16,9 @@ namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
 
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\Core\Helper\TranslationHelper;
-use EzSystems\EzPlatformAdminUi\Tab\LocationView\ContentTab;
+use Ibexa\AdminUi\Tab\LocationView\ContentTab;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Core\Helper\TranslationHelper;
 use Novactive\Bundle\eZMailingBundle\Core\Provider\User as UserProvider;
 use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing;

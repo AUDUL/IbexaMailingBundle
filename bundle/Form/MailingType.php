@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Novactive\Bundle\eZMailingBundle\Form;
 
-use EzSystems\EzPlatformAdminUi\Siteaccess\SiteaccessResolver;
+use Ibexa\AdminUi\Siteaccess\SiteaccessResolver;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 use Novactive\Bundle\eZMailingBundle\Validator\Constraints\Location as LocationConstraint;
 use Novactive\Bundle\eZMailingBundle\Validator\Constraints\Names as NamesConstraint;

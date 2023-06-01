@@ -16,12 +16,12 @@ namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
 
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\Core\Helper\TranslationHelper;
-use eZ\Publish\Core\MVC\Symfony\View\ContentView;
-use EzSystems\EzPlatformAdminUi\Form\Factory\FormFactory;
-use EzSystems\EzPlatformAdminUi\Tab\LocationView\ContentTab;
-use EzSystems\EzPlatformAdminUi\UI\Module\Subitems\ContentViewParameterSupplier;
+use Ibexa\AdminUi\Form\Factory\FormFactory;
+use Ibexa\AdminUi\Tab\LocationView\ContentTab;
+use Ibexa\AdminUi\UI\Module\Subitems\ContentViewParameterSupplier;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Core\Helper\TranslationHelper;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Novactive\Bundle\eZMailingBundle\Core\Processor\TestMailingProcessorInterface as TestMailing;
 use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing;

@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Novactive\Bundle\eZMailingBundle\Controller;
 
 use DateTime;
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Registration;
 use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Unregistration;
 use Novactive\Bundle\eZMailingBundle\Core\Registrar;

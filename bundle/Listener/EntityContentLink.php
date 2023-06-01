@@ -16,7 +16,7 @@ namespace Novactive\Bundle\eZMailingBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\PostLoad;
-use eZ\Publish\API\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Novactive\Bundle\eZMailingBundle\Entity\eZ\ContentInterface;
 
 /**

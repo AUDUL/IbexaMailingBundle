@@ -16,7 +16,7 @@ namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
 
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use eZ\Publish\Core\Helper\TranslationHelper;
+use Ibexa\Core\Helper\TranslationHelper;
 use Novactive\Bundle\eZMailingBundle\Core\DataHandler\UserImport;
 use Novactive\Bundle\eZMailingBundle\Core\Import\User;
 use Novactive\Bundle\eZMailingBundle\Core\Provider\User as UserProvider;

@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace Novactive\Bundle\eZMailingBundle\Listener;
 
 use Doctrine\ORM\EntityManagerInterface;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use EzSystems\EzPlatformAdminUi\Tab\Event\TabGroupEvent;
-use EzSystems\EzPlatformAdminUi\Tab\TabRegistry;
+use Ibexa\AdminUi\Tab\Event\TabGroupEvent;
+use Ibexa\AdminUi\Tab\TabRegistry;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Novactive\Bundle\eZMailingBundle\Core\Tab\Campaigns as CampaignsTab;
 use Novactive\Bundle\eZMailingBundle\Core\Tab\Mailings as MailingsTab;
 use Novactive\Bundle\eZMailingBundle\Entity\Campaign;

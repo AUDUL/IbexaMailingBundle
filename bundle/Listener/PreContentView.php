@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Novactive\Bundle\eZMailingBundle\Listener;
 
 use Doctrine\ORM\EntityManagerInterface;
-use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
-use eZ\Publish\Core\MVC\Symfony\View\ContentView;
+use Ibexa\Core\MVC\Symfony\Event\PreContentViewEvent;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 use Novactive\Bundle\eZMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Symfony\Component\HttpFoundation\RequestStack;

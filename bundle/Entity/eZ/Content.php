@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Novactive\Bundle\eZMailingBundle\Entity\eZ;
 
 use Doctrine\ORM\Mapping as ORM;
-use eZ\Publish\API\Repository\Values\Content\Content as eZContent;
-use eZ\Publish\API\Repository\Values\Content\Location as eZLocation;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content as eZContent;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location as eZLocation;
 
 trait Content
 {

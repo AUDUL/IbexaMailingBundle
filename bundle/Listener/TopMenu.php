@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Novactive\Bundle\eZMailingBundle\Listener;
 
-use EzSystems\EzPlatformAdminUi\Menu\Event\ConfigureMenuEvent;
+use Ibexa\AdminUi\Menu\Event\ConfigureMenuEvent;
 
 class TopMenu
 {

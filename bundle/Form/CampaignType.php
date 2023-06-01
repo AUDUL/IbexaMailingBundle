@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Novactive\Bundle\eZMailingBundle\Form;
 
-use EzSystems\EzPlatformAdminUi\Siteaccess\SiteaccessResolver;
+use Ibexa\AdminUi\Siteaccess\SiteaccessResolver;
 use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
 use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

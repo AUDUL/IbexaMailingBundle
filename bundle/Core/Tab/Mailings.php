@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Novactive\Bundle\eZMailingBundle\Core\Tab;
 
-use EzSystems\EzPlatformAdminUi\Tab\AbstractTab;
+use Ibexa\Contracts\AdminUi\Tab\AbstractTab;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing as MailingEntity;
 
 class Mailings extends AbstractTab

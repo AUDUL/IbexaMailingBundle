@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Novactive\Bundle\eZMailingBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Novactive\Bundle\eZMailingBundle\Core\IOService;
 use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
 use Novactive\Bundle\eZMailingBundle\Entity\MailingList;

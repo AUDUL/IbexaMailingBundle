@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Novactive\Bundle\eZMailingBundle\Core\Mailer;
 
 use Doctrine\ORM\EntityManagerInterface;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Novactive\Bundle\eZMailingBundle\Core\Provider\Broadcast;
 use Novactive\Bundle\eZMailingBundle\Core\Provider\MailingContent;
 use Novactive\Bundle\eZMailingBundle\Core\Provider\MessageContent;
