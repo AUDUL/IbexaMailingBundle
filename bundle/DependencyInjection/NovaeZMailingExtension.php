@@ -39,7 +39,6 @@ class NovaeZMailingExtension extends Extension implements PrependExtensionInterf
         $loader->load('ezadminui.yml');
         $loader->load('default_settings.yml');
         $loader->load('services.yml');
-        $loader->load('services_nonautowired.yaml');
 
         $processor = new ConfigurationProcessor($container, $this->getAlias());
         $processor->mapSetting('simple_mailer', $config);
