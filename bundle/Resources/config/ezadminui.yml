@@ -15,7 +15,7 @@ services:
             $template: "@@NovaeZMailing/ezadminui/javascripts.html.twig"
         tags:
             - { name: ibexa.admin_ui.component, group: 'script-body' }
-            -
+
     Novactive\Bundle\eZMailingBundle\Listener\LocationViewGroupTab:
         autowire: true
         tags:
