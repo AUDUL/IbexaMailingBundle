@@ -43,28 +43,28 @@
         <a target="_blank" href="{{ url('_novaezmailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}"
            class="btn btn-sm btn-info">
             <svg class="ez-icon">
-                <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#view"></use>
+                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>
             </svg>
             <span>{{"mailing.mailing_tabs.views"|trans}}</span>
         </a>
         <a {% if workflow_can(item,'edit') %} href="{{ path("novaezmailing_mailing_edit", {mailing: item.id}) }}" {% else %} disabled {% endif %}
                 class="btn btn-sm btn-secondary">
             <svg class="ez-icon">
-                <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#edit"></use>
+                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#edit"></use>
             </svg>
             <span>{{"mailing.mailing_tabs.edit"|trans}}</span>
         </a>
         <a {% if workflow_can(item,'archive') %} href="{{ path("novaezmailing_mailing_archive", {mailing: item.id}) }}" {% else %} disabled {% endif %}
                 class="btn btn-sm btn-warning">
             <svg class="ez-icon">
-                <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#move"></use>
+                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#move"></use>
             </svg>
             <span>{{"mailing.mailing_tabs.archive"|trans}}</span>
         </a>
         <a {% if workflow_can(item,'cancel') %} href="{{ path("novaezmailing_mailing_cancel", {mailing: item.id}) }}" {% else %} disabled {% endif %}
                 class="btn btn-sm btn-danger">
             <svg class="ez-icon">
-                <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#trash"></use>
+                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#trash"></use>
             </svg>
             <span>{{"mailing.mailing_tabs.abort"|trans}}</span>
         </a>
@@ -73,20 +73,20 @@
         <button type="button" {% if not workflow_can(item,'test') %} disabled {% endif %} class="btn btn-sm btn-dark"
                 data-toggle="modal" data-target="#novaezmailingmailingtestmodal">
             <svg class="ez-icon">
-                <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#checkmark"></use>
+                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#checkmark"></use>
             </svg>
             <span>{{"mailing.mailing_tabs.test"|trans}}</span>
         </button>
         <button type="button" {% if not workflow_can(item,'confirm') %} disabled {% endif %}
                 class="btn btn-sm btn-success" data-toggle="modal" data-target="#novaezmailingmailingconfirmmodal">
             <svg class="ez-icon">
-                <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#publish"></use>
+                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#publish"></use>
             </svg>
             <span>{{"mailing.mailing_tabs.confirm"|trans}}</span>
         </button>
         <button type="button" class="btn btn-sm btn-primary js-novaezmailing-create-content" data-parent-location-id="{{ item.location.id }}">
             <svg class="ez-icon">
-                <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#create"></use>
+                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
             </svg>
             <span>{{"mailing.mailing_tabs.create_content"|trans}}</span>
         </button>

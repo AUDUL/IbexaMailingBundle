@@ -54,20 +54,20 @@
         <div class="novaezmailing-button-actions float-right">
             <a class="btn btn-sm btn-secondary" href="{{ path('novaezmailing_mailing_create', {campaign: item.id}) }}">
                 <svg class="ez-icon">
-                    <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#create"></use>
+                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
                 </svg>
                 <span>{{ "campaign.tabs.create"|trans }}</span>
             </a>
             <a class="btn btn-sm btn-secondary" href="{{ path("novaezmailing_campaign_edit", {campaign: item.id}) }}">
                 <svg class="ez-icon">
-                    <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#edit"></use>
+                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#edit"></use>
                 </svg>
                 <span>{{ "campaign.tabs.edit"|trans }}</span>
             </a>
             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
                     data-target="#novaezmailingconfirmremovecampaignmodal">
                 <svg class="ez-icon">
-                    <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#trash"></use>
+                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#trash"></use>
                 </svg>
                 <span>{{ "campaign.tabs.delete"|trans }}</span>
             </button>
@@ -103,7 +103,7 @@
             {% if status == 'draft' %}
                 <a class="btn btn-sm btn-secondary" href="{{ path('novaezmailing_mailing_create', {campaign: item.id}) }}">
                     <svg class="ez-icon">
-                        <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#create"></use>
+                        <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
                     </svg>
                     <span>{{ "campaign.tabs.create"|trans }}</span>
                 </a>
@@ -111,7 +111,7 @@
             <a href="{{ url('novaezmailing_campaign_subscriptions', { campaign: item.id }) }}"
                class="btn btn-sm btn-info">
                 <svg class="ez-icon">
-                    <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#view"></use>
+                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>
                 </svg>
                 <span>{{ "mailing.mailing_tabs.views"|trans ~ " " ~ "menu.campaign_menu.subscriptions"|trans|capitalize }}</span>
             </a>
