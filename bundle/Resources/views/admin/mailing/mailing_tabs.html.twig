@@ -71,14 +71,15 @@
     </div>
     <div class="novaezmailing-button-actions float-left">
         <button type="button" {% if not workflow_can(item,'test') %} disabled {% endif %} class="btn btn-sm btn-dark"
-                data-toggle="modal" data-target="#novaezmailingmailingtestmodal">
+                data-bs-toggle="modal" data-bs-target="#novaezmailingmailingtestmodal">
             <svg class="ez-icon">
                 <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#checkmark"></use>
             </svg>
             <span>{{"mailing.mailing_tabs.test"|trans}}</span>
         </button>
         <button type="button" {% if not workflow_can(item,'confirm') %} disabled {% endif %}
-                class="btn btn-sm btn-success" data-toggle="modal" data-target="#novaezmailingmailingconfirmmodal">
+                class="btn btn-sm btn-success" data-bs-toggle="modal"
+                data-bs-target="#novaezmailingmailingconfirmmodal">
             <svg class="ez-icon">
                 <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#publish"></use>
             </svg>

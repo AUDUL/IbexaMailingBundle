@@ -35,16 +35,18 @@ services:
     Novactive\Bundle\eZMailingBundle\Core\Processor\:
         resource: '../../Core/Processor'
 
+    Novactive\Bundle\eZMailingBundle\Core\Import\:
+        resource: '../../Core/Import'
 
     Novactive\Bundle\eZMailingBundle\Core\Processor\TestMailingProcessorInterface: '@Novactive\Bundle\eZMailingBundle\Core\Processor\TestMailing'
     Novactive\Bundle\eZMailingBundle\Core\Processor\SendMailingProcessorInterface: '@Novactive\Bundle\eZMailingBundle\Core\Processor\SendMailing'
 
     Novactive\Bundle\eZMailingBundle\Core\Modifier\:
         resource: '../../Core/Modifier'
-        tags: [novaezmailing.content.modifier]
+        tags: [ novaezmailing.content.modifier ]
 
     Novactive\Bundle\eZMailingBundle\Core\Provider\MailingContent:
-        arguments: [!tagged novaezmailing.content.modifier]
+        arguments: [ !tagged novaezmailing.content.modifier ]
 
     Novactive\Bundle\eZMailingBundle\Menu\Builder:
         arguments: ["@knp_menu.factory"]

@@ -138,7 +138,6 @@ class MailingListController
      */
     public function importAction(
         MailingList $mailinglist,
-        RouterInterface $router,
         FormFactoryInterface $formFactory,
         Request $request,
         User $importer,

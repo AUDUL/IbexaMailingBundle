@@ -56,6 +56,10 @@ class MigrateCjwnlCommand extends Command
      */
     private $ezRepository;
 
+    private array $lists = [];
+
+    private array $campaigns = [];
+
     public const DEFAULT_FALLBACK_CONTENT_ID = 1;
 
     public const DUMP_FOLDER = 'migrate/cjwnl';
@@ -120,8 +124,6 @@ class MigrateCjwnlCommand extends Command
             return $siteAccess->name;
         }, iterator_to_array($this->siteAccessAware->getAll()));
 
-        $lists = $campaigns = [];
-
         $mailingCounter = $registrationCounter = 0;
 
         // Lists, Campaigns with Mailings
@@ -139,107 +141,117 @@ class MigrateCjwnlCommand extends Command
 
         $this->io->progressStart(count($list_rows));
 
-        foreach ($list_rows as $list_row) {
-            try {
-                $listContent = $contentService->loadContent($list_row['contentobject_id']);
-            } catch (\Exception $e) {
+        $this->ezRepository->sudo(function () use ($list_rows, $contentService, $languages, $siteAccessList, $defaultLanguageCode, $mailingCounter) {
+            foreach ($list_rows as $list_row) {
                 try {
-                    $listContent = $contentService->loadContent(self::DEFAULT_FALLBACK_CONTENT_ID);
+                    $listContent = $contentService->loadContent($list_row['contentobject_id']);
                 } catch (\Exception $e) {
-                    continue;
-                }
-            }
-            $listNames = [];
-            foreach ($languages as $language) {
-                $title = $listContent->getName($language->languageCode);
-                if (null !== $title) {
-                    $listNames[$language->languageCode] = $title;
-                }
-            }
-            $fileName = $this->ioService->saveFile(
-                self::DUMP_FOLDER . "/list/list_{$list_row['contentobject_id']}.json",
-                json_encode(
-                    ['names' => $listNames, 'withApproval' => $list_row['auto_approve_registered_user']]
-                )
-            );
-            $lists[] = pathinfo($fileName)['filename'];
-
-            $mailings = [];
-
-            $sql = 'SELECT edition_contentobject_id, status, siteaccess, mailqueue_process_finished ';
-
-            $sql .= 'FROM cjwnl_edition_send WHERE list_contentobject_id = ?';
-
-            $mailing_rows = $this->runQuery($sql, [$list_row['contentobject_id']]);
-            foreach ($mailing_rows as $mailing_row) {
-                switch ($mailing_row['status']) {
-                    case 0:
-                        $status = Mailing::PENDING;
-                        break;
-                    case 1:
-                        $status = Mailing::PENDING;
-                        break;
-                    case 2:
-                        $status = Mailing::PROCESSING;
-                        break;
-                    case 3:
-                        $status = Mailing::SENT;
-                        break;
-                    case 9:
-                        $status = Mailing::ABORTED;
-                        break;
-                    default:
-                        $status = Mailing::DRAFT;
-                        break;
-                }
-
-                try {
-                    $mailingContent = $contentService->loadContent($mailing_row['edition_contentobject_id']);
-                } catch (\Exception $e) {
-                    $mailingContent = $contentService->loadContent(self::DEFAULT_FALLBACK_CONTENT_ID);
-                }
-                $mailingNames = [];
-                foreach ($languages as $language) {
-                    $title = $mailingContent->getName($language->languageCode);
-                    if (null !== $title) {
-                        $mailingNames[$language->languageCode] = $title;
+                    try {
+                        $listContent = $contentService->loadContent(self::DEFAULT_FALLBACK_CONTENT_ID);
+                    } catch (\Exception $e) {
+                        continue;
                     }
                 }
-                $siteAccess = \in_array(
-                    $mailing_row['siteaccess'],
-                    $siteAccessList,
-                    true
-                ) ? $mailing_row['siteaccess'] : $siteAccessList[0];
 
-                $mailings[] = [
-                    'names' => $mailingNames,
-                    'status' => $status,
-                    'siteAccess' => $siteAccess,
-                    'locationId' => $mailingContent->contentInfo->mainLocationId,
-                    'hoursOfDay' => (int)date('H', (int)$mailing_row['mailqueue_process_finished']),
-                    'daysOfMonth' => (int)date('d', (int)$mailing_row['mailqueue_process_finished']),
-                    'monthsOfYear' => (int)date('m', (int)$mailing_row['mailqueue_process_finished']),
-                    'subject' => $mailingContent->getName($defaultLanguageCode) ?? array_shift($mailingNames),
-                ];
-                ++$mailingCounter;
+                $listNames = [];
+                foreach ($languages as $language) {
+                    $title = $listContent->getName($language->languageCode);
+                    if (null !== $title) {
+                        $listNames[$language->languageCode] = $title;
+                    }
+                }
+                $fileName = $this->ioService->saveFile(
+                    self::DUMP_FOLDER . "/list/list_{$list_row['contentobject_id']}.json",
+                    json_encode(
+                        [
+                            'names' => $listNames,
+                            'withApproval' => $list_row['auto_approve_registered_user'],
+                        ]
+                    )
+                );
+                $this->lists[] = pathinfo($fileName)['filename'];
+
+                $mailings = [];
+
+                $sql = 'SELECT edition_contentobject_id, status, siteaccess, mailqueue_process_finished ';
+
+                $sql .= 'FROM cjwnl_edition_send WHERE list_contentobject_id = ?';
+
+                $mailing_rows = $this->runQuery($sql, [$list_row['contentobject_id']]);
+                foreach ($mailing_rows as $mailing_row) {
+                    switch ($mailing_row['status']) {
+                        case 0:
+                            $status = Mailing::PENDING;
+                            break;
+                        case 1:
+                            $status = Mailing::PENDING;
+                            break;
+                        case 2:
+                            $status = Mailing::PROCESSING;
+                            break;
+                        case 3:
+                            $status = Mailing::SENT;
+                            break;
+                        case 9:
+                            $status = Mailing::ABORTED;
+                            break;
+                        default:
+                            $status = Mailing::DRAFT;
+                            break;
+                    }
+
+                    try {
+                        $mailingContent = $contentService->loadContent($mailing_row['edition_contentobject_id']);
+                    } catch (\Exception $e) {
+                        try {
+                            $listContent = $contentService->loadContent(self::DEFAULT_FALLBACK_CONTENT_ID);
+                        } catch (\Exception $e) {
+                            continue;
+                        }
+                    }
+                    $mailingNames = [];
+                    foreach ($languages as $language) {
+                        $title = $mailingContent->getName($language->languageCode);
+                        if (null !== $title) {
+                            $mailingNames[$language->languageCode] = $title;
+                        }
+                    }
+                    $siteAccess = \in_array(
+                        $mailing_row['siteaccess'],
+                        $siteAccessList,
+                        true
+                    ) ? $mailing_row['siteaccess'] : $siteAccessList[0];
+
+                    $mailings[] = [
+                        'names' => $mailingNames,
+                        'status' => $status,
+                        'siteAccess' => $siteAccess,
+                        'locationId' => $mailingContent->contentInfo->mainLocationId,
+                        'hoursOfDay' => (int)date('H', (int)$mailing_row['mailqueue_process_finished']),
+                        'daysOfMonth' => (int)date('d', (int)$mailing_row['mailqueue_process_finished']),
+                        'monthsOfYear' => (int)date('m', (int)$mailing_row['mailqueue_process_finished']),
+                        'subject' => $mailingContent->getName($defaultLanguageCode) ?? array_shift($mailingNames),
+                    ];
+                    ++$mailingCounter;
+                }
+
+                $fileName = $this->ioService->saveFile(
+                    self::DUMP_FOLDER . "/campaign/campaign_{$list_row['contentobject_id']}.json",
+                    json_encode(
+                        [
+                            'names' => $listNames,
+                            'locationId' => $listContent->contentInfo->mainLocationId,
+                            'senderName' => $list_row['email_sender_name'],
+                            'senderEmail' => $list_row['email_sender'],
+                            'reportEmail' => $list_row['email_receiver_test'],
+                            'mailings' => $mailings,
+                        ]
+                    )
+                );
+                $this->campaigns[] = pathinfo($fileName)['filename'];
+                $this->io->progressAdvance();
             }
-
-            $fileName = $this->ioService->saveFile(
-                self::DUMP_FOLDER . "/campaign/campaign_{$list_row['contentobject_id']}.json",
-                json_encode(
-                    [
-                        'names' => $listNames,
-                        'locationId' => $listContent->contentInfo->mainLocationId,
-                        'senderName' => $list_row['email_sender_name'],
-                        'senderEmail' => $list_row['email_sender'],
-                        'reportEmail' => $list_row['email_receiver_test'],
-                        'mailings' => $mailings,
-                    ]
-                )
-            );
-            $campaigns[] = pathinfo($fileName)['filename'];
-            $this->io->progressAdvance();
-        }
+        });
 
         $this->io->progressFinish();
 
@@ -275,6 +287,7 @@ class MigrateCjwnlCommand extends Command
             $sql = 'SELECT list_contentobject_id, approved FROM' .
                 ' cjwnl_subscription WHERE newsletter_user_id = ?';
             $subscription_rows = $this->runQuery($sql, [$user_row['id']]);
+
             $subscriptions = [];
             foreach ($subscription_rows as $subscription_row) {
                 $subscriptions[] = [
@@ -305,13 +318,13 @@ class MigrateCjwnlCommand extends Command
 
         $this->ioService->saveFile(
             self::DUMP_FOLDER . '/manifest.json',
-            json_encode(['lists' => $lists, 'campaigns' => $campaigns, 'users' => $users])
+            json_encode(['lists' => $this->lists, 'campaigns' => $this->campaigns, 'users' => $users])
         );
 
         $this->io->progressFinish();
 
         $this->io->section(
-            'Total: ' . count($lists) . ' lists, ' . count($campaigns) . ' campaigns, ' . $mailingCounter . ' mailings, ' .
+            'Total: ' . count($this->lists) . ' lists, ' . count($this->campaigns) . ' campaigns, ' . $mailingCounter . ' mailings, ' .
             count($users) . ' users, ' . $registrationCounter . ' registrations.'
         );
         $this->io->success('Export done.');
@@ -342,6 +355,8 @@ class MigrateCjwnlCommand extends Command
             $mailingList = new MailingList();
             $mailingList->setNames((array)$listData->names);
             $mailingList->setWithApproval((bool)$listData->withApproval);
+            $mailingList->setUpdated(new \DateTime());
+
             $this->entityManager->persist($mailingList);
             ++$listCounter;
             $this->entityManager->flush();
@@ -370,6 +385,7 @@ class MigrateCjwnlCommand extends Command
             $campaign->setReturnPathEmail('');
             $campaign->setSenderName($campaignData->senderName);
             $campaign->setLocationId($campaignData->locationId);
+            $campaign->setUpdated(new \DateTime());
             $campaignContentId = explode('_', $campaignFile)[1];
             if (\array_key_exists($campaignContentId, $listIds)) {
                 /* @var MailingList $mailingList */
@@ -391,6 +407,7 @@ class MigrateCjwnlCommand extends Command
                 $mailing->setLocationId($mailingData->locationId);
                 $mailing->setSiteAccess($mailingData->siteAccess);
                 $mailing->setSubject($mailingData->subject);
+                $mailing->setUpdated(new \DateTime());
                 $this->entityManager->persist($mailing);
                 $campaign->addMailing($mailing);
                 ++$mailingCounter;

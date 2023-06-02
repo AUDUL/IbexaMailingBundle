@@ -53,9 +53,9 @@ class SendMailingCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Process the mailings');
         $overrideDatetime = null;
-        if ($input->hasOption('overrideDatetime')) {
+        if ($input->getOption('overrideDatetime')) {
             $overrideDatetime = Carbon::createFromFormat('Y-m-d H:i', $input->getOption('overrideDatetime'));
-            $io->comment('Using an override date: <comment>'.$overrideDatetime->format('Y-m-d H:i').'</comment>');
+            $io->comment('Using an override date: <comment>' . $overrideDatetime->format('Y-m-d H:i') . '</comment>');
         }
         $this->processor->execute($overrideDatetime);
         $io->success('Done.');
