@@ -23,6 +23,6 @@
     {{ form_end(form) }}
 {% endblock %}
 {% block rightbar %}
-    {% set content_create_sidebar_right = knp_menu_get('novaezmailing.menu.save_cancel', [], {}) %}
-    {{ knp_menu_render(content_create_sidebar_right, {'template': '@ibexadesign/ui/menu/sidebar_right.html.twig'}) }}
+    {% set sidebar_right = knp_menu_get('novaezmailing.menu.save_cancel', []) %}
+    {{ knp_menu_render(sidebar_right, {'template': '@ibexadesign/ui/menu/context_menu.html.twig'}) }}
 {% endblock %}
