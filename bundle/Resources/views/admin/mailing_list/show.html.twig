@@ -60,24 +60,24 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{"generic.confirm_removal"|trans}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>{{"mailing_list.show.removal_details1"|trans}}</p>
                     <p>{{"mailing_list.show.removal_details2"|trans}}:</p>
                     <ul>
-                        <li>{{"mailing_list.show.removal_details3"|trans}}</li>
-                        <li>{{ item.registrations|length }} {{"mailing_list.show.registrations"|trans}}</li>
-                        <li>{{ item.campaigns|length }} {{"mailing_list.show.assignation_to_campagin"|trans}}</li>
+                        <li>{{ "mailing_list.show.removal_details3"|trans }}</li>
+                        <li>{{ item.registrations|length }} {{ "mailing_list.show.registrations"|trans }}</li>
+                        <li>{{ item.campaigns|length }} {{ "mailing_list.show.assignation_to_campagin"|trans }}</li>
                     </ul>
 
-                    <p>{{"mailing_list.show.note"|trans}}</p>
+                    <p>{{ "mailing_list.show.note"|trans }}</p>
                 </div>
                 <div class="modal-footer">
-                    <a href="{{ path('novaezmailing_mailinglist_remove', {mailinglist:item.id}) }}" type="button" class="btn btn-danger">{{"button.confirm"|trans}}</a>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{"button.cancel"|trans}}</button>
+                    <a href="{{ path('novaezmailing_mailinglist_remove', {mailinglist:item.id}) }}" type="button"
+                       class="btn btn-danger">{{ "button.confirm"|trans }}</a>
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ "button.cancel"|trans }}</button>
                 </div>
             </div>
         </div>

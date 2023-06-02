@@ -77,9 +77,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ "campaign.tabs.confirm_removal"|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <p>{{ "campaign.tabs.delete_campaign_confirmation_1"|trans }}</p>
@@ -92,8 +90,11 @@
                         <p>{{ "campaign.tabs.delete_campaign_note"|trans }}</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="{{ path('novaezmailing_campaign_remove', {campaign: item.id}) }}" type="button" class="btn btn-danger">{{ "campaign.tabs.confirm"|trans }}</a>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ "campaign.tabs.cancel"|trans }}Cancel</button>
+                        <a href="{{ path('novaezmailing_campaign_remove', {campaign: item.id}) }}" type="button"
+                           class="btn btn-danger">{{ "campaign.tabs.confirm"|trans }}</a>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ "campaign.tabs.cancel"|trans }}Cancel
+                        </button>
                     </div>
                 </div>
             </div>
@@ -101,7 +102,8 @@
     {% else %}
         <div class="novaezmailing-button-actions float-right">
             {% if status == 'draft' %}
-                <a class="btn btn-sm btn-secondary" href="{{ path('novaezmailing_mailing_create', {campaign: item.id}) }}">
+                <a class="btn btn-sm btn-secondary"
+                   href="{{ path('novaezmailing_mailing_create', {campaign: item.id}) }}">
                     <svg class="ez-icon">
                         <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
                     </svg>

@@ -97,24 +97,24 @@
             <form class="modal-content" action="{{ path("novaezmailing_mailing_test", {mailing: item.id}) }}" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title">{{"mailing.mailing_tabs.test_mailing"|trans}}: {{ item.name }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>{{ "mailing.mailing_tabs.report_mail1"|trans }} <strong>{{ item.campaign.reportEmail }}</strong> {{"mailing.mailing_tabs.report_mail2"|trans}}.</p>
                     <p>{{ "mailing.mailing_tabs.add_cc"|trans|raw }}</p>
-                    <label class="sr-only" for="ccEmailTest">{{"mailing.mailing_tabs.email"|trans}}</label>
+                    <label class="sr-only" for="ccEmailTest">{{ "mailing.mailing_tabs.email"|trans }}</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <div class="input-group-text">@</div>
                         </div>
-                        <input type="email" name="cc" class="form-control" id="ccEmailTest" placeholder={{"mailing.mailing_tabs.email"|trans}}/>
+                        <input type="email" name="cc" class="form-control" id="ccEmailTest"
+                               placeholder={{ "mailing.mailing_tabs.email"|trans }}/>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">{{"mailing.mailing_tabs.send_test"|trans}}</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{"mailing.mailing_tabs.cancel"|trans}}</button>
+                    <button type="submit" class="btn btn-success">{{ "mailing.mailing_tabs.send_test"|trans }}</button>
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ "mailing.mailing_tabs.cancel"|trans }}</button>
                 </div>
             </form>
         </div>
@@ -123,23 +123,24 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{"mailing.mailing_tabs.confirm_sending"|trans}}: {{ item.name }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title">{{ "mailing.mailing_tabs.confirm_sending"|trans }}: {{ item.name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>{{"mailing.mailing_tabs.mailing_lists_count1"|trans}} {{ item.campaign.mailingLists|length }} {{"mailing.mailing_tabs.mailing_lists_count2"|trans}}:</p>
+                    <p>{{ "mailing.mailing_tabs.mailing_lists_count1"|trans }} {{ item.campaign.mailingLists|length }} {{ "mailing.mailing_tabs.mailing_lists_count2"|trans }}
+                        :</p>
                     <ul>
                         {% for mailingList in item.campaign.mailingLists %}
                             <li>{{ mailingList.name }}</li>
                         {% endfor %}
                     </ul>
-                    <p>{{"mailing.mailing_tabs.mailing_list_reach"|trans}} {{ totalRecipients }}.</p>
+                    <p>{{ "mailing.mailing_tabs.mailing_list_reach"|trans }} {{ totalRecipients }}.</p>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-success" href="{{ path("novaezmailing_mailing_confirm", {mailing: item.id}) }}">{{"mailing.mailing_tabs.confirm"|trans}}</a>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{"mailing.mailing_tabs.cancel"|trans}}</button>
+                    <a class="btn btn-success"
+                       href="{{ path("novaezmailing_mailing_confirm", {mailing: item.id}) }}">{{ "mailing.mailing_tabs.confirm"|trans }}</a>
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ "mailing.mailing_tabs.cancel"|trans }}</button>
                 </div>
             </div>
         </div>
