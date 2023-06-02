@@ -6,22 +6,27 @@
     <ul class="nav nav-tabs" role="tablist">
         {% if status != 'all' %}
             <li class="nav-item">
-                <a class="nav-link active" href="#novaezmailing-mailings-status-preview" data-toggle="tab" role="tab">
-                    <img src="{{ asset("/bundles/novaezmailing/admin/images/16x16/"~status~".png") }}" class="nova-icon"/> {{ statusKey|trans|capitalize ~ " " ~ "campaign.tabs.mailings"|trans }}
+                <a class="nav-link active" href="#novaezmailing-mailings-status-preview" data-bs-toggle="tab"
+                   role="tab">
+                    <img src="{{ asset("/bundles/novaezmailing/admin/images/16x16/"~status~".png") }}"
+                         class="nova-icon"/> {{ statusKey|trans|capitalize ~ " " ~ "campaign.tabs.mailings"|trans }}
                 </a>
             </li>
         {% endif %}
         <li class="nav-item">
-            <a class="nav-link{% if status == 'all' %} active{% endif %}" href="#novaezmailing-campaign-preview" data-toggle="tab" role="tab">{{ "campaign.tabs.campaign"|trans }}</a>
+            <a class="nav-link{% if status == 'all' %} active{% endif %}" href="#novaezmailing-campaign-preview"
+               data-bs-toggle="tab" role="tab">{{ "campaign.tabs.campaign"|trans }}</a>
         </li>
         {% if item.locationId is not null %}
             <li class="nav-item">
-                <a class="nav-link" href="#novaezmailing-content-preview" data-toggle="tab" role="tab">{{ "campaign.tabs.associated_content"|trans }}</a>
+                <a class="nav-link" href="#novaezmailing-content-preview" data-bs-toggle="tab"
+                   role="tab">{{ "campaign.tabs.associated_content"|trans }}</a>
             </li>
         {% endif %}
         {% if item.mailings|length > 0 %}
             <li class="nav-item">
-                <a class="nav-link" href="#novaezmailing-mailings-preview" data-toggle="tab" role="tab">{{ "common.list.users_filterer.all"|trans ~ " " ~ "campaign.tabs.mailings"|trans }}</a>
+                <a class="nav-link" href="#novaezmailing-mailings-preview" data-bs-toggle="tab"
+                   role="tab">{{ "common.list.users_filterer.all"|trans ~ " " ~ "campaign.tabs.mailings"|trans }}</a>
             </li>
         {% endif %}
     </ul>
