@@ -27,7 +27,7 @@
         } only %}
         {% include "@NovaeZMailing/admin/common/list/users.html.twig" with {items:pager.currentPageResults,currentMailingList: item, withRegistrations: false} only %}
         <div class="pagerfanta">
-            {{ pagerfanta(pager, 'twitter_bootstrap5') }}
+            {{ pagerfanta(pager, 'ibexa') }}
         </div>
     {% else %}
         <p>{{"mailing_list.show.mailing_list_empty"|trans}}</p>

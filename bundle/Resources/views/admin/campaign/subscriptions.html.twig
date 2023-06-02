@@ -30,7 +30,7 @@
     {% if pager.nbResults > 0 %}
         {% include "@NovaeZMailing/admin/common/list/users.html.twig" with {items:pager.currentPageResults, withRegistrations: true} only %}
         <div class="pagerfanta">
-            {{ pagerfanta(pager, 'twitter_bootstrap5') }}
+            {{ pagerfanta(pager, 'ibexa') }}
         </div>
     {% endif %}
 
