@@ -9,7 +9,6 @@ import {eZMailingContentSelectionModule} from "./modules/contentSelection"
 jQuery(function () {
     "use strict";
     var $ = jQuery;
-    $('[data-toggle="popover"]').popover();
     var $app = $(".novaezmailing-app:first");
     eZMailingApprobationModule.init(jQuery, $app);
     eZMailingSearchModule.init(jQuery, $app);
