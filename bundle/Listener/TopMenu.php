@@ -15,18 +15,28 @@ declare(strict_types=1);
 namespace Novactive\Bundle\eZMailingBundle\Listener;
 
 use Ibexa\AdminUi\Menu\Event\ConfigureMenuEvent;
+use Ibexa\AdminUi\Menu\MainMenuBuilder;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class TopMenu
+class TopMenu implements EventSubscriberInterface
 {
-    public function onMenuConfigure(ConfigureMenuEvent $event): void
+    public function onMainMenuConfigure(ConfigureMenuEvent $event): void
     {
         $menu = $event->getMenu();
-        $menu->addChild(
+        $contentMenu = $menu->getChild(MainMenuBuilder::ITEM_CONTENT);
+        $contentMenu->addChild(
             'eznovamailing',
             [
                 'route' => 'novaezmailing_dashboard_index',
                 'label' => 'Nova eZ Mailing',
             ]
         );
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            ConfigureMenuEvent::MAIN_MENU => ['onMainMenuConfigure', 0],
+        ];
     }
 }

@@ -3,6 +3,7 @@ parameters:
 services:
     _defaults:
         autowire: true
+        autoconfigure: true
         public: false
         bind:
             $logger: "@monolog.logger.novaezmailing"
@@ -13,15 +14,18 @@ services:
 
     Novactive\Bundle\eZMailingBundle\Form\:
         resource: '../../Form'
-        tags: ["form.type"]
+        tags: [ "form.type" ]
 
     Novactive\Bundle\eZMailingBundle\Security\Voter\:
         resource: '../../Security/Voter'
-        tags: ["security.voter"]
+        tags: [ "security.voter" ]
 
     Novactive\Bundle\eZMailingBundle\Controller\:
         resource: '../../Controller'
-        tags: ['controller.service_arguments']
+        tags: [ 'controller.service_arguments' ]
+
+    Novactive\Bundle\eZMailingBundle\Listener\:
+        resource: '../../Listener'
 
     Novactive\Bundle\eZMailingBundle\Core\Provider\:
         resource: '../../Core/Provider'
