@@ -24,20 +24,21 @@
                 {% if workflow_can(item,'edit') %}
                     <a href="{{ path('novaezmailing_mailing_edit', {mailing: item.id}) }}" class="edit-button">
                         <svg class="ez-icon">
-                            <use xlink:href="/bundles/ezplatformadminui/img/ez-icons.svg#edit"></use>
+                            <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#edit"></use>
                         </svg>
                     </a>
                 {% else %}
                     <a href="javascript:void(0)" class="edit-button disabled">
                         <svg class="ez-icon">
-                            <use xlink:href="/bundles/ezplatformadminui/img/ez-icons.svg#edit"></use>
+                            <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#edit"></use>
                         </svg>
                     </a>
                 {% endif %}
                 {% if item.location is not null and item.content is not null %}
-                    <a target="_blank" href="{{ path('_novaezmailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}" class="edit-button">
+                    <a target="_blank" href="{{ path('_novaezmailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}"
+                       class="edit-button">
                         <svg class="ez-icon">
-                            <use xlink:href="/bundles/ezplatformadminui/img/ez-icons.svg#view"></use>
+                            <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#view"></use>
                         </svg>
                     </a>
                 {% endif %}

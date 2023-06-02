@@ -37,9 +37,10 @@
                     <td class="text-center">{{ item.updated|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
                     <td class="text-center">{{ item.registrations|length }}</td>
                     <td class="text-center">
-                        <a href="{{ path("novaezmailing_mailinglist_edit", {'mailinglist': item.id} ) }}" class="edit-button">
+                        <a href="{{ path("novaezmailing_mailinglist_edit", {'mailinglist': item.id} ) }}"
+                           class="edit-button">
                             <svg class="ez-icon">
-                                <use xlink:href="/bundles/ezplatformadminui/img/ez-icons.svg#edit"></use>
+                                <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#edit"></use>
                             </svg>
                         </a></td>
                 </tr>
@@ -51,7 +52,7 @@
     <div class="novaezmailing-button-actions float-right">
         <a class="btn btn-sm btn-secondary" href="{{ path('novaezmailing_mailinglist_create') }}">
             <svg class="ez-icon">
-                <use xlink:href="/bundles/ezplatformadminui/img/ez-icons.svg#create"></use>
+                <use xlink:href="/bundles/ibexaadminui/img/ez-icons.svg#create"></use>
             </svg>
             <span>{{"mailing_list.index.create_mailing_list"|trans}}</span>
         </a>
