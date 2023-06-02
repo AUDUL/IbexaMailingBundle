@@ -53,20 +53,20 @@
     {% if status == 'all' %}
         <div class="novaezmailing-button-actions float-right">
             <a class="btn btn-sm btn-secondary" href="{{ path('novaezmailing_mailing_create', {campaign: item.id}) }}">
-                <svg class="ez-icon">
+                <svg class="ez-icon" width="30" height="30">
                     <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
                 </svg>
                 <span>{{ "campaign.tabs.create"|trans }}</span>
             </a>
             <a class="btn btn-sm btn-secondary" href="{{ path("novaezmailing_campaign_edit", {campaign: item.id}) }}">
-                <svg class="ez-icon">
+                <svg class="ez-icon" width="30" height="30">
                     <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#edit"></use>
                 </svg>
                 <span>{{ "campaign.tabs.edit"|trans }}</span>
             </a>
             <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
                     data-bs-target="#novaezmailingconfirmremovecampaignmodal">
-                <svg class="ez-icon">
+                <svg class="ez-icon" width="30" height="30">
                     <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#trash"></use>
                 </svg>
                 <span>{{ "campaign.tabs.delete"|trans }}</span>
@@ -104,7 +104,7 @@
             {% if status == 'draft' %}
                 <a class="btn btn-sm btn-secondary"
                    href="{{ path('novaezmailing_mailing_create', {campaign: item.id}) }}">
-                    <svg class="ez-icon">
+                    <svg class="ez-icon" width="30" height="30">
                         <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
                     </svg>
                     <span>{{ "campaign.tabs.create"|trans }}</span>
@@ -112,7 +112,7 @@
             {% endif %}
             <a href="{{ url('novaezmailing_campaign_subscriptions', { campaign: item.id }) }}"
                class="btn btn-sm btn-info">
-                <svg class="ez-icon">
+                <svg class="ez-icon" width="30" height="30">
                     <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>
                 </svg>
                 <span>{{ "mailing.mailing_tabs.views"|trans ~ " " ~ "menu.campaign_menu.subscriptions"|trans|capitalize }}</span>
