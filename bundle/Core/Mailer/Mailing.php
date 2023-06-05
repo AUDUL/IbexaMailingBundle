@@ -20,7 +20,7 @@ use Novactive\Bundle\eZMailingBundle\Core\Provider\MailingContent;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing as MailingEntity;
 use Novactive\Bundle\eZMailingBundle\Entity\User;
 use Psr\Log\LoggerInterface;
-use Swift_Message;
+use Symfony\Component\Mime\Message;
 
 /**
  * Class Mailing.
@@ -107,8 +107,8 @@ class Mailing extends Mailer
         $this->broadcastProvider->end($broadcast);
     }
 
-    private function sendMessage(Swift_Message $message): int
+    private function sendMessage(Message $message): void
     {
-        return $this->mailer->send($message);
+        $this->mailer->send($message);
     }
 }

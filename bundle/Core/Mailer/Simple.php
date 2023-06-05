@@ -20,7 +20,7 @@ use Novactive\Bundle\eZMailingBundle\Core\Provider\MessageContent;
 use Novactive\Bundle\eZMailingBundle\Entity\ConfirmationToken;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing as MailingEntity;
 use Psr\Log\LoggerInterface;
-use Swift_Message;
+use Symfony\Component\Mime\Message;
 
 class Simple extends Mailer
 {
@@ -64,10 +64,10 @@ class Simple extends Mailer
         $this->sendMessage($message);
     }
 
-    private function sendMessage(Swift_Message $message): int
+    private function sendMessage(Message $message): void
     {
         $this->logger->debug("Simple Mailer sends {$message->getSubject()}.");
 
-        return $this->mailer->send($message);
+        $this->mailer->send($message);
     }
 }

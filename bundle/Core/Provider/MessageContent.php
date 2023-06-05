@@ -22,17 +22,11 @@ use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
 use Novactive\Bundle\eZMailingBundle\Entity\ConfirmationToken;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 use RuntimeException;
-use Swift_Message;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
 
 class MessageContent
 {
-    /**
-     * @var Environment;
-     */
-    private $twig;
-
     /**
      * @var ConfigResolver
      */
@@ -44,65 +38,61 @@ class MessageContent
     private $translator;
 
     public function __construct(
-        Environment $twig,
         ConfigResolverInterface $configResolver,
-        TranslatorInterface $translator
-    ) {
-        $this->twig = $twig;
+        TranslatorInterface     $translator
+    )
+    {
         $this->configResolver = $configResolver;
         $this->translator = $translator;
     }
 
-    private function createMessage(string $subject, ?Campaign $campaign = null): Swift_Message
+    private function createMessage(string $subject, ?Campaign $campaign = null): TemplatedEmail
     {
         $prefix = $this->configResolver->getParameter('email_subject_prefix', 'nova_ezmailing');
-        $message = new Swift_Message("{$prefix} {$subject}");
+        $message = new TemplatedEmail();
+        $message->subject("{$prefix} {$subject}");
         if (null !== $campaign) {
-            $message->setFrom($campaign->getSenderEmail(), $campaign->getSenderName());
-            $message->setReturnPath($campaign->getReturnPathEmail());
+            $message->from($campaign->getSenderEmail(), $campaign->getSenderName());
+            $message->returnPath($campaign->getReturnPathEmail());
 
             return $message;
         }
-        $message->setFrom(
+        $message->from(
             $this->configResolver->getParameter('email_from_address', 'nova_ezmailing'),
             $this->configResolver->getParameter('email_from_name', 'nova_ezmailing')
         );
-        $message->setReturnPath($this->configResolver->getParameter('email_return_path', 'nova_ezmailing'));
+        $message->returnPath($this->configResolver->getParameter('email_return_path', 'nova_ezmailing'));
 
         return $message;
     }
 
-    public function getStartSendingMailing(Mailing $mailing): Swift_Message
+    public function getStartSendingMailing(Mailing $mailing): TemplatedEmail
     {
         $translated = $this->translator->trans('messages.start_sending.being_sent3', [], 'ezmailing');
         $message = $this->createMessage($translated, $mailing->getCampaign());
         $campaign = $mailing->getCampaign();
-        $message->setTo($campaign->getReportEmail());
-        $message->setBody(
-            $this->twig->render('@NovaeZMailing/messages/startsending.html.twig', ['item' => $mailing]),
-            'text/html',
-            'utf8'
-        );
+        $message->to($campaign->getReportEmail());
+
+        $message->htmlTemplate('@NovaeZMailing/messages/startsending.html.twig');
+        $message->context(['item' => $mailing]);
 
         return $message;
     }
 
-    public function getStopSendingMailing(Mailing $mailing): Swift_Message
+    public function getStopSendingMailing(Mailing $mailing): TemplatedEmail
     {
         $translated = $this->translator->trans('messages.stop_sending.sent3', [], 'ezmailing');
         $message = $this->createMessage($translated, $mailing->getCampaign());
         $campaign = $mailing->getCampaign();
-        $message->setTo($campaign->getReportEmail());
-        $message->setBody(
-            $this->twig->render('@NovaeZMailing/messages/stopsending.html.twig', ['item' => $mailing]),
-            'text/html',
-            'utf8'
-        );
+        $message->to($campaign->getReportEmail());
+
+        $message->htmlTemplate('@NovaeZMailing/messages/stopsending.html.twig');
+        $message->context(['item' => $mailing]);
 
         return $message;
     }
 
-    public function getRegistrationConfirmation(Registration $registration, ConfirmationToken $token): Swift_Message
+    public function getRegistrationConfirmation(Registration $registration, ConfirmationToken $token): TemplatedEmail
     {
         $translated = $this->translator->trans('messages.confirm_registration.confirm', [], 'ezmailing');
         $message = $this->createMessage($translated);
@@ -110,44 +100,33 @@ class MessageContent
         if (null === $user) {
             throw new RuntimeException('User cannot be empty.');
         }
-        $message->setTo($user->getEmail());
-        $message->setBody(
-            $this->twig->render(
-                '@NovaeZMailing/messages/confirmregistration.html.twig',
-                [
-                    'registration' => $registration,
-                    'token' => $token,
-                ]
-            ),
-            'text/html',
-            'utf8'
-        );
+        $message->to($user->getEmail());
+        $message->htmlTemplate('@NovaeZMailing/messages/confirmregistration.html.twig');
+        $message->context([
+            'registration' => $registration,
+            'token' => $token,
+        ]);
 
         return $message;
     }
 
     public function getUnregistrationConfirmation(
-        Unregistration $unregistration,
+        Unregistration    $unregistration,
         ConfirmationToken $token
-    ): Swift_Message {
+    ): TemplatedEmail
+    {
         $translated = $this->translator->trans('messages.confirm_unregistration.confirmation', [], 'ezmailing');
         $message = $this->createMessage($translated);
         $user = $unregistration->getUser();
         if (null === $user) {
             throw new RuntimeException('User cannot be empty.');
         }
-        $message->setTo($user->getEmail());
-        $message->setBody(
-            $this->twig->render(
-                '@NovaeZMailing/messages/confirmunregistration.html.twig',
-                [
-                    'unregistration' => $unregistration,
-                    'token' => $token,
-                ]
-            ),
-            'text/html',
-            'utf8'
-        );
+        $message->to($user->getEmail());
+        $message->htmlTemplate('@NovaeZMailing/messages/confirmunregistration.html.twig');
+        $message->context([
+            'unregistration' => $unregistration,
+            'token' => $token,
+        ]);
 
         return $message;
     }

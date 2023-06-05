@@ -19,8 +19,9 @@ use Novactive\Bundle\eZMailingBundle\Core\Modifier\ModifierInterface;
 use Novactive\Bundle\eZMailingBundle\Entity\Broadcast as BroadcastEntity;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
-use Swift_Message;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpKernel\HttpKernelBrowser;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -83,21 +84,23 @@ class MailingContent
     }
 
     public function getContentMailing(
-        Mailing $mailing,
-        UserEntity $recipient,
+        Mailing         $mailing,
+        UserEntity      $recipient,
         BroadcastEntity $broadcast
-    ): Swift_Message {
+    ): Email
+    {
         $html = $this->getNativeContent($mailing);
         foreach ($this->modifiers as $modifier) {
             $html = $modifier->modify($mailing, $recipient, $html, ['broadcast' => $broadcast]);
         }
-        $message = new Swift_Message($mailing->getSubject());
-        $message->setBody($html, 'text/html', 'utf8');
+        $message = new TemplatedEmail();
+        $message->subject($mailing->getSubject());
+        $message->html($html);
         $campaign = $mailing->getCampaign();
-        $message->setFrom($campaign->getSenderEmail(), $campaign->getSenderName());
-        $message->setTo($recipient->getEmail());
-        $message->setBcc($campaign->getReportEmail());
-        $message->setReturnPath($campaign->getReturnPathEmail());
+        $message->from($campaign->getSenderEmail(), $campaign->getSenderName());
+        $message->to($recipient->getEmail());
+        $message->bcc($campaign->getReportEmail());
+        $message->returnPath($campaign->getReturnPathEmail());
 
         return $message;
     }
