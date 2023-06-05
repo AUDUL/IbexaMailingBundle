@@ -21,6 +21,7 @@ use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpKernel\HttpKernelBrowser;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -97,7 +98,7 @@ class MailingContent
         $message->subject($mailing->getSubject());
         $message->html($html);
         $campaign = $mailing->getCampaign();
-        $message->from($campaign->getSenderEmail(), $campaign->getSenderName());
+        $message->from(new Address($campaign->getSenderEmail(), $campaign->getSenderName()));
         $message->to($recipient->getEmail());
         $message->bcc($campaign->getReportEmail());
         $message->returnPath($campaign->getReturnPathEmail());

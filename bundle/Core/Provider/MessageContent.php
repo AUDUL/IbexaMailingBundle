@@ -23,6 +23,7 @@ use Novactive\Bundle\eZMailingBundle\Entity\ConfirmationToken;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 use RuntimeException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MessageContent
@@ -52,14 +53,16 @@ class MessageContent
         $message = new TemplatedEmail();
         $message->subject("{$prefix} {$subject}");
         if (null !== $campaign) {
-            $message->from($campaign->getSenderEmail(), $campaign->getSenderName());
+            $message->from(new Address($campaign->getSenderEmail(), $campaign->getSenderName()));
             $message->returnPath($campaign->getReturnPathEmail());
 
             return $message;
         }
         $message->from(
-            $this->configResolver->getParameter('email_from_address', 'nova_ezmailing'),
-            $this->configResolver->getParameter('email_from_name', 'nova_ezmailing')
+            new Address(
+                $this->configResolver->getParameter('email_from_address', 'nova_ezmailing'),
+                $this->configResolver->getParameter('email_from_name', 'nova_ezmailing')
+            )
         );
         $message->returnPath($this->configResolver->getParameter('email_return_path', 'nova_ezmailing'));
 
