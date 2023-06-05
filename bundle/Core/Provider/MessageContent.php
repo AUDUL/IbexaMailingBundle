@@ -54,7 +54,9 @@ class MessageContent
         $message->subject("{$prefix} {$subject}");
         if (null !== $campaign) {
             $message->from(new Address($campaign->getSenderEmail(), $campaign->getSenderName()));
-            $message->returnPath($campaign->getReturnPathEmail());
+            if (!empty($campaign->getReturnPathEmail())) {
+                $message->returnPath($campaign->getReturnPathEmail());
+            }
 
             return $message;
         }
@@ -64,8 +66,9 @@ class MessageContent
                 $this->configResolver->getParameter('email_from_name', 'nova_ezmailing')
             )
         );
-        $message->returnPath($this->configResolver->getParameter('email_return_path', 'nova_ezmailing'));
-
+        if (!empty($this->configResolver->getParameter('email_return_path', 'nova_ezmailing'))) {
+            $message->returnPath($this->configResolver->getParameter('email_return_path', 'nova_ezmailing'));
+        }
         return $message;
     }
 
