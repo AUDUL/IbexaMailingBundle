@@ -20,53 +20,24 @@ use Novactive\Bundle\eZMailingBundle\Core\Provider\MailingContent;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing as MailingEntity;
 use Novactive\Bundle\eZMailingBundle\Entity\User;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Message;
 
 /**
  * Class Mailing.
  */
-class Mailing extends Mailer
+class Mailing
 {
-    /**
-     * @var Simple
-     */
-    private $simpleMailer;
-
-    /**
-     * @var MailingContent
-     */
-    private $contentProvider;
-
-    /**
-     * @var Broadcast
-     */
-    private $broadcastProvider;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * Mailing constructor.
-     */
     public function __construct(
-        Simple $simpleMailer,
-        MailingContent $contentProvider,
-        LoggerInterface $logger,
-        Broadcast $broadcastProvider,
-        EntityManagerInterface $entityManager
-    ) {
-        $this->simpleMailer = $simpleMailer;
-        $this->contentProvider = $contentProvider;
-        $this->logger = $logger;
-        $this->broadcastProvider = $broadcastProvider;
-        $this->entityManager = $entityManager;
+        private readonly Simple                 $simpleMailer,
+        private readonly MailingContent         $contentProvider,
+        private readonly LoggerInterface        $logger,
+        private readonly Broadcast              $broadcastProvider,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly MailerInterface        $mailer,
+        private readonly string                 $mailing
+    )
+    {
     }
 
     public function sendMailing(MailingEntity $mailing, string $forceRecipient = null): void
@@ -109,6 +80,7 @@ class Mailing extends Mailer
 
     private function sendMessage(Message $message): void
     {
+        $message->getHeaders()->addTextHeader('X-Transport', $this->mailing);
         $this->mailer->send($message);
     }
 }

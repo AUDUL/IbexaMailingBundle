@@ -20,24 +20,17 @@ use Novactive\Bundle\eZMailingBundle\Core\Provider\MessageContent;
 use Novactive\Bundle\eZMailingBundle\Entity\ConfirmationToken;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing as MailingEntity;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Message;
 
-class Simple extends Mailer
+class Simple
 {
-    /**
-     * @var MessageContent
-     */
-    private $messageProvider;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    public function __construct(MessageContent $messageProvider, LoggerInterface $logger)
+    public function __construct(private readonly MessageContent  $messageProvider,
+                                private readonly LoggerInterface $logger,
+                                private readonly MailerInterface $mailer,
+                                private readonly string          $simpleMailer
+    )
     {
-        $this->messageProvider = $messageProvider;
-        $this->logger = $logger;
     }
 
     public function sendStartSendingMailingMessage(MailingEntity $mailing): void
@@ -67,6 +60,7 @@ class Simple extends Mailer
     private function sendMessage(Message $message): void
     {
         $this->logger->debug("Simple Mailer sends {$message->getSubject()}.");
+        $message->getHeaders()->addTextHeader('X-Transport', $this->simpleMailer);
 
         $this->mailer->send($message);
     }
