@@ -42,8 +42,8 @@
     </tr>
     {% if item.content is defined and item.content is not null %}
         <tr>
-            <th>{{"campaign.details.associated_content"|trans}}</th>
-            <td>{{ ez_content_name(item.content) }}</td>
+            <th>{{ "campaign.details.associated_content"|trans }}</th>
+            <td>{{ ibexa_content_name(item.content) }}</td>
         </tr>
     {% endif %}
 </table>
