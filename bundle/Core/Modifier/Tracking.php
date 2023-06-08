@@ -42,6 +42,7 @@ class Tracking implements ModifierInterface
             [
                 'salt' => $uniqId,
                 'broadcastId' => $broadcast->getId(),
+                'siteaccess' => $mailing->getSiteAccess(),
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
@@ -51,13 +52,14 @@ class Tracking implements ModifierInterface
 
         return preg_replace_callback(
             '/<a(.[^>]*)href="http(s)?(.[^"]*)"/uimx',
-            function ($aInput) use ($uniqId, $broadcast) {
+            function ($aInput) use ($uniqId, $broadcast, $mailing) {
                 $continueUrl = $this->router->generate(
                     'novaezmailing_t_continue',
                     [
-                        'salt' => $uniqId,
+                        'salt' => str_replace('.', '', $uniqId),
                         'broadcastId' => $broadcast->getId(),
                         'url' => str_replace(['+', '/'], ['-', '_'], base64_encode('http' . trim($aInput[1]) . trim($aInput[2]) . trim($aInput[3]))),
+                        'siteaccess' => $mailing->getSiteAccess(),
                     ],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
