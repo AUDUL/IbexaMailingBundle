@@ -7,6 +7,7 @@ services:
         public: false
         bind:
             $logger: "@monolog.logger.novaezmailing"
+            string $kernelEnv: "%kernel.environment%"
 
     Novactive\Bundle\eZMailingBundle\Command\:
         resource: '../../Command'

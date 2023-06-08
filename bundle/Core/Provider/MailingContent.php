@@ -48,7 +48,7 @@ class MailingContent
      *
      * @param ModifierInterface[] $modifiers
      */
-    public function __construct(iterable $modifiers, RouterInterface $router)
+    public function __construct(iterable $modifiers, RouterInterface $router, private readonly string $kernelEnv)
     {
         $this->modifiers = $modifiers;
         $this->router = $router;
@@ -56,7 +56,7 @@ class MailingContent
 
     public function preFetchContent(Mailing $mailing): string
     {
-        $kernel = new Kernel('prod', false);
+        $kernel = new Kernel($this->kernelEnv, false);
         $client = new HttpKernelBrowser($kernel);
         $url = $this->router->generate(
             '_novaezmailing_ez_content_view',
