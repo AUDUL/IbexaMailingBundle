@@ -57,7 +57,7 @@ class Tracking implements ModifierInterface
                     [
                         'salt' => $uniqId,
                         'broadcastId' => $broadcast->getId(),
-                        'url' => base64_encode('http'.trim($aInput[1]).trim($aInput[2]).trim($aInput[3])),
+                        'url' => str_replace(['+', '/'], ['-', '_'], base64_encode('http' . trim($aInput[1]) . trim($aInput[2]) . trim($aInput[3]))),
                     ],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );

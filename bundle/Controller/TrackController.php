@@ -36,16 +36,17 @@ class TrackController
      * @Route("/continue/{salt}/{broadcastId}/{url}", name="novaezmailing_t_continue")
      */
     public function continueAction(
-        string $salt,
-        int $broadcastId,
-        string $url,
+        string                 $salt,
+        int                    $broadcastId,
+        string                 $url,
         EntityManagerInterface $entityManager,
-        Request $request
-    ): RedirectResponse {
+        Request                $request
+    ): RedirectResponse
+    {
         $broadcast = $entityManager->getRepository(Broadcast::class)->findOneByid($broadcastId);
         $browser = new Browser($request->headers->get('User-Agent'));
         $stat = new StatHit();
-        $decodedUrl = base64_decode($url);
+        $decodedUrl = base64_decode(str_replace(['-', '_'], ['+', '/'], $url));
         $stat
             ->setOsName($browser->getPlatform())
             ->setBrowserName($browser->getName())
@@ -63,11 +64,12 @@ class TrackController
      * @Route("/read/{salt}/{broadcastId}", name="novaezmailing_t_read")
      */
     public function readAction(
-        string $salt,
-        int $broadcastId,
+        string                 $salt,
+        int                    $broadcastId,
         EntityManagerInterface $entityManager,
-        Request $request
-    ): Response {
+        Request                $request
+    ): Response
+    {
         $broadcast = $entityManager->getRepository(Broadcast::class)->findOneByid($broadcastId);
         $browser = new Browser($request->headers->get('User-Agent'));
         $stat = new StatHit();
