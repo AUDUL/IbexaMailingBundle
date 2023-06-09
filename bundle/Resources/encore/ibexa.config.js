@@ -8,6 +8,7 @@ if (fs.existsSync(subItemsModule)) {
 }
 module.exports = (Encore) => {
     Encore
+        .autoProvidejQuery()
         .addEntry('nova_ezmailing', [
         path.resolve(__dirname, '../public/admin/css/ezmailing.scss'),
         path.resolve(__dirname, '../public/admin/css/tree.scss'),
