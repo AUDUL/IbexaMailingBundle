@@ -101,19 +101,12 @@ class ChartDataBuilder
 
         if ('bar' === $this->type) {
             $options['legend'] = false;
-            $options['scales']['y'] = [
-                [
-                    'ticks' => [
-                        'stepSize' => 1,
-                        'beginAtZero' => true,
-                    ],
-                ],
+            $options['scales']['y']['ticks'] = [
+                'stepSize' => 1,
+                'beginAtZero' => true,
+
             ];
-            $options['scales']['x'] = [
-                [
-                    'barThickness' => 3,
-                ],
-            ];
+            $options['barThickness'] = 3;
         }
 
         return [
