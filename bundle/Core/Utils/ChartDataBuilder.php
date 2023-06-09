@@ -101,7 +101,7 @@ class ChartDataBuilder
 
         if ('bar' === $this->type) {
             $options['legend'] = false;
-            $options['scales']['yAxes'] = [
+            $options['scales']['y'] = [
                 [
                     'ticks' => [
                         'stepSize' => 1,
@@ -109,7 +109,7 @@ class ChartDataBuilder
                     ],
                 ],
             ];
-            $options['scales']['xAxes'] = [
+            $options['scales']['x'] = [
                 [
                     'barThickness' => 3,
                 ],
