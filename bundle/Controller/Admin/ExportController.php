@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExportController
 {
     /**
-     * @Route("/mailing-list/{id}", name="novaezmailing_mailinglist_export")
+     * @Route("/mailing-list/{mailingListId}", name="novaezmailing_mailinglist_export")
      * @Security("is_granted('view', mailingList)")
      */
     public function showAction(int        $mailingListId,
