@@ -36,6 +36,6 @@ where nr.ML_id = ?";
                 fputcsv($csv, $user, ";");
             }
             fclose($csv);
-        }, headers: ['Content-Type' => 'text/csv; charset=utf-8', 'Content-Disposition' => 'attachment; filename="mailing-list.csv"']);
+        }, headers: ['Content-Type' => 'text/csv; charset=utf-8', 'Content-Disposition' => 'attachment; filename="'.$mailinglist->getNames()[0].'.csv"']);
     }
 }
