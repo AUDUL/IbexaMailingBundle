@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
 
 use Doctrine\DBAL\Connection;
+use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,26 +16,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExportController
 {
     /**
-     * @Route("/mailing-list/{mailingListId}", name="novaezmailing_mailinglist_export")
-     * @Security("is_granted('view', mailingList)")
+     * @Route("/mailing-list/{mailinglist}", name="novaezmailing_mailinglist_export")
+     * @Security("is_granted('view', mailinglist)")
      */
-    public function showAction(int        $mailingListId,
-                               Connection $connection,
+    public function showAction(MailingList $mailinglist,
+                               Connection  $connection,
     )
     {
         $sql = "SELECT u.USER_email, u.USER_first_name, u.USER_last_name, u.USER_gender, u.USER_status
 from novaezmailing_user u
 inner join novaezmailing_registrations nr on u.USER_id = nr.USER_id
-where
-    nr.ML_id = ?";
+where nr.ML_id = ?";
 
-        return new StreamedResponse(function () use ($connection, $sql, $mailingListId) {
+        return new StreamedResponse(function () use ($connection, $sql, $mailinglist) {
             $csv = fopen('php://output', 'w+');
 
-            foreach ($connection->iterateAssociative($sql, [$mailingListId]) as $user) {
+            foreach ($connection->iterateAssociative($sql, [$mailinglist->getId()]) as $user) {
                 fputcsv($csv, $user);
             }
             fclose($csv);
-        }, headers: ['Content-Type', 'text/csv; charset=utf-8', 'Content-Disposition', 'attachment; filename="mailing-list.csv"']);
+        }, headers: ['Content-Type' => 'text/csv; charset=utf-8', 'Content-Disposition' => 'attachment; filename="mailing-list.csv"']);
     }
 }
