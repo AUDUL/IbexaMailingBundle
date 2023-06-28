@@ -30,9 +30,10 @@ where nr.ML_id = ?";
 
         return new StreamedResponse(function () use ($connection, $sql, $mailinglist) {
             $csv = fopen('php://output', 'w+');
+            fputcsv($csv, ['email', 'first_name', 'last_name', 'salutation', 'status'], ";");
 
             foreach ($connection->iterateAssociative($sql, [$mailinglist->getId()]) as $user) {
-                fputcsv($csv, $user);
+                fputcsv($csv, $user, ";");
             }
             fclose($csv);
         }, headers: ['Content-Type' => 'text/csv; charset=utf-8', 'Content-Disposition' => 'attachment; filename="mailing-list.csv"']);
