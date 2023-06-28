@@ -182,6 +182,7 @@ mailing_list.show.mailing_list_empty: Mailing list is empty.
 button.actions.edit: Edit
 button.actions.delete: Delete
 button.actions.import_users: Import Users
+button.actions.export_users: Export Users
 button.confirm: Confirm
 button.cancel: Cancel
 mailing_list.show.removal_details1: Are you sure you want to delete this Mailing List?

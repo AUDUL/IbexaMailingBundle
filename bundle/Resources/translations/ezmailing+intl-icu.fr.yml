@@ -182,6 +182,7 @@ mailing_list.show.mailing_list_empty: La liste de diffusion est vide.
 button.actions.edit: Modifier
 button.actions.delete: Supprimer
 button.actions.import_users: Importer utilisateurs
+button.actions.export_users: Export utilisateurs
 button.confirm: Confirmer
 button.cancel: Annuler
 mailing_list.show.removal_details1: Êtes-vous sûr de vouloir supprimer cette liste de diffusion?

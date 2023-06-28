@@ -54,6 +54,13 @@
             </svg>
             <span>{{"button.actions.import_users"|trans}}</span>
         </a>
+
+        <a class="btn btn-sm btn-success" href="{{ path('novaezmailing_mailinglist_export', {mailinglist:item.id}) }}">
+            <svg class="ez-icon" width="30" height="30">
+                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#catalog"></use>
+            </svg>
+            <span>{{"button.actions.export_users"|trans}}</span>
+        </a>
     </div>
     <div class="modal fade" tabindex="-1" role="dialog" id="novaezmailingconfirmremovemailinglistmodal">
         <div class="modal-dialog" role="document">
