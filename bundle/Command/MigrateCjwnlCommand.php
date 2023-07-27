@@ -260,7 +260,6 @@ GROUP BY email
 union
 SELECT null as `id`,
        cjwnl_blacklist_item.email,
-       cjwnl_blacklist_item.newsletter_user_id,
        ''   as first_name,
        ''   as last_name,
        ''   as organisation,
