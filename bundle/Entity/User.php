@@ -72,6 +72,11 @@ class User
     public const BLACKLISTED = 'blacklisted';
 
     /**
+     * Was removed
+     */
+    public const REMOVED = 'removed';
+
+    /**
      * Statuses.
      */
     public const STATUSES = [
@@ -79,6 +84,7 @@ class User
         self::CONFIRMED,
         self::SOFT_BOUNCE,
         self::HARD_BOUNCE,
+        self::REMOVED,
         self::BLACKLISTED,
     ];
 
@@ -90,6 +96,7 @@ class User
         self::CONFIRMED => 'success',
         self::SOFT_BOUNCE => 'warning',
         self::HARD_BOUNCE => 'danger',
+        self::REMOVED => 'dark-blue',
         self::BLACKLISTED => 'info',
     ];
 

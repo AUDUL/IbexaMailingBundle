@@ -179,26 +179,13 @@ class MigrateCjwnlCommand extends Command
 
                 $mailing_rows = $this->runQuery($sql, [$list_row['contentobject_id']]);
                 foreach ($mailing_rows as $mailing_row) {
-                    switch ($mailing_row['status']) {
-                        case 0:
-                            $status = Mailing::PENDING;
-                            break;
-                        case 1:
-                            $status = Mailing::PENDING;
-                            break;
-                        case 2:
-                            $status = Mailing::PROCESSING;
-                            break;
-                        case 3:
-                            $status = Mailing::SENT;
-                            break;
-                        case 9:
-                            $status = Mailing::ABORTED;
-                            break;
-                        default:
-                            $status = Mailing::DRAFT;
-                            break;
-                    }
+                    $status = match ($mailing_row['status']) {
+                        0, 1 => Mailing::PENDING,
+                        2 => Mailing::PROCESSING,
+                        3 => Mailing::SENT,
+                        9 => Mailing::ABORTED,
+                        default => Mailing::DRAFT,
+                    };
 
                     try {
                         $mailingContent = $contentService->loadContent($mailing_row['edition_contentobject_id']);
@@ -271,16 +258,15 @@ class MigrateCjwnlCommand extends Command
         $this->io->progressStart(count($user_rows));
 
         foreach ($user_rows as $user_row) {
-            $status = User::PENDING;
-            if ($user_row['confirmed']) {
-                $status = User::CONFIRMED;
-            }
-            if ($user_row['bounced']) {
-                $status = User::SOFT_BOUNCE;
-            }
-            if ($user_row['blacklisted']) {
-                $status = User::BLACKLISTED;
-            }
+            $status = match ($user_row['status']) {
+                1, 2 => User::CONFIRMED,
+                3, 4 => User::REMOVED,
+                6 => User::SOFT_BOUNCE,
+                7 => User::HARD_BOUNCE,
+                8 => User::BLACKLISTED,
+                default => User::PENDING,
+            };
+
             $birthdate = empty($user_row['birthday']) ? null : new DateTime('2018-12-11');
 
             // Registrations

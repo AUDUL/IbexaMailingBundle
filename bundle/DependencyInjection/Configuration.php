@@ -32,7 +32,8 @@ class Configuration extends SiteAccessAware\Configuration
                 ->scalarNode('email_return_path')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('simple_mailer')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('mailing_mailer')->isRequired()->cannotBeEmpty()->end()
-                ->scalarNode('default_mailinglist_id')->isRequired()->cannotBeEmpty()->end();
+                ->scalarNode('default_mailinglist_id')->isRequired()->cannotBeEmpty()->end()
+                ->booleanNode('delete_user')->isRequired()->end();
 
         return $treeBuilder;
     }

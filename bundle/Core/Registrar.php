@@ -58,11 +58,12 @@ class Registrar
     protected $configResolver;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        SiteAccess $siteAccess,
-        SimpleMailer $mailer,
+        EntityManagerInterface  $entityManager,
+        SiteAccess              $siteAccess,
+        SimpleMailer            $mailer,
         ConfigResolverInterface $configResolver
-    ) {
+    )
+    {
         $this->entityManager = $entityManager;
         $this->siteAccess = $siteAccess;
         $this->mailer = $mailer;
@@ -119,10 +120,11 @@ class Registrar
     }
 
     private function createConfirmationToken(
-        string $action,
-        User $user,
+        string          $action,
+        User            $user,
         ArrayCollection $mailingLists
-    ): ConfirmationToken {
+    ): ConfirmationToken
+    {
         /** @var ArrayCollection $mailingListIds */
         $mailingListIds = $mailingLists->map(
             function (MailingList $mailingList) {
@@ -196,8 +198,12 @@ class Registrar
         }
 
         // if no more registration then we remove the user
-        if (0 == $user->getRegistrations()->count()) {
-            $this->entityManager->remove($user);
+        if ($this->configResolver->getParameter('delete_user', 'nova_ezmailing')) {
+            if (0 == $user->getRegistrations()->count()) {
+                $this->entityManager->remove($user);
+            }
+        } else {
+            $user->setStatus(User::REMOVED);
         }
 
         $this->entityManager->remove($token);
