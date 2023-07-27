@@ -247,11 +247,29 @@ class MigrateCjwnlCommand extends Command
 
         $users = [];
 
-        $sql = 'SELECT max(id) as `id`, email, first_name, last_name, organisation, ' .
-            ' birthday, ez_user_id, status, confirmed, ';
-
-        $sql .= 'bounced, blacklisted FROM cjwnl_user WHERE removed = 0 ';
-        $sql .= 'GROUP BY email';
+        $sql = "SELECT max(id) as `id`,
+       email,
+       first_name,
+       last_name,
+       organisation,
+       birthday,
+       ez_user_id,
+       status
+FROM cjwnl_user
+WHERE removed = 0
+GROUP BY email
+union
+SELECT null as `id`,
+       email,
+       '' as first_name,
+       '' as last_name,
+       '' as organisation,
+       '' as birthday,
+       '' as ez_user_id,
+       '' as status
+from cjwnl_blacklist_item
+where
+    newsletter_user_id = 0";
 
         $user_rows = $this->runQuery($sql);
 
@@ -272,7 +290,7 @@ class MigrateCjwnlCommand extends Command
             // Registrations
             $sql = 'SELECT list_contentobject_id, approved, status FROM' .
                 ' cjwnl_subscription WHERE newsletter_user_id = ? and status not in (3, 4)';
-            $subscription_rows = $this->runQuery($sql, [$user_row['id']]);
+            $subscription_rows = $user_row['id'] ? $this->runQuery($sql, [$user_row['id']]) : [];
 
             $subscriptions = [];
             foreach ($subscription_rows as $subscription_row) {
