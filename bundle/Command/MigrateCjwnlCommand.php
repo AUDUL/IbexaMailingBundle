@@ -253,7 +253,6 @@ class MigrateCjwnlCommand extends Command
        last_name,
        organisation,
        birthday,
-       ez_user_id,
        status
 FROM cjwnl_user
 WHERE removed = 0
@@ -266,8 +265,7 @@ SELECT null as `id`,
        ''   as last_name,
        ''   as organisation,
        ''   as birthday,
-       ''   as ez_user_id,
-       ''   as status
+       8   as status
 from cjwnl_blacklist_item
          left join cjwnl_user cju on cjwnl_blacklist_item.email = cju.email
 where cju.email is null";
