@@ -270,13 +270,13 @@ class MigrateCjwnlCommand extends Command
             $birthdate = empty($user_row['birthday']) ? null : new DateTime('2018-12-11');
 
             // Registrations
-            $sql = 'SELECT list_contentobject_id, approved FROM' .
+            $sql = 'SELECT list_contentobject_id, approved, status FROM' .
                 ' cjwnl_subscription WHERE newsletter_user_id = ?';
             $subscription_rows = $this->runQuery($sql, [$user_row['id']]);
 
             $subscriptions = [];
             foreach ($subscription_rows as $subscription_row) {
-                if ($status === User::REMOVED) {
+                if ($status === User::REMOVED || in_array($subscription_row['status'], [3, 4])) {
                     continue;
                 }
                 $subscriptions[] = [
