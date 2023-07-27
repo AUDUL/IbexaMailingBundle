@@ -253,7 +253,7 @@ from cjwnl_blacklist_item
          left join cjwnl_user cju on cjwnl_blacklist_item.email = cju.email
 where cju.email is null";
 
-        $maxId = (int)$this->connection->fetchOne('SELECT max(id) as id from cjwnl_user')['id'];
+        $maxId = $this->connection->fetchOne('SELECT max(id) as id from cjwnl_user');
 
         $user_rows = $this->runQuery($sql);
 
