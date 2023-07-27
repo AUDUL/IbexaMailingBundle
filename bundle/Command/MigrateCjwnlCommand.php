@@ -271,12 +271,12 @@ class MigrateCjwnlCommand extends Command
 
             // Registrations
             $sql = 'SELECT list_contentobject_id, approved, status FROM' .
-                ' cjwnl_subscription WHERE newsletter_user_id = ?';
+                ' cjwnl_subscription WHERE newsletter_user_id = ? and status not in (3, 4)';
             $subscription_rows = $this->runQuery($sql, [$user_row['id']]);
 
             $subscriptions = [];
             foreach ($subscription_rows as $subscription_row) {
-                if ($status === User::REMOVED || in_array($subscription_row['status'], [3, 4])) {
+                if ($status === User::REMOVED) {
                     continue;
                 }
                 $subscriptions[] = [
