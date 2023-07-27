@@ -260,16 +260,17 @@ WHERE removed = 0
 GROUP BY email
 union
 SELECT null as `id`,
-       email,
-       '' as first_name,
-       '' as last_name,
-       '' as organisation,
-       '' as birthday,
-       '' as ez_user_id,
-       '' as status
+       cjwnl_blacklist_item.email,
+       cjwnl_blacklist_item.newsletter_user_id,
+       ''   as first_name,
+       ''   as last_name,
+       ''   as organisation,
+       ''   as birthday,
+       ''   as ez_user_id,
+       ''   as status
 from cjwnl_blacklist_item
-where
-    newsletter_user_id = 0";
+         left join cjwnl_user cju on cjwnl_blacklist_item.email = cju.email
+where cju.email is null";
 
         $user_rows = $this->runQuery($sql);
 
