@@ -280,7 +280,7 @@ where cju.email is null";
             // Registrations
             $sql = 'SELECT list_contentobject_id, approved, status FROM' .
                 ' cjwnl_subscription WHERE newsletter_user_id = ? and status not in (3, 4)';
-            $subscription_rows = $userId ? $this->runQuery($sql, [$user_row['id']]);
+            $subscription_rows = $this->runQuery($sql, [$user_row['id']]);
 
             $subscriptions = [];
             foreach ($subscription_rows as $subscription_row) {
