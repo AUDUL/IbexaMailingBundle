@@ -276,6 +276,9 @@ class MigrateCjwnlCommand extends Command
 
             $subscriptions = [];
             foreach ($subscription_rows as $subscription_row) {
+                if ($status === User::REMOVED) {
+                    continue;
+                }
                 $subscriptions[] = [
                     'list_contentobject_id' => $subscription_row['list_contentobject_id'],
                     'approved' => (bool)$subscription_row['approved'],
