@@ -430,8 +430,9 @@ where cju.email is null";
             $userData = json_decode($this->ioService->readFile(self::DUMP_FOLDER . '/user/' . $userFile . '.json'));
 
             // check if email already exists
-            $existingUser = $userRepository->findOneBy(['email' => $userData->email]);
-            if (null === $existingUser) {
+            $existingUser = $userRepository->existByEmail($userData->email);
+
+            if (!$existingUser) {
                 $user = new User();
                 $user
                     ->setEmail($userData->email)

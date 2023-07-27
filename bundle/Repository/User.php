@@ -72,7 +72,7 @@ class User extends EntityRepository
                     $qb->expr()->like('u.firstName', ':query'),
                     $qb->expr()->like('u.lastName', ':query')
                 )
-            )->setParameter('query', '%'.$query.'%');
+            )->setParameter('query', '%' . $query . '%');
         }
 
         return $qb;
@@ -112,5 +112,16 @@ class User extends EntityRepository
         $qb->orderBy("{$this->getAlias()}.updated", 'DESC');
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function existByEmail(string $email): bool
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb->select('count(u.email)')
+            ->where($qb->expr()->eq('u.email', ":email"))
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getSingleScalarResult() > 0;
     }
 }
