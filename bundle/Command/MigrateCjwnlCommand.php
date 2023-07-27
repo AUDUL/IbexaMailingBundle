@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Novactive\Bundle\eZMailingBundle\Command;
 
 use DateTime;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -37,24 +38,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MigrateCjwnlCommand extends Command
 {
     /**
-     * @var IOService
-     */
-    private $ioService;
-
-    /**
      * @var SymfonyStyle
      */
     private $io;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var Repository;
-     */
-    private $ezRepository;
 
     private array $lists = [];
 
@@ -63,20 +50,17 @@ class MigrateCjwnlCommand extends Command
     public const DEFAULT_FALLBACK_CONTENT_ID = 1;
 
     public const DUMP_FOLDER = 'migrate/cjwnl';
-    private SiteAccessServiceInterface $siteAccessAware;
+
 
     public function __construct(
-        IOService                  $ioService,
-        EntityManagerInterface     $entityManager,
-        Repository                 $ezRepository,
-        SiteAccessServiceInterface $siteAccessAware
+        private readonly IOService                  $ioService,
+        private readonly EntityManagerInterface     $entityManager,
+        private readonly Repository                 $ezRepository,
+        private readonly SiteAccessServiceInterface $siteAccessAware,
+        private readonly Connection                 $connection
     )
     {
         parent::__construct();
-        $this->ioService = $ioService;
-        $this->entityManager = $entityManager;
-        $this->ezRepository = $ezRepository;
-        $this->siteAccessAware = $siteAccessAware;
     }
 
     protected function configure(): void
@@ -139,16 +123,16 @@ class MigrateCjwnlCommand extends Command
 
         $list_rows = $this->runQuery($sql);
 
-        $this->io->progressStart(count($list_rows));
+        $this->io->progressStart();
 
         $this->ezRepository->sudo(function () use ($list_rows, $contentService, $languages, $siteAccessList, $defaultLanguageCode, $mailingCounter) {
             foreach ($list_rows as $list_row) {
                 try {
                     $listContent = $contentService->loadContent($list_row['contentobject_id']);
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     try {
                         $listContent = $contentService->loadContent(self::DEFAULT_FALLBACK_CONTENT_ID);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         continue;
                     }
                 }
@@ -269,9 +253,11 @@ from cjwnl_blacklist_item
          left join cjwnl_user cju on cjwnl_blacklist_item.email = cju.email
 where cju.email is null";
 
+        $maxId = (int)$this->connection->fetchOne('SELECT max(id) as id from cjwnl_user')['id'];
+
         $user_rows = $this->runQuery($sql);
 
-        $this->io->progressStart(count($user_rows));
+        $this->io->progressStart();
 
         foreach ($user_rows as $user_row) {
             $status = match ($user_row['status']) {
@@ -285,10 +271,16 @@ where cju.email is null";
 
             $birthdate = empty($user_row['birthday']) ? null : new DateTime('2018-12-11');
 
+            $userId = $user_row['id'];
+            if ($userId === 0) {
+                $maxId++;
+                $userId = $maxId;
+            }
+
             // Registrations
             $sql = 'SELECT list_contentobject_id, approved, status FROM' .
                 ' cjwnl_subscription WHERE newsletter_user_id = ? and status not in (3, 4)';
-            $subscription_rows = $user_row['id'] ? $this->runQuery($sql, [$user_row['id']]) : [];
+            $subscription_rows = $userId ? $this->runQuery($sql, [$user_row['id']]);
 
             $subscriptions = [];
             foreach ($subscription_rows as $subscription_row) {
@@ -303,7 +295,7 @@ where cju.email is null";
             }
 
             $fileName = $this->ioService->saveFile(
-                self::DUMP_FOLDER . "/user/user_{$user_row['id']}.json",
+                self::DUMP_FOLDER . "/user/user_{$userId}.json",
                 json_encode(
                     [
                         'email' => $user_row['email'],
@@ -489,33 +481,33 @@ where cju.email is null";
     private function clean(): void
     {
         // We don't run TRUNCATE command here because of foreign keys constraints
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_stats_hit');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_stats_hit AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_broadcast');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_broadcast AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_mailing');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_mailing AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_campaign_mailinglists_destination');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_campaign');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_campaign AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_confirmation_token');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_registrations');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_registrations AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_mailing_list');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_mailing_list AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_user');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_user AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM novaezmailing_stats_hit');
+        $this->connection->executeQuery('ALTER TABLE novaezmailing_stats_hit AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM novaezmailing_broadcast');
+        $this->connection->executeQuery('ALTER TABLE novaezmailing_broadcast AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM novaezmailing_mailing');
+        $this->connection->executeQuery('ALTER TABLE novaezmailing_mailing AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM novaezmailing_campaign_mailinglists_destination');
+        $this->connection->executeQuery('DELETE FROM novaezmailing_campaign');
+        $this->connection->executeQuery('ALTER TABLE novaezmailing_campaign AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM novaezmailing_confirmation_token');
+        $this->connection->executeQuery('DELETE FROM novaezmailing_registrations');
+        $this->connection->executeQuery('ALTER TABLE novaezmailing_registrations AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM novaezmailing_mailing_list');
+        $this->connection->executeQuery('ALTER TABLE novaezmailing_mailing_list AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM novaezmailing_user');
+        $this->connection->executeQuery('ALTER TABLE novaezmailing_user AUTO_INCREMENT = 1');
         $this->io->section('Current tables in the new database have been cleaned.');
     }
 
-    private function runQuery(string $sql, array $parameters = [], $fetchMode = null): array
+    private function runQuery(string $sql, array $parameters = []): \Traversable
     {
-        $stmt = $this->entityManager->getConnection()->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
         for ($i = 1, $iMax = count($parameters); $i <= $iMax; ++$i) {
             $stmt->bindValue($i, $parameters[$i - 1]);
         }
-        $stmt->execute();
+        $result = $stmt->executeQuery();
 
-        return $stmt->fetchAll($fetchMode);
+        return $result->iterateAssociative();
     }
 }
