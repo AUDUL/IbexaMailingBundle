@@ -23,5 +23,11 @@
         <div class="pagerfanta">
             {{ pagerfanta(pager, 'ibexa') }}
         </div>
+        <a class="btn btn-sm btn-success" href="{{ path('novaezmailing_users_export') }}">
+            <svg class="ez-icon" width="30" height="30">
+                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#catalog"></use>
+            </svg>
+            <span>{{"button.actions.export_users"|trans}}</span>
+        </a>
     {% endif %}
 {% endblock %}
