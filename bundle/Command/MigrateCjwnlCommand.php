@@ -242,8 +242,8 @@ FROM cjwnl_user
 WHERE removed = 0
 GROUP BY email
 union
-SELECT null as `id`,
-       cjwnl_blacklist_item.email,
+SELECT 0 as `id`,
+       cjwnl_blacklist_item.email as email,
        ''   as first_name,
        ''   as last_name,
        ''   as organisation,
