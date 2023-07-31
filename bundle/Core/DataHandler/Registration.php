@@ -54,7 +54,7 @@ class Registration
     }
 
     /**
-     * @return MailingList[]|mixed
+     * @return MailingList[]|ArrayCollection
      */
     public function getMailingLists()
     {
@@ -62,7 +62,7 @@ class Registration
     }
 
     /**
-     * @param MailingList[] $mailingLists
+     * @param MailingList[]|ArrayCollection $mailingLists
      *
      * @return $this
      */
