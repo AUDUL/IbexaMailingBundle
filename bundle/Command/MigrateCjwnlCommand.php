@@ -233,6 +233,7 @@ class MigrateCjwnlCommand extends Command
 
         $sql = "SELECT max(id) as `id`,
        email,
+       salutation,
        first_name,
        last_name,
        organisation,
@@ -294,12 +295,20 @@ where cju.email is null";
                 ++$registrationCounter;
             }
 
+            $gender = match ($user_row['salutation']) {
+                1 => 'Mr',
+                2 => 'Mme',
+                default => null
+            };
+
+
             $fileName = $this->ioService->saveFile(
                 self::DUMP_FOLDER . "/user/user_{$userId}.json",
                 json_encode(
                     [
                         'email' => $user_row['email'],
                         'firstName' => $user_row['first_name'],
+                        'gender' => $gender,
                         'lastName' => $user_row['last_name'],
                         'birthDate' => $birthdate,
                         'status' => $status,
@@ -436,6 +445,7 @@ where cju.email is null";
                 $user = new User();
                 $user
                     ->setEmail($userData->email)
+                    ->setGender($userData->gender)
                     ->setBirthDate($userData->birthDate)
                     ->setCompany($userData->company)
                     ->setFirstName($userData->firstName)
