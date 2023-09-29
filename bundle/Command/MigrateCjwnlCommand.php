@@ -446,13 +446,16 @@ where cju.email is null";
                 $user = new User();
                 $user
                     ->setEmail($userData->email)
-                    ->setGender($userData->gender)
                     ->setBirthDate($userData->birthDate)
                     ->setCompany($userData->company)
                     ->setFirstName($userData->firstName)
                     ->setLastName($userData->lastName)
                     ->setStatus($userData->status)
                     ->setOrigin('site');
+
+                if ($userData->gender) {
+                    $user->setGender($userData->gender);
+                }
 
                 foreach ($userData->subscriptions as $subscription) {
                     if (\array_key_exists($subscription->list_contentobject_id, $listIds)) {
