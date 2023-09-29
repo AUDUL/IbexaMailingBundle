@@ -245,7 +245,7 @@ GROUP BY email
 union
 SELECT 0 as `id`,
        cjwnl_blacklist_item.email as email,
-       ''   as salutation
+       ''   as salutation,
        ''   as first_name,
        ''   as last_name,
        ''   as organisation,
