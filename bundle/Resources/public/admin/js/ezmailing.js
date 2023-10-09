@@ -32,7 +32,7 @@ jQuery(function () {
     });
 
     $('.ibexa-tabs > ul > li').click(function () {
-        $('.ibexa-tabs__tab--active').removeClass('ibexa-tabs__tab--active')
+        $(this).parent().find('.ibexa-tabs__tab--active').removeClass('ibexa-tabs__tab--active')
         $(this).addClass('ibexa-tabs__tab--active');
     });
 });
