@@ -3,11 +3,13 @@
 {% form_theme form with ['@ibexadesign/content/form_fields.html.twig', _self ] %}
 
 {% block novezmailing_breadcrumb %}
-    <ol class="breadcrumb px-4">
-        <li class="breadcrumb-item"><a href="{{ path("novaezmailing_dashboard_index") }}">Nova eZ Mailing</a></li>
-        <li class="breadcrumb-item"><a href="{{ path("novaezmailing_mailinglist_index") }}">{{"campaign.breadcrumb.mailing_lists"|trans}}</a></li>
-        <li class="breadcrumb-item active">{{ item.name }}</li>
-    </ol>
+    {% set items = [
+        {'url':path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
+        {'url': path("novaezmailing_mailinglist_index"), 'value': "campaign.breadcrumb.mailing_lists"|trans },
+        {'value': item.name },
+    ] %}
+
+    {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
 {% block novezmailing_title %}
     <img src="{{ asset("/bundles/novaezmailing/admin/images/32x32/user.png") }}" class="nova-icon"/> {{"mailing_list.import.title"|trans}}{% endblock %}

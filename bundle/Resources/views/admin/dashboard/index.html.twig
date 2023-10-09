@@ -4,11 +4,11 @@
 
 
 {% block novezmailing_breadcrumb %}
-    <ol class="breadcrumb px-4">
-        <li class="breadcrumb-item active">
-            Nova eZ Mailing
-        </li>
-    </ol>
+    {% set items = [
+        {'value': 'Nova eZ Mailing' },
+    ] %}
+
+    {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
 
 {% block novezmailing_title %}{{ "dashboard.title"|trans }}{% endblock %}

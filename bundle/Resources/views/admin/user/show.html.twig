@@ -2,11 +2,14 @@
 {% trans_default_domain 'ezmailing' %}
 
 {% block novezmailing_breadcrumb %}
-    <ol class="breadcrumb px-4">
-        <li class="breadcrumb-item"><a href="{{ path("novaezmailing_dashboard_index") }}">Nova eZ Mailing</a></li>
-        <li class="breadcrumb-item"><a href="{{ path("novaezmailing_user_index") }}">{{"campaign.breadcrumb.users"|trans}}</a></li>
-        <li class="breadcrumb-item active">{{ item.gender }} {{ item.firstName }} {{ item.lastname }}</li>
-    </ol>
+    {% set items = [
+        {'url':path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
+        {'url': path("novaezmailing_user_index"), 'value': "campaign.breadcrumb.users"|trans },
+        {'url': path('novaezmailing_campaign_subscriptions', {campaign: item.campaign.id}), 'value':  item.campaign.name },
+        {'value': item.gender ~ " " ~ item.firstName ~ " " ~ item.lastname },
+    ] %}
+
+    {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
 {% block novezmailing_title %}{{ item.gender }} {{ item.firstName }} {{ item.lastname }}{% endblock %}
 {% block novezmailing_subtitle %}{{ item.email }}{% endblock %}
