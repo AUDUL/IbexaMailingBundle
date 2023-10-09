@@ -65,7 +65,7 @@ class StatHit
 
     /**
      * @var Broadcast
-     * @ORM\ManyToOne(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\Broadcast")
+     * @ORM\ManyToOne(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\Broadcast", inversedBy="statHits")
      * @ORM\JoinColumn(name="BDCST_id", referencedColumnName="BDCST_id")
      */
     private $broadcast;
