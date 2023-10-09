@@ -14,7 +14,7 @@ jQuery(function () {
     eZMailingSearchModule.init(jQuery, $app);
     eZMailingChartsModule.init(jQuery, $app);
     eZMainlingNormalizeModule.init(jQuery, $app);
-    eZMailingSubItemsModule.init(jQuery, $app);
+    //eZMailingSubItemsModule.init(jQuery, $app);
     eZMailingEditFormModule.init(jQuery, $app);
     eZMailingContentSelectionModule.init(jQuery, $app);
 
@@ -29,5 +29,10 @@ jQuery(function () {
         } else {
             $(this).parent().removeClass('expand');
         }
+    });
+
+    $('.ibexa-tabs > ul > li').click(function () {
+        $('.ibexa-tabs__tab--active').removeClass('ibexa-tabs__tab--active')
+        $(this).addClass('ibexa-tabs__tab--active');
     });
 });
