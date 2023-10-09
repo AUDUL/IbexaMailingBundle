@@ -1,27 +1,29 @@
 {% trans_default_domain 'ezmailing' %}
-<table class="table ibexa-table c-table-view">
-    <thead class="c-table-view__head">
-    <tr class="ibexa-table__head-row c-table-view__row">
-        <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">{{ "novaezmailingfull.generic.mailing"|trans }}</th>
-        <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">{{ "common.list.broadcast.recipient_count"|trans }}</th>
-        <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">{{ "common.list.broadcast.started"|trans }}</th>
-        <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">{{ "common.list.broadcast.ended"|trans }}</th>
-    </tr>
-    </thead>
-    <tbody class="ibexa-table__body c-table-view__body">
-    {% for item in items %}
-        <tr class="ibexa-table__row c-table-view-item">
-            <td class="ibexa-table__cell c-table-view-item__cell">
-                {% set showMailingLink = path('novaezmailing_mailing_show', {mailing:item.mailing.id}) %}
-                {% if item.mailing.location is null %}
-                    {% set showMailingLink = path('novaezmailing_mailing_edit', {mailing:item.mailing.id}) %}
-                {% endif %}
-                <a href="{{ showMailingLink }}">{{ item.mailing.name }}</a>
-            </td>
-            <td class="ibexa-table__cell c-table-view-item__cell">{{ item.emailSentCount }}</td>
-            <td class="ibexa-table__cell c-table-view-item__cell">{{ item.started|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
-            <td class="ibexa-table__cell c-table-view-item__cell">{{ item.ended|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
+<div class="tab-content ibexa-tab-content">
+    <table class="table ibexa-table c-table-view">
+        <thead class="c-table-view__head">
+        <tr class="ibexa-table__head-row c-table-view__row">
+            <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">{{ "novaezmailingfull.generic.mailing"|trans }}</th>
+            <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">{{ "common.list.broadcast.recipient_count"|trans }}</th>
+            <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">{{ "common.list.broadcast.started"|trans }}</th>
+            <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">{{ "common.list.broadcast.ended"|trans }}</th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody class="ibexa-table__body c-table-view__body">
+        {% for item in items %}
+            <tr class="ibexa-table__row c-table-view-item">
+                <td class="ibexa-table__cell c-table-view-item__cell">
+                    {% set showMailingLink = path('novaezmailing_mailing_show', {mailing:item.mailing.id}) %}
+                    {% if item.mailing.location is null %}
+                        {% set showMailingLink = path('novaezmailing_mailing_edit', {mailing:item.mailing.id}) %}
+                    {% endif %}
+                    <a href="{{ showMailingLink }}">{{ item.mailing.name }}</a>
+                </td>
+                <td class="ibexa-table__cell c-table-view-item__cell">{{ item.emailSentCount }}</td>
+                <td class="ibexa-table__cell c-table-view-item__cell">{{ item.started|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
+                <td class="ibexa-table__cell c-table-view-item__cell">{{ item.ended|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

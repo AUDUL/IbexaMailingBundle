@@ -9,7 +9,7 @@
                 role="presentation">
                 <a href="{{ path(route, {limit: limit}|merge(extraParams)) }}"
                    class="nav-link ibexa-tabs__link{% if currentStatus == 'all' %} active{% endif %}">{{ "common.list.users_filterer.all"|trans }}
-                    <span class="position-absolute start-100 translate-middle badge rounded-pill text-bg-light">{{ statuses.count }}</span></a>
+                    <span class="position-absolute start-75 top-20 translate-middle badge rounded-pill text-bg-light">{{ statuses.count }}</span></a>
                 <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <path class="ibexa-svg-tab-corner-border"
@@ -24,7 +24,6 @@
                     role="presentation">
                     <a href="{{ path(route, {limit: limit, status:statusId}|merge(extraParams)) }}"
                        class="nav-link ibexa-tabs__link{% if currentStatus == statusId %} active{% endif %}">{{ statusId }}
-                        >
                         <span class="position-absolute start-75 top-20 overflow-visible translate-middle badge rounded-pill text-bg-{{ styles[statusId] }}">{{ statusCount }}</span></a>
                     <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
