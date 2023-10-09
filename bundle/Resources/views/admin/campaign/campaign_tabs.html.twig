@@ -2,37 +2,76 @@
 
 {% set statusKey = "generic.mailing_statuses."~status %}
 
-<div class="item-tabs-content">
-    <ul class="nav nav-tabs" role="tablist">
+<div>
+    <div class="ibexa-tabs">
+        <ul class="nav nav-tabs ibexa-tabs__list ibexa-adaptive-items" role="tablist">
+            {% if status != 'all' %}
+                <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item ibexa-tabs__tab--active"
+                    role="presentation">
+                    <a class="nav-link ibexa-tabs__link active" href="#novaezmailing-mailings-status-preview"
+                       data-bs-toggle="tab"
+                       role="tab">
+                        <img src="{{ asset("/bundles/novaezmailing/admin/images/16x16/"~status~".png") }}"
+                             class="nova-icon"/> {{ statusKey|trans|capitalize ~ " " ~ "campaign.tabs.mailings"|trans }}
+                    </a>
+                    <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path class="ibexa-svg-tab-corner-border"
+                              d="M0.0436401 1H0.458984C11.8221 1 22.21 7.42007 27.2918 17.5836L43 49H0.0436401"
+                              stroke-width="2"></path>
+                        <path class="ibexa-svg-tab-corner-inside"
+                              d="M0 49V1C14.8 0.600001 23.8333 10.8333 26.5 16L43 49H0Z"></path>
+                    </svg>
+                </li>
+            {% endif %}
+            <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item{% if status == 'all' %} ibexa-tabs__tab--active{% endif %}"
+                role="presentation">
+                <a class="nav-link ibexa-tabs__link{% if status == 'all' %} active{% endif %}"
+                   href="#novaezmailing-campaign-preview"
+                   data-bs-toggle="tab" role="tab">{{ "campaign.tabs.campaign"|trans }}</a>
+                <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path class="ibexa-svg-tab-corner-border"
+                          d="M0.0436401 1H0.458984C11.8221 1 22.21 7.42007 27.2918 17.5836L43 49H0.0436401"
+                          stroke-width="2"></path>
+                    <path class="ibexa-svg-tab-corner-inside"
+                          d="M0 49V1C14.8 0.600001 23.8333 10.8333 26.5 16L43 49H0Z"></path>
+                </svg>
+            </li>
+            {% if item.locationId is not null %}
+                <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item" role="presentation">
+                    <a class="nav-link ibexa-tabs__link" href="#novaezmailing-content-preview" data-bs-toggle="tab"
+                       role="tab">{{ "campaign.tabs.associated_content"|trans }}</a>
+                    <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path class="ibexa-svg-tab-corner-border"
+                              d="M0.0436401 1H0.458984C11.8221 1 22.21 7.42007 27.2918 17.5836L43 49H0.0436401"
+                              stroke-width="2"></path>
+                        <path class="ibexa-svg-tab-corner-inside"
+                              d="M0 49V1C14.8 0.600001 23.8333 10.8333 26.5 16L43 49H0Z"></path>
+                    </svg>
+                </li>
+            {% endif %}
+            {% if item.mailings|length > 0 %}
+                <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item" role="presentation">
+                    <a class="nav-link ibexa-tabs__link" href="#novaezmailing-mailings-preview" data-bs-toggle="tab"
+                       role="tab">{{ "common.list.users_filterer.all"|trans ~ " " ~ "campaign.tabs.mailings"|trans }}</a>
+                    <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path class="ibexa-svg-tab-corner-border"
+                              d="M0.0436401 1H0.458984C11.8221 1 22.21 7.42007 27.2918 17.5836L43 49H0.0436401"
+                              stroke-width="2"></path>
+                        <path class="ibexa-svg-tab-corner-inside"
+                              d="M0 49V1C14.8 0.600001 23.8333 10.8333 26.5 16L43 49H0Z"></path>
+                    </svg>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="tab-content ibexa-tab-content">
         {% if status != 'all' %}
-            <li class="nav-item">
-                <a class="nav-link active" href="#novaezmailing-mailings-status-preview" data-bs-toggle="tab"
-                   role="tab">
-                    <img src="{{ asset("/bundles/novaezmailing/admin/images/16x16/"~status~".png") }}"
-                         class="nova-icon"/> {{ statusKey|trans|capitalize ~ " " ~ "campaign.tabs.mailings"|trans }}
-                </a>
-            </li>
-        {% endif %}
-        <li class="nav-item">
-            <a class="nav-link{% if status == 'all' %} active{% endif %}" href="#novaezmailing-campaign-preview"
-               data-bs-toggle="tab" role="tab">{{ "campaign.tabs.campaign"|trans }}</a>
-        </li>
-        {% if item.locationId is not null %}
-            <li class="nav-item">
-                <a class="nav-link" href="#novaezmailing-content-preview" data-bs-toggle="tab"
-                   role="tab">{{ "campaign.tabs.associated_content"|trans }}</a>
-            </li>
-        {% endif %}
-        {% if item.mailings|length > 0 %}
-            <li class="nav-item">
-                <a class="nav-link" href="#novaezmailing-mailings-preview" data-bs-toggle="tab"
-                   role="tab">{{ "common.list.users_filterer.all"|trans ~ " " ~ "campaign.tabs.mailings"|trans }}</a>
-            </li>
-        {% endif %}
-    </ul>
-    <div class="novaezmailing-tabs-content tab-content">
-        {% if status != 'all' %}
-            <div class="novaezmailing-ez-mailings-view tab-pane active" role="tabpanel" id="novaezmailing-mailings-status-preview">
+            <div class="novaezmailing-ez-mailings-view tab-pane active p-3" role="tabpanel"
+                 id="novaezmailing-mailings-status-preview">
                 {% if children|length > 0 %}
                     {% include "@NovaeZMailing/admin/common/list/mailings.html.twig" with { items: children} only %}
                 {% else %}
@@ -40,16 +79,19 @@
                 {% endif %}
             </div>
         {% endif %}
-        <div class="novaezmailing-ez-campaign-view tab-pane{% if status == 'all' %} active{% endif %}" role="tabpanel" id="novaezmailing-campaign-preview">
+        <div class="novaezmailing-ez-campaign-view tab-pane{% if status == 'all' %} active{% endif %} p-3"
+             role="tabpanel"
+             id="novaezmailing-campaign-preview">
             {% include "@NovaeZMailing/admin/campaign/details.html.twig" with { item: item} only %}
         </div>
         {% if item.locationId is not null %}
-            <div class="novaezmailing-ez-content-view tab-pane" role="tabpanel" id="novaezmailing-content-preview">
+            <div class="novaezmailing-ez-content-view tab-pane p-3" role="tabpanel" id="novaezmailing-content-preview">
                 {{ preview|raw }}
             </div>
         {% endif %}
         {% if item.mailings|length > 0 %}
-            <div class="novaezmailing-ez-mailings-view tab-pane" role="tabpanel" id="novaezmailing-mailings-preview">
+            <div class="novaezmailing-ez-mailings-view tab-pane p-3" role="tabpanel"
+                 id="novaezmailing-mailings-preview">
                 {% include "@NovaeZMailing/admin/common/list/mailings.html.twig" with { items: item.mailings} only %}
             </div>
         {% endif %}
