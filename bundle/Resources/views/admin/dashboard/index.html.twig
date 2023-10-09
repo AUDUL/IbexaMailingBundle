@@ -15,7 +15,7 @@
 {% block novezmailing_subtitle %}{{ "dashboard.subtitle"|trans }}{% endblock %}
 
 {% block content %}
-    <h2>{{ "dashboard.quick_actions"|trans }}</h2>
+    <div class="ibexa-table-header__headline">{{ "dashboard.quick_actions"|trans }}</div>
     <div class="novaezmailing-button-actions">
         <a class="btn btn-sm btn-secondary" href="{{ path('novaezmailing_campaign_create') }}">
             <svg class="ez-icon" width="30" height="30">
@@ -36,21 +36,20 @@
             <span>{{ "dashboard.see_users"|trans }}</span>
         </a>
     </div>
-
-    <hr/>
-    <h2>{{ "dashboard.last_mailing_sent"|trans }}</h2>
     {% if broadcasts|length > 0 %}
+        <hr/>
+        <div class="ibexa-table-header__headline">{{ "dashboard.last_mailing_sent"|trans }}</div>
         {% include "@NovaeZMailing/admin/common/list/broadcasts.html.twig" with { items: broadcasts} only %}
     {% endif %}
 
     <hr/>
-    <h2>{{ "dashboard.last_mailing_updated"|trans }}</h2>
+    <div class="ibexa-table-header__headline">{{ "dashboard.last_mailing_updated"|trans }}</div>
     <div class="novaezmailing-ez-mailings-view">
         {% include "@NovaeZMailing/admin/common/list/mailings.html.twig" with {items:mailings} only %}
     </div>
 
     <hr/>
-    <h2>{{ "dashboard.last_user_updated"|trans }}</h2>
+    <div class="ibexa-table-header__headline">{{ "dashboard.last_user_updated"|trans }}</div>
     {% include "@NovaeZMailing/admin/common/list/users.html.twig" with {items:users} only %}
 
     {% if broadcasts|length > 0 %}

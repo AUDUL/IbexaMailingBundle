@@ -5,7 +5,6 @@
     {% set items = [
         {'url':path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
         {'url': path("novaezmailing_user_index"), 'value': "campaign.breadcrumb.users"|trans },
-        {'url': path('novaezmailing_campaign_subscriptions', {campaign: item.campaign.id}), 'value':  item.campaign.name },
         {'value': item.gender ~ " " ~ item.firstName ~ " " ~ item.lastname },
     ] %}
 

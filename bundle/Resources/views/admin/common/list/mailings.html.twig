@@ -1,26 +1,30 @@
 {% set withTitle = withTitle is defined ? withTitle : true %}
 {% trans_default_domain 'ezmailing' %}
-<table class="table table-striped table-hover table-sm">
+<table class="table ibexa-table c-table-view">
     {% if withTitle %}
-        <tr>
-            <th>{{ "common.list.mailings.name"|trans }}</th>
-            <th>{{ "common.list.mailings.status"|trans }}</th>
-            <th>&nbsp;</th>
-        </tr>
+        <thead class="c-table-view__head">
+            <tr class="ibexa-table__head-row c-table-view__row">
+                <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">{{ "common.list.mailings.name"|trans }}</th>
+                <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">{{ "common.list.mailings.status"|trans }}</th>
+                <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head">&nbsp;</th>
+            </tr>
+        </thead>
     {% endif %}
+    <tbody class="ibexa-table__body c-table-view__body">
     {% for item in items %}
-        <tr>
-            <td>
+        <tr class="ibexa-table__row c-table-view-item">
+            <td class="ibexa-table__cell c-table-view-item__cell">
                 {% set showLink = path('novaezmailing_mailing_show', {mailing:item.id}) %}
                 {% if item.location is null %}
                     {% set showLink = path('novaezmailing_mailing_edit', {mailing:item.id}) %}
                 {% endif %}
                 <a href="{{ showLink }}">{{ item.name }}</a>
             </td>
-            <td>
-                <img src="{{ asset("/bundles/novaezmailing/admin/images/16x16/"~item.status~".png") }}" class="nova-icon"/> {{ item.status }}
+            <td class="ibexa-table__cell c-table-view-item__cell">
+                <img src="{{ asset("/bundles/novaezmailing/admin/images/16x16/"~item.status~".png") }}"
+                     class="nova-icon"/> {{ item.status }}
             </td>
-            <td>
+            <td class="ibexa-table__cell c-table-view-item__cell">
                 {% if workflow_can(item,'edit') %}
                     <a href="{{ path('novaezmailing_mailing_edit', {mailing: item.id}) }}" class="edit-button">
                         <svg class="ez-icon" width="30" height="30">
@@ -35,7 +39,8 @@
                     </a>
                 {% endif %}
                 {% if item.location is not null and item.content is not null %}
-                    <a target="_blank" href="{{ path('_novaezmailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}"
+                    <a target="_blank"
+                       href="{{ path('_novaezmailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}"
                        class="edit-button">
                         <svg class="ez-icon" width="30" height="30">
                             <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>
@@ -46,4 +51,5 @@
         </tr>
 
     {% endfor %}
+    </tbody>
 </table>

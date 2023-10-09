@@ -2,27 +2,51 @@
 {% set extraParams = extraParams|default({}) %}
 {% trans_default_domain 'ezmailing' %}
 
-<div class="d-flex">
-    <div class="p-2">
-        <div class="btn-group btn-group-sm">
-            <a href="{{ path(route, {limit:10, status: currentStatus}|merge(extraParams)) }}"
-               class="btn {% if limit == 10 %}btn-primary{% else %}btn-secondary{% endif %}">10</a>
-            <a href="{{ path(route, {limit:25, status: currentStatus}|merge(extraParams)) }}"
-               class="btn {% if limit == 25 %}btn-primary{% else %}btn-secondary{% endif %}">25</a>
-            <a href="{{ path(route, {limit:50, status: currentStatus}|merge(extraParams)) }}"
-               class="btn {% if limit == 50 %}btn-primary{% else %}btn-secondary{% endif %}">50</a>
-        </div>
-    </div>
-    <div class="ml-auto p-2">
-        <div class="btn-group btn-group-sm">
-            <a href="{{ path(route, {limit: limit}|merge(extraParams)) }}"
-               class="btn btn-{% if currentStatus == 'all' %}primary{% else %}secondary{% endif %}">{{ "common.list.users_filterer.all"|trans }}
-                <span class="badge text-bg-light">{{ statuses.count }}</span></a>
+<div class="ibexa-header mt-3">
+    <div class="ibexa-tabs">
+        <ul class="nav nav-tabs ibexa-tabs__list ibexa-adaptive-items" role="tablist">
+            <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item{% if currentStatus == 'all' %} ibexa-tabs__tab--active{% endif %}"
+                role="presentation">
+                <a href="{{ path(route, {limit: limit}|merge(extraParams)) }}"
+                   class="nav-link ibexa-tabs__link{% if currentStatus == 'all' %} active{% endif %}">{{ "common.list.users_filterer.all"|trans }}
+                    <span class="position-absolute start-100 translate-middle badge rounded-pill text-bg-light">{{ statuses.count }}</span></a>
+                <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path class="ibexa-svg-tab-corner-border"
+                          d="M0.0436401 1H0.458984C11.8221 1 22.21 7.42007 27.2918 17.5836L43 49H0.0436401"
+                          stroke-width="2"></path>
+                    <path class="ibexa-svg-tab-corner-inside"
+                          d="M0 49V1C14.8 0.600001 23.8333 10.8333 26.5 16L43 49H0Z"></path>
+                </svg>
+            </li>
             {% for statusId, statusCount in statuses.results %}
-                <a href="{{ path(route, {limit: limit, status:statusId}|merge(extraParams)) }}"
-                   class="btn btn-{% if currentStatus == statusId %}primary{% else %}secondary{% endif %}">{{ statusId }}
-                    <span class="badge text-bg-{{ styles[statusId] }}">{{ statusCount }}</span></a>
+                <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item {% if currentStatus == statusId %} ibexa-tabs__tab--active{% endif %}"
+                    role="presentation">
+                    <a href="{{ path(route, {limit: limit, status:statusId}|merge(extraParams)) }}"
+                       class="nav-link ibexa-tabs__link{% if currentStatus == statusId %} active{% endif %}">{{ statusId }}
+                        >
+                        <span class="position-absolute start-100 overflow-visible translate-middle badge rounded-pill text-bg-{{ styles[statusId] }}">{{ statusCount }}</span></a>
+                    <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path class="ibexa-svg-tab-corner-border"
+                              d="M0.0436401 1H0.458984C11.8221 1 22.21 7.42007 27.2918 17.5836L43 49H0.0436401"
+                              stroke-width="2"></path>
+                        <path class="ibexa-svg-tab-corner-inside"
+                              d="M0 49V1C14.8 0.600001 23.8333 10.8333 26.5 16L43 49H0Z"></path>
+                    </svg>
+                </li>
             {% endfor %}
+        </ul>
+        <div class="p-2">
+            <div class="btn-group btn-group-sm">
+                <a href="{{ path(route, {limit:10, status: currentStatus}|merge(extraParams)) }}"
+                   class="btn {% if limit == 10 %}btn-primary{% else %}btn-secondary{% endif %}">10</a>
+                <a href="{{ path(route, {limit:25, status: currentStatus}|merge(extraParams)) }}"
+                   class="btn {% if limit == 25 %}btn-primary{% else %}btn-secondary{% endif %}">25</a>
+                <a href="{{ path(route, {limit:50, status: currentStatus}|merge(extraParams)) }}"
+                   class="btn {% if limit == 50 %}btn-primary{% else %}btn-secondary{% endif %}">50</a>
+            </div>
         </div>
     </div>
+
 </div>
