@@ -15,45 +15,20 @@
 {% block novezmailing_subtitle %}{{ "dashboard.subtitle"|trans }}{% endblock %}
 
 {% block content %}
-    <div class="ibexa-table-header__headline">{{ "dashboard.quick_actions"|trans }}</div>
-    <div class="novaezmailing-button-actions">
-        <a class="btn btn-sm btn-secondary" href="{{ path('novaezmailing_campaign_create') }}">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
-            </svg>
-            <span>{{ "dashboard.create_new_campaign"|trans }}</span>
-        </a>
-        <a class="btn btn-sm btn-info" href="{{ path('novaezmailing_mailinglist_index') }}">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>
-            </svg>
-            <span>{{ "dashboard.see_mailing_lists"|trans }}</span>
-        </a>
-        <a class="btn btn-sm btn-primary" href="{{ path('novaezmailing_user_index') }}">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#user"></use>
-            </svg>
-            <span>{{ "dashboard.see_users"|trans }}</span>
-        </a>
-    </div>
     {% if broadcasts|length > 0 %}
-        <hr/>
         <div class="ibexa-table-header__headline">{{ "dashboard.last_mailing_sent"|trans }}</div>
         {% include "@NovaeZMailing/admin/common/list/broadcasts.html.twig" with { items: broadcasts} only %}
     {% endif %}
 
-    <hr/>
     <div class="ibexa-table-header__headline">{{ "dashboard.last_mailing_updated"|trans }}</div>
     <div class="novaezmailing-ez-mailings-view">
         {% include "@NovaeZMailing/admin/common/list/mailings.html.twig" with {items:mailings} only %}
     </div>
 
-    <hr/>
     <div class="ibexa-table-header__headline">{{ "dashboard.last_user_updated"|trans }}</div>
     {% include "@NovaeZMailing/admin/common/list/users.html.twig" with {items:users} only %}
 
     {% if broadcasts|length > 0 %}
-        <hr/>
         {% include "@NovaeZMailing/admin/common/list/broadcast_graphs.html.twig" with { items: broadcasts} only %}
     {% endif %}
 {% endblock %}
