@@ -5,7 +5,13 @@
     {% if form is defined %}
         {{ form_start(form) }}
         {{ form_row(form.user) }}
+        {% if not unsubscribeAll %}
+            <div style="display: none">
+        {% endif %}
         {{ form_row(form.mailingLists) }}
+        {% if not unsubscribeAll %}
+            </div>
+        {% endif %}
         <input type="submit" value="Unregister" name="Unregister"/>
         {{ form_end(form) }}
     {% else %}

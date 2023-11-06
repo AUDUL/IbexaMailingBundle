@@ -166,6 +166,7 @@ class RegistrationController
 
         $params += [
             'form' => $form->createView(),
+            'unsubscribeAll' => $this->configResolver->getParameter('unsubscribe_all', 'nova_ezmailing'),
         ];
 
         return $params;
