@@ -297,8 +297,8 @@ where cju.email is null";
             }
 
             $gender = match ($user_row['salutation']) {
-                1 => 'Mr',
-                2 => 'Mme',
+                '1' => 'Mr',
+                '2' => 'Mme',
                 default => null
             };
 
