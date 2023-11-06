@@ -26,7 +26,7 @@ class ExportController
         Connection  $connection,
     )
     {
-        $sql = 'SELECT u.USER_email, u.USER_first_name, u.USER_last_name, u.USER_gender, u.USER_status
+        $sql = 'SELECT u.USER_email, u.USER_first_name, u.USER_last_name, u.USER_gender,u.USER_birth_date,u.USER_phone,u.USER_zipcode,u.USER_city,u.USER_state,u.USER_country,u.USER_job_title,u.USER_company ,u.USER_status
 from novaezmailing_user u
 inner join novaezmailing_registrations nr on u.USER_id = nr.USER_id
 where nr.ML_id = ?';
@@ -40,7 +40,7 @@ where nr.ML_id = ?';
      */
     public function exportUsersAction(Connection $connection)
     {
-        $sql = 'SELECT u.USER_email, u.USER_first_name, u.USER_last_name, u.USER_gender, u.USER_status
+        $sql = 'SELECT u.USER_email, u.USER_first_name, u.USER_last_name, u.USER_gender,u.USER_birth_date,u.USER_phone,u.USER_zipcode,u.USER_city,u.USER_state,u.USER_country,u.USER_job_title,u.USER_company ,u.USER_status
 from novaezmailing_user u;';
 
         return new StreamedResponse($this->generate($connection, $sql), headers: ['Content-Type' => 'text/csv; charset=utf-8', 'Content-Disposition' => 'attachment; filename="users.csv"']);
@@ -50,7 +50,7 @@ from novaezmailing_user u;';
     {
         return function () use ($connection, $sql, $parameters) {
             $csv = fopen('php://output', 'w+');
-            fputcsv($csv, ['email', 'first_name', 'last_name', 'salutation', 'status'], ';');
+            fputcsv($csv, ['Courriel', 'Prénom', 'Nom', 'Sexe', 'Date de naissance', 'Téléphone', 'Code postal', 'Ville', 'Etat', 'Pays', 'Profession', 'Société','status'], ';');
 
             foreach ($connection->iterateAssociative($sql, $parameters) as $user) {
                 fputcsv($csv, $user, ';');

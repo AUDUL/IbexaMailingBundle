@@ -3,8 +3,6 @@
 /**
  * NovaeZMailingBundle Bundle.
  *
- * @package   Novactive\Bundle\eZMailingBundle
- *
  * @author    Novactive <s.morel@novactive.com>
  * @copyright 2018 Novactive
  * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
@@ -14,41 +12,33 @@ declare(strict_types=1);
 
 namespace Novactive\Bundle\eZMailingBundle\Controller;
 
-use DateTime;
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
+use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Registration;
 use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Unregistration;
 use Novactive\Bundle\eZMailingBundle\Core\Registrar;
+use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
 use Novactive\Bundle\eZMailingBundle\Entity\ConfirmationToken;
 use Novactive\Bundle\eZMailingBundle\Entity\User;
 use Novactive\Bundle\eZMailingBundle\Form\RegistrationType;
+use Novactive\Bundle\eZMailingBundle\Security\Voter\Campaign as CampaignVoter;
+use Novactive\Bundle\eZMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class RegistrationController
 {
-    /**
-     * @var Registrar
-     */
-    protected $registrar;
 
-    /**
-     * @var ConfigResolver
-     */
-    protected $configResolver;
-
-    public function __construct(Registrar $registrar, ConfigResolverInterface $configResolver)
+    public function __construct(
+        private readonly Registrar                     $registrar,
+        private readonly ConfigResolverInterface       $configResolver,
+        private readonly EntityManagerInterface        $entityManager,
+        private readonly AuthorizationCheckerInterface $authorizationChecker
+    )
     {
-        $this->registrar = $registrar;
-        $this->configResolver = $configResolver;
-    }
-
-    private function getPagelayout(): string
-    {
-        return $this->configResolver->getParameter('pagelayout');
     }
 
     /**
@@ -99,7 +89,7 @@ class RegistrationController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->registrar->askForConfirmation($registration);
         } else {
-            if (false === $form->isSubmitted()) {
+            if ($form->isSubmitted() === false) {
                 $form->get('mailingLists')->setData($this->registrar->getDefaultMailingList());
             }
 
@@ -139,15 +129,33 @@ class RegistrationController
 
         $unregistration = new Unregistration();
 
-        if (null !== $email) {
+        if ($email !== null) {
             $user = new User();
             $user
                 ->setEmail($email)
-                ->setUpdated(new DateTime());
+                ->setUpdated(new \DateTime());
             $unregistration->setUser($user);
         }
 
+        if ($this->configResolver->getParameter('unsubscribe_all', 'nova_ezmailing')) {
+            $allowedMailingList = [];
+            $campaignRepository = $this->entityManager->getRepository(Campaign::class);
+            // permissions on Campaing can be more complex, then we don't filter in SQL
+            foreach ($campaignRepository->findAll() as $campaign) {
+                if ($this->authorizationChecker->isGranted(CampaignVoter::VIEW, $campaign)) {
+                    foreach ($campaign->getMailingLists() as $mailingList) {
+                        if ($this->authorizationChecker->isGranted(MailingVoter::VIEW, $mailingList)) {
+                            $allowedMailingList[] = $mailingList;
+                        }
+                    }
+                }
+            }
+
+            $unregistration->setMailingLists($allowedMailingList);
+        }
+
         $form = $formFactory->create(RegistrationType::class, $unregistration);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -175,5 +183,10 @@ class RegistrationController
             'title' => 'Confirm unregistration to Mailing Lists',
             'isConfirmed' => $this->registrar->confirm($token),
         ];
+    }
+
+    private function getPagelayout(): string
+    {
+        return $this->configResolver->getParameter('pagelayout');
     }
 }

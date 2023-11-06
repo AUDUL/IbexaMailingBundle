@@ -33,7 +33,8 @@
         "symfony/workflow": "*",
         "ext-json": "*",
         "ibexa/core": "^4.0",
-        "ibexa/admin-ui": "^4.0"
+        "ibexa/admin-ui": "^4.0",
+        "symfony/mailer": "^6.1"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
