@@ -42,7 +42,8 @@
 {% block novezmailing_subtitle %}{{"campaign.edit.edition"|trans}}{% endblock %}
 {% block content %}
     {{ form_start(form, {attr: {class:'col-11', novaezmailing:'mainform'}}) }}
-    {{ form(form) }}
+    {{ form_rest(form) }}
+    <button type="submit" hidden></button>
     {{ form_end(form) }}
 {% endblock %}
 {% block rightbar %}

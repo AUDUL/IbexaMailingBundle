@@ -8,11 +8,9 @@ export const eZMailingEditFormModule = function () {
             history.back();
         });
         $saveButton.click(function () {
-            $form.submit();
+            $('button[type="submit"]', $form).click();
         });
-
     }
 
     return {init: _init};
 }();
-
