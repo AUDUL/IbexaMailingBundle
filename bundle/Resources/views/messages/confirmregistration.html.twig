@@ -15,5 +15,5 @@
         {% endfor %}
     </ul>
 
-    <p><a href="{{ path('novaezmailing_registration_confirm', {id:token.id}) }}">{{ "messages.confirm_registration.confirm_process2"|trans }}</a></p>
+    <p><a href="{{ url('novaezmailing_registration_confirm', {id:token.id}) }}">{{ "messages.confirm_registration.confirm_process2"|trans }}</a></p>
 {% endblock %}
