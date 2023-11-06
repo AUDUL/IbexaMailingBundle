@@ -34,7 +34,7 @@
         "ext-json": "*",
         "ibexa/core": "^4.0",
         "ibexa/admin-ui": "^4.0",
-        "symfony/mailer": "^*"
+        "symfony/mailer": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
