@@ -24,6 +24,7 @@ use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
 use Novactive\Bundle\eZMailingBundle\Entity\Registration;
 use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class User
@@ -40,7 +41,12 @@ class User
 
     public function rowsIterator(UserImport $userImport): Generator
     {
-        $spreadsheet = IOFactory::load($userImport->getFile()->getPathname());
+
+        $encoding = Csv::guessEncoding($userImport->getFile()->getPathname());
+        $reader = new Csv();
+        $reader->setInputEncoding($encoding);
+        $spreadsheet = $reader->load($userImport->getFile()->getPathname());
+
         $worksheet = $spreadsheet->getActiveSheet();
         foreach ($worksheet->getRowIterator() as $row) {
             if (1 === $row->getRowIndex()) {
