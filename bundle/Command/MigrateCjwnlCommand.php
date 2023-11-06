@@ -446,6 +446,7 @@ where cju.email is null";
                 $user = new User();
                 $user
                     ->setEmail($userData->email)
+                    ->setGender($userData->gender)
                     ->setBirthDate($userData->birthDate)
                     ->setCompany($userData->company)
                     ->setFirstName($userData->firstName)
