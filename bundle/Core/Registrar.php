@@ -198,12 +198,12 @@ class Registrar
         }
 
         // if no more registration then we remove the user
-        if ($this->configResolver->getParameter('delete_user', 'nova_ezmailing')) {
-            if (0 == $user->getRegistrations()->count()) {
+        if (0 == $user->getRegistrations()->count()) {
+            if ($this->configResolver->getParameter('delete_user', 'nova_ezmailing')) {
                 $this->entityManager->remove($user);
+            } else {
+                $user->setStatus(User::REMOVED);
             }
-        } else {
-            $user->setStatus(User::REMOVED);
         }
 
         $this->entityManager->remove($token);
