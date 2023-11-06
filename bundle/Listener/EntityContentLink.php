@@ -16,6 +16,7 @@ namespace Novactive\Bundle\eZMailingBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\PostLoad;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Novactive\Bundle\eZMailingBundle\Entity\eZ\ContentInterface;
 
@@ -39,12 +40,15 @@ class EntityContentLink
     public function postLoadHandler(ContentInterface $entity, LifecycleEventArgs $event): void
     {
         if (null !== $entity->getLocationId()) {
-            $this->repository->sudo(function () use ($entity) {
-                $location = $this->repository->getLocationService()->loadLocation($entity->getLocationId());
-                $content = $this->repository->getContentService()->loadContentByContentInfo($location->contentInfo);
-                $entity->setLocation($location);
-                $entity->setContent($content);
-            });
+            try {
+                $this->repository->sudo(function () use ($entity) {
+                    $location = $this->repository->getLocationService()->loadLocation($entity->getLocationId());
+                    $content = $this->repository->getContentService()->loadContentByContentInfo($location->contentInfo);
+                    $entity->setLocation($location);
+                    $entity->setContent($content);
+                });
+            } catch (NotFoundException) {
+            }
         }
     }
 }
