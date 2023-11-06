@@ -122,22 +122,20 @@ class Registrar
     private function createConfirmationToken(
         string          $action,
         User            $user,
-        ArrayCollection $mailingLists
+        array $mailingLists
     ): ConfirmationToken
     {
         /** @var ArrayCollection $mailingListIds */
-        $mailingListIds = $mailingLists->map(
-            function (MailingList $mailingList) {
-                return $mailingList->getId();
-            }
-        );
+        $mailingListIds = array_map(function (MailingList $mailingList) {
+            return $mailingList->getId();
+        }, $mailingLists);
 
         $confirmationToken = new ConfirmationToken();
         $confirmationToken->setPayload(
             [
                 'action' => $action,
                 'userId' => $user->getId(),
-                'mailingListIds' => $mailingListIds->toArray(),
+                'mailingListIds' => $mailingListIds,
             ]
         );
         $this->entityManager->persist($confirmationToken);
