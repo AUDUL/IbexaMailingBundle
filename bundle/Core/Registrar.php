@@ -58,10 +58,12 @@ class Registrar
     protected $configResolver;
 
     public function __construct(
-        EntityManagerInterface  $entityManager,
-        SiteAccess              $siteAccess,
-        SimpleMailer            $mailer,
-        ConfigResolverInterface $configResolver
+        EntityManagerInterface     $entityManager,
+        SiteAccess                 $siteAccess,
+        SimpleMailer               $mailer,
+        ConfigResolverInterface    $configResolver,
+        private readonly Registrar $registrar,
+
     )
     {
         $this->entityManager = $entityManager;
@@ -114,7 +116,7 @@ class Registrar
             $unregistration->getMailingLists()
         );
 
-        $this->mailer->sendUnregistrationConfirmation($unregistration, $token);
+        $this->registrar->confirm($token);
 
         return true;
     }
