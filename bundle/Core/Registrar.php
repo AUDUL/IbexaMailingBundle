@@ -62,8 +62,6 @@ class Registrar
         SiteAccess                 $siteAccess,
         SimpleMailer               $mailer,
         ConfigResolverInterface    $configResolver,
-        private readonly Registrar $registrar,
-
     )
     {
         $this->entityManager = $entityManager;
@@ -116,7 +114,7 @@ class Registrar
             $unregistration->getMailingLists()
         );
 
-        $this->registrar->confirm($token);
+        $this->confirm($token);
 
         return true;
     }
