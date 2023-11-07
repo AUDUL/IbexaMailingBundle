@@ -119,12 +119,18 @@ class Registrar
         return true;
     }
 
+    /**
+     * @param array|ArrayCollection $mailingLists
+     */
     private function createConfirmationToken(
-        string          $action,
-        User            $user,
-        array $mailingLists
+        string $action,
+        User   $user,
+        mixed  $mailingLists
     ): ConfirmationToken
     {
+        if ($mailingLists instanceof ArrayCollection) {
+            $mailingLists = $mailingLists->toArray();
+        }
         /** @var ArrayCollection $mailingListIds */
         $mailingListIds = array_map(function (MailingList $mailingList) {
             return $mailingList->getId();
