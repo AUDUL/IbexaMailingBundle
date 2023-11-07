@@ -75,6 +75,8 @@ class User extends EntityRepository
             )->setParameter('query', '%' . $query . '%');
         }
 
+        $qb->orderBy('u.created', 'DESC');
+
         return $qb;
     }
 
