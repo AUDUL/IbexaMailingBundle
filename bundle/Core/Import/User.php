@@ -118,6 +118,7 @@ class User
         }
         $user->setRestricted(false);
         $user->setOrigin('import');
+
         if ($user->getStatus() !== UserEntity::REMOVED) {
             $user->setStatus(UserEntity::CONFIRMED);
         }
