@@ -89,17 +89,17 @@ class User
         }
         if (isset($cells[4])) {
             try {
-                $date = Carbon::createFromFormat('Y-m-d', (string) $cells[4]);
+                $date = Carbon::createFromFormat('Y-m-d', (string)$cells[4]);
             } catch (Exception $e) {
-                $date = Date::excelToDateTimeObject((string) $cells[4]);
+                $date = Date::excelToDateTimeObject((string)$cells[4]);
             }
             $user->setBirthDate($date);
         }
         if (isset($cells[5])) {
-            $user->setPhone((string) $cells[5]);
+            $user->setPhone((string)$cells[5]);
         }
         if (isset($cells[6])) {
-            $user->setZipcode((string) $cells[6]);
+            $user->setZipcode((string)$cells[6]);
         }
         if (isset($cells[7])) {
             $user->setCity($cells[7]);
@@ -118,7 +118,9 @@ class User
         }
         $user->setRestricted(false);
         $user->setOrigin('import');
-        $user->setStatus(UserEntity::CONFIRMED);
+        if ($user->getStatus() !== UserEntity::REMOVED) {
+            $user->setStatus(UserEntity::CONFIRMED);
+        }
 
         return $user;
     }

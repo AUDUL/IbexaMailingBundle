@@ -21,6 +21,7 @@ use Novactive\Bundle\eZMailingBundle\Core\DataHandler\UserImport;
 use Novactive\Bundle\eZMailingBundle\Core\Import\User;
 use Novactive\Bundle\eZMailingBundle\Core\Provider\User as UserProvider;
 use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
+use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
 use Novactive\Bundle\eZMailingBundle\Form\ImportType;
 use Novactive\Bundle\eZMailingBundle\Form\MailingListType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -44,12 +45,13 @@ class MailingListController
      * @Template()
      */
     public function showAction(
-        MailingList $mailingList,
+        MailingList  $mailingList,
         UserProvider $provider,
-        string $status = 'all',
-        int $page = 1,
-        int $limit = 10
-    ): array {
+        string       $status = 'all',
+        int          $page = 1,
+        int          $limit = 10
+    ): array
+    {
         $filers = [
             'mailingLists' => [$mailingList],
             'status' => 'all' === $status ? null : $status,
@@ -83,13 +85,14 @@ class MailingListController
      * @return array|RedirectResponse
      */
     public function editAction(
-        ?MailingList $mailinglist,
-        Request $request,
-        RouterInterface $router,
-        FormFactoryInterface $formFactory,
+        ?MailingList           $mailinglist,
+        Request                $request,
+        RouterInterface        $router,
+        FormFactoryInterface   $formFactory,
         EntityManagerInterface $entityManager,
-        TranslationHelper $translationHelper
-    ) {
+        TranslationHelper      $translationHelper
+    )
+    {
         if (null === $mailinglist) {
             $mailinglist = new MailingList();
             $languages = array_filter($translationHelper->getAvailableLanguages());
@@ -121,10 +124,11 @@ class MailingListController
      * @Security("is_granted('edit', mailinglist)")
      */
     public function deleteAction(
-        MailingList $mailinglist,
+        MailingList            $mailinglist,
         EntityManagerInterface $entityManager,
-        RouterInterface $router
-    ): RedirectResponse {
+        RouterInterface        $router
+    ): RedirectResponse
+    {
         $entityManager->remove($mailinglist);
         $entityManager->flush();
 
@@ -137,12 +141,13 @@ class MailingListController
      * @Template()
      */
     public function importAction(
-        MailingList $mailinglist,
+        MailingList          $mailinglist,
         FormFactoryInterface $formFactory,
-        Request $request,
-        User $importer,
-        ValidatorInterface $validator
-    ): array {
+        Request              $request,
+        User                 $importer,
+        ValidatorInterface   $validator
+    ): array
+    {
         $userImport = new UserImport();
         $form = $formFactory->create(ImportType::class, $userImport);
         $form->handleRequest($request);
@@ -157,6 +162,9 @@ class MailingListController
                     $errors = $validator->validate($user);
                     if (count($errors) > 0) {
                         $errorList["Line {$index}"] = $errors;
+                        continue;
+                    }
+                    if ($user->getStatus() === UserEntity::REMOVED) {
                         continue;
                     }
                     $importer->registerUser($user, $mailinglist);
