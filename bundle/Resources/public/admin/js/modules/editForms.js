@@ -8,7 +8,11 @@ export const eZMailingEditFormModule = function () {
             history.back();
         });
         $saveButton.click(function () {
-            $('button[type="submit"]', $form).click();
+            if (document.querySelector('form[novaezmailing]').querySelector('button[type="submit"]') !== null) {
+                $('button[type="submit"]', $form).click();
+            } else {
+                $form.submit();
+            }
         });
     }
 
