@@ -45,6 +45,7 @@ generic.users.status.confirmed: Confirmé
 generic.users.status.soft_bounce: Soft Bounce
 generic.users.status.hard_bounce: Hard Bounce
 generic.users.status.blacklisted: Liste noire
+generic.users.status.removed: Supprimé
 generic.mailing_statuses.draft: brouillon
 generic.mailing_statuses.tested: testé
 generic.mailing_statuses.pending: en attente
