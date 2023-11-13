@@ -74,7 +74,7 @@ class Campaign implements eZ\ContentInterface
     /**
      * @var MailingList[]
      * @ORM\ManyToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\MailingList", inversedBy="campaigns")
-     * @ORM\JoinTable(name="ibexamailing_campaign_mailinglists_destination",
+     * @ORM\JoinTable(name="mailing_campaign_mailinglists_destination",
      *      joinColumns={@ORM\JoinColumn(name="ML_id", referencedColumnName="CAMP_id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="CAMP_id", referencedColumnName="ML_id")}
      *      )
