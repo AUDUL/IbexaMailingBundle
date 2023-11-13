@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter;
+namespace CodeRhapsodie\IbexaMailingBundle\Security\Voter;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use LogicException;

@@ -4,11 +4,11 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
 
 use Carbon\Carbon;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 

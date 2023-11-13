@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Processor;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
 
 interface TestMailingProcessorInterface
 {

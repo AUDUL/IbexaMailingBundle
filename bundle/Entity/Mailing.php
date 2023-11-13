@@ -4,11 +4,11 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
 use Carbon\Carbon;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Utils\Clock;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Validator\Constraints as IbexaMailing;
+use CodeRhapsodie\IbexaMailingBundle\Core\Utils\Clock;
+use CodeRhapsodie\IbexaMailingBundle\Validator\Constraints as IbexaMailing;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,8 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="mailing_mailing")
  *
- * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\Mailing")
- * @ORM\EntityListeners({"CodeRhapsodie\Bundle\IbexaMailingBundle\Listener\EntityContentLink"})
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\Mailing")
+ * @ORM\EntityListeners({"CodeRhapsodie\IbexaMailingBundle\Listener\EntityContentLink"})
  */
 class Mailing implements eZ\ContentInterface
 {
@@ -146,14 +146,14 @@ class Mailing implements eZ\ContentInterface
 
     /**
      * @var Campaign
-     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign", inversedBy="mailings")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Campaign", inversedBy="mailings")
      * @ORM\JoinColumn(name="CAMP_id", referencedColumnName="CAMP_id")
      */
     private $campaign;
 
     /**
      * @var Broadcast[]
-     * @ORM\OneToMany(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast", mappedBy="mailing",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast", mappedBy="mailing",
      *                                                                                  cascade={"persist","remove"},
      *                                                                                  fetch="EXTRA_LAZY")
      */

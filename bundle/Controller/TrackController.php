@@ -4,11 +4,11 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Utils\Browser;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\StatHit;
+use CodeRhapsodie\IbexaMailingBundle\Core\Utils\Browser;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast;
+use CodeRhapsodie\IbexaMailingBundle\Entity\StatHit;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;

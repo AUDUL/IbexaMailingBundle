@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Repository;
+namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository as BaseEntityRepository;

@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Modifier;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Modifier;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 
 class Personalization
 {

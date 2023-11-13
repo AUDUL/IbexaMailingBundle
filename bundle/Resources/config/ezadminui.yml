@@ -16,13 +16,13 @@ services:
         tags:
             - { name: ibexa.admin_ui.component, group: 'script-body' }
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Listener\LocationViewGroupTab:
+    CodeRhapsodie\IbexaMailingBundle\Listener\LocationViewGroupTab:
         autowire: true
         tags:
             - { name: kernel.event_listener, event: "ezplatform.tab.group.pre_render", method: "onTabGroupPreRender" }
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Tab\Campaigns:
+    CodeRhapsodie\IbexaMailingBundle\Core\Tab\Campaigns:
         parent: Ibexa\Contracts\AdminUi\Tab\AbstractTab
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Tab\Mailings:
+    CodeRhapsodie\IbexaMailingBundle\Core\Tab\Mailings:
         parent: Ibexa\Contracts\AdminUi\Tab\AbstractTab

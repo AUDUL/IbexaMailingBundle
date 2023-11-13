@@ -6,19 +6,19 @@
             <h3>{{ "common.list.broadcast_graph.broadcasted_on"|trans }} {{ broadcast.started|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</h3>
             <hr/>
             <div class="graph-broadcast full">
-                {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\ChartController::openedTimeChart", {broadcastId: broadcast.id })) }}
+                {{ render_esi(controller("CodeRhapsodie\\IbexaMailingBundle\\Controller\\Admin\\ChartController::openedTimeChart", {broadcastId: broadcast.id })) }}
             </div>
             <div class="graph-broadcast">
-                {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\ChartController::openedChart", {broadcastId: broadcast.id })) }}
+                {{ render_esi(controller("CodeRhapsodie\\IbexaMailingBundle\\Controller\\Admin\\ChartController::openedChart", {broadcastId: broadcast.id })) }}
             </div>
             <div class="graph-broadcast">
-                {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\ChartController::urlChart", {broadcastId: broadcast.id })) }}
+                {{ render_esi(controller("CodeRhapsodie\\IbexaMailingBundle\\Controller\\Admin\\ChartController::urlChart", {broadcastId: broadcast.id })) }}
             </div>
             <div class="graph-broadcast">
-                {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\ChartController::browserChart", {broadcastId: broadcast.id })) }}
+                {{ render_esi(controller("CodeRhapsodie\\IbexaMailingBundle\\Controller\\Admin\\ChartController::browserChart", {broadcastId: broadcast.id })) }}
             </div>
             <div class="graph-broadcast">
-                {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\ChartController::osChart", {broadcastId: broadcast.id })) }}
+                {{ render_esi(controller("CodeRhapsodie\\IbexaMailingBundle\\Controller\\Admin\\ChartController::osChart", {broadcastId: broadcast.id })) }}
             </div>
             <hr/>
         </div>

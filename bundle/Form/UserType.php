@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Form;
+namespace CodeRhapsodie\IbexaMailingBundle\Form;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;

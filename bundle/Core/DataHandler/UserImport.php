@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\DataHandler;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;

@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter;
+namespace CodeRhapsodie\IbexaMailingBundle\Security\Voter;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing as MailingEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing as MailingEntity;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;

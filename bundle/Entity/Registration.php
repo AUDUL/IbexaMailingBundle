@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  *                @ORM\Index(name="search_idx_approved", columns={"REG_approved"})
  *            }
  * )
- * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\Registration")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\Registration")
  */
 class Registration
 {
@@ -32,14 +32,14 @@ class Registration
 
     /**
      * @var MailingList
-     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList", inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\MailingList", inversedBy="registrations")
      * @ORM\JoinColumn(name="ML_id", referencedColumnName="ML_id", nullable=false)
      */
     private $mailingList;
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User", inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\User", inversedBy="registrations")
      * @ORM\JoinColumn(name="USER_id", referencedColumnName="USER_id", nullable=false)
      */
     private $user;

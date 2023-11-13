@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Tests\Tests\Unit;
+namespace CodeRhapsodie\IbexaMailingBundle\Tests\Tests\Unit;
 
 use Carbon\Carbon;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Utils\Clock;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Core\Utils\Clock;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
 use PHPUnit\Framework\TestCase;
 
 class ClockTest extends TestCase

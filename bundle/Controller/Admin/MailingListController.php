@@ -4,15 +4,15 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\UserImport;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Import\User;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\User as UserProvider;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User as UserEntity;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Form\ImportType;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Form\MailingListType;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\UserImport;
+use CodeRhapsodie\IbexaMailingBundle\Core\Import\User;
+use CodeRhapsodie\IbexaMailingBundle\Core\Provider\User as UserProvider;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
+use CodeRhapsodie\IbexaMailingBundle\Form\ImportType;
+use CodeRhapsodie\IbexaMailingBundle\Form\MailingListType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Core\Helper\TranslationHelper;

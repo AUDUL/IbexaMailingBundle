@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Menu;
+namespace CodeRhapsodie\IbexaMailingBundle\Menu;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;

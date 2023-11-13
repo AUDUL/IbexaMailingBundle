@@ -4,11 +4,11 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Utils\ChartDataBuilder;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\StatHit;
+use CodeRhapsodie\IbexaMailingBundle\Core\Utils\ChartDataBuilder;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast;
+use CodeRhapsodie\IbexaMailingBundle\Entity\StatHit;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

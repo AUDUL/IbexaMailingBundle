@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Compose;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity\Compose;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;

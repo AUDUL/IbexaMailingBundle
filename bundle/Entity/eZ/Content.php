@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\eZ;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity\eZ;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as eZContent;

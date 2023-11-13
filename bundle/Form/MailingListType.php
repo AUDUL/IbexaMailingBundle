@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Form;
+namespace CodeRhapsodie\IbexaMailingBundle\Form;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
 use Ibexa\AdminUi\Siteaccess\SiteaccessResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

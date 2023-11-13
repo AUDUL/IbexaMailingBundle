@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Form;
+namespace CodeRhapsodie\IbexaMailingBundle\Form;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Mailing as MailingVoter;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
+use CodeRhapsodie\IbexaMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

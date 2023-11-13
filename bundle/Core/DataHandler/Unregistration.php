@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\DataHandler;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Unregistration

@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Command;
+namespace CodeRhapsodie\IbexaMailingBundle\Command;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface as TestMailing;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface as TestMailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

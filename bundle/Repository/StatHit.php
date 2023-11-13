@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Repository;
+namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
 use Doctrine\ORM\QueryBuilder;
 
 class StatHit extends EntityRepository

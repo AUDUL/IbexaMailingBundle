@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\User as UserProvider;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Core\Provider\User as UserProvider;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;

@@ -17,7 +17,7 @@
 
 {% block ibexamailing_subtitle %}{{ "mailing.edit.mailing"|trans }}{% endblock %}
 {% block content %}
-    {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\MailingController::mailingTabsAction", {mailing: item.id})) }}
+    {{ render_esi(controller("CodeRhapsodie\\IbexaMailingBundle\\Controller\\Admin\\MailingController::mailingTabsAction", {mailing: item.id})) }}
     <br/>
     {{ form_start(form_subitems_content_edit, { 'action': path('ibexa.content.edit'), 'attr': { 'hidden': 'hidden' }}) }}
     {{ form_end(form_subitems_content_edit) }}

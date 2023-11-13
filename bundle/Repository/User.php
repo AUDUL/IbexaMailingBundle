@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Repository;
+namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User as UserEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 

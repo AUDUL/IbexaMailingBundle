@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Listener;
+namespace CodeRhapsodie\IbexaMailingBundle\Listener;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\eZ\ContentInterface;
+use CodeRhapsodie\IbexaMailingBundle\Entity\eZ\ContentInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\PostLoad;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;

@@ -4,13 +4,13 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
 
 use App\Kernel;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Modifier\ModifierInterface;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User as UserEntity;
+use CodeRhapsodie\IbexaMailingBundle\Core\Modifier\ModifierInterface;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpKernel\HttpKernelBrowser;
 use Symfony\Component\Mime\Address;

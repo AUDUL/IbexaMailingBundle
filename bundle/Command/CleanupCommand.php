@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Command;
+namespace CodeRhapsodie\IbexaMailingBundle\Command;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Registrar;
+use CodeRhapsodie\IbexaMailingBundle\Core\Registrar;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

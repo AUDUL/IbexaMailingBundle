@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Command;
+namespace CodeRhapsodie\IbexaMailingBundle\Command;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\IOService;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Core\IOService;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use DateTime;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;

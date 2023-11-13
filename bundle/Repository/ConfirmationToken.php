@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Repository;
+namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
 class ConfirmationToken extends EntityRepository
 {

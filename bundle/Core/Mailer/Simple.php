@@ -4,13 +4,13 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Mailer;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Mailer;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Registration;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Unregistration;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\MessageContent;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\ConfirmationToken;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing as MailingEntity;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Unregistration;
+use CodeRhapsodie\IbexaMailingBundle\Core\Provider\MessageContent;
+use CodeRhapsodie\IbexaMailingBundle\Entity\ConfirmationToken;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing as MailingEntity;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Message;

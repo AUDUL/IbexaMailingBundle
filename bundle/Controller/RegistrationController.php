@@ -4,17 +4,17 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Registration;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Unregistration;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Registrar;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\ConfirmationToken;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Form\RegistrationType;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Mailing as MailingVoter;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Unregistration;
+use CodeRhapsodie\IbexaMailingBundle\Core\Registrar;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\ConfirmationToken;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Form\RegistrationType;
+use CodeRhapsodie\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
+use CodeRhapsodie\IbexaMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

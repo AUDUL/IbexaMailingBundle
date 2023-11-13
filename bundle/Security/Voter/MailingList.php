@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter;
+namespace CodeRhapsodie\IbexaMailingBundle\Security\Voter;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList as MailingListEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList as MailingListEntity;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use LogicException;

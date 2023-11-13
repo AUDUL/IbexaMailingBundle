@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;

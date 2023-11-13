@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *                @ORM\Index(name="search_idx_status", columns={"USER_status"})
  *            }
  * )
- * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\User")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\User")
  * @UniqueEntity(
  *     fields={"email"},
  *     errorPath="email",
@@ -200,7 +200,7 @@ class User
     /**
      * @var Registration[]
      * @ORM\OrderBy({"created" = "ASC"})
-     * @ORM\OneToMany(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration", mappedBy="user",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Registration", mappedBy="user",
      *                                                                                     cascade={"persist","remove"},
      *                                                                                     orphanRemoval=true
      * )

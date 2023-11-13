@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="mailing_broadcast")
  *
- * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\Broadcast")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\Broadcast")
  */
 class Broadcast
 {
@@ -57,14 +57,14 @@ class Broadcast
 
     /**
      * @var Mailing
-     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing", inversedBy="broadcasts")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Mailing", inversedBy="broadcasts")
      * @ORM\JoinColumn(name="MAIL_id", referencedColumnName="MAIL_id")
      */
     private $mailing;
 
     /**
      * @var StatHit[]
-     * @ORM\OneToMany(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\StatHit", mappedBy="broadcast",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\StatHit", mappedBy="broadcast",
      *                                                                                cascade={"persist","remove"},
      *                                                                                fetch="EXTRA_LAZY")
      */

@@ -1,8 +1,8 @@
 <?php
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Form;
+namespace CodeRhapsodie\IbexaMailingBundle\Form;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\UserImport;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\UserImport;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;

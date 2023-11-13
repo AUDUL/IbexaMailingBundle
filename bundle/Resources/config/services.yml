@@ -9,102 +9,102 @@ services:
             $logger: "@monolog.logger.ibexamailing"
             string $kernelEnv: "%kernel.environment%"
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Command\:
+    CodeRhapsodie\IbexaMailingBundle\Command\:
         resource: '../../Command'
         tags: ["console.command"]
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Form\:
+    CodeRhapsodie\IbexaMailingBundle\Form\:
         resource: '../../Form'
         tags: [ "form.type" ]
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\:
+    CodeRhapsodie\IbexaMailingBundle\Security\Voter\:
         resource: '../../Security/Voter'
         tags: [ "security.voter" ]
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\:
+    CodeRhapsodie\IbexaMailingBundle\Controller\:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Listener\:
+    CodeRhapsodie\IbexaMailingBundle\Listener\:
         resource: '../../Listener'
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\:
+    CodeRhapsodie\IbexaMailingBundle\Core\Provider\:
         resource: '../../Core/Provider'
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Registrar: ~
+    CodeRhapsodie\IbexaMailingBundle\Core\Registrar: ~
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\:
+    CodeRhapsodie\IbexaMailingBundle\Core\Processor\:
         resource: '../../Core/Processor'
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Import\:
+    CodeRhapsodie\IbexaMailingBundle\Core\Import\:
         resource: '../../Core/Import'
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface: '@CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\TestMailing'
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\SendMailingProcessorInterface: '@CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\SendMailing'
+    CodeRhapsodie\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface: '@CodeRhapsodie\IbexaMailingBundle\Core\Processor\TestMailing'
+    CodeRhapsodie\IbexaMailingBundle\Core\Processor\SendMailingProcessorInterface: '@CodeRhapsodie\IbexaMailingBundle\Core\Processor\SendMailing'
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Modifier\:
+    CodeRhapsodie\IbexaMailingBundle\Core\Modifier\:
         resource: '../../Core/Modifier'
         tags: [ ibexamailing.content.modifier ]
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\MailingContent:
+    CodeRhapsodie\IbexaMailingBundle\Core\Provider\MailingContent:
         arguments: [ !tagged ibexamailing.content.modifier ]
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Menu\Builder:
+    CodeRhapsodie\IbexaMailingBundle\Menu\Builder:
         arguments: ["@knp_menu.factory"]
 
     ibexamailing.menu.main:
         class: Knp\Menu\MenuItem
-        factory: [ '@CodeRhapsodie\Bundle\IbexaMailingBundle\Menu\Builder','createAdminMenu' ]
+        factory: [ '@CodeRhapsodie\IbexaMailingBundle\Menu\Builder','createAdminMenu' ]
         arguments: ["@request_stack"]
         tags:
             - { name: knp_menu.menu, alias: ibexamailing.menu.admin }
 
     ibexamailing.menu.campaigns:
         class: Knp\Menu\MenuItem
-        factory: [ '@CodeRhapsodie\Bundle\IbexaMailingBundle\Menu\Builder','createCampaignMenu' ]
+        factory: [ '@CodeRhapsodie\IbexaMailingBundle\Menu\Builder','createCampaignMenu' ]
         arguments: ["@request_stack"]
         tags:
             - { name: knp_menu.menu, alias: ibexamailing.menu.campaigns }
 
     ibexamailing.menu.save_cancel:
         class: Knp\Menu\MenuItem
-        factory: [ '@CodeRhapsodie\Bundle\IbexaMailingBundle\Menu\Builder','createSaveCancelMenu' ]
+        factory: [ '@CodeRhapsodie\IbexaMailingBundle\Menu\Builder','createSaveCancelMenu' ]
         tags:
             - { name: knp_menu.menu, alias: ibexamailing.menu.save_cancel }
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\AjaxGuard: ~
+    CodeRhapsodie\IbexaMailingBundle\Core\AjaxGuard: ~
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Listener\EntityContentLink:
+    CodeRhapsodie\IbexaMailingBundle\Listener\EntityContentLink:
         tags:
             - { name: doctrine.orm.entity_listener }
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Listener\MailingWorkflow:
+    CodeRhapsodie\IbexaMailingBundle\Listener\MailingWorkflow:
         tags:
             - { name: kernel.event_listener, event: workflow.mailing.leave }
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Listener\PreContentView:
+    CodeRhapsodie\IbexaMailingBundle\Listener\PreContentView:
         tags:
             - { name: kernel.event_listener, event: ezpublish.pre_content_view, method: onPreContentView }
 
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Mailer\Simple:
+    CodeRhapsodie\IbexaMailingBundle\Core\Mailer\Simple:
         autowire: true
         arguments:
             $simpleMailer: '%ibexamailing.default.simple_mailer%'
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Mailer\Mailing:
+    CodeRhapsodie\IbexaMailingBundle\Core\Mailer\Mailing:
         autowire: true
         arguments:
             $mailing: '%ibexamailing.default.mailing_mailer%'
 
     # Twig
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Twig\Extension:
+    CodeRhapsodie\IbexaMailingBundle\Twig\Extension:
         tags: ['twig.extension']
 
     # Doctrine
-    CodeRhapsodie\Bundle\IbexaMailingBundle\DataFixtures\:
+    CodeRhapsodie\IbexaMailingBundle\DataFixtures\:
         resource: '../../DataFixtures'
         tags: ['doctrine.fixture.orm']
 
-    CodeRhapsodie\Bundle\IbexaMailingBundle\Core\IOService:
+    CodeRhapsodie\IbexaMailingBundle\Core\IOService:
         arguments: [ '@ibexa.core.io.service' ]

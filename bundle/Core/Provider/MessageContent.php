@@ -4,13 +4,13 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Registration;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Unregistration;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\ConfirmationToken;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Unregistration;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\ConfirmationToken;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use RuntimeException;

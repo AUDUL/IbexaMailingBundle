@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,7 +14,7 @@ use RuntimeException;
 /**
  * @ORM\Table(name="mailing_mailing_list")
  *
- * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\MailingList")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\MailingList")
  */
 class MailingList
 {
@@ -33,7 +33,7 @@ class MailingList
     /**
      * @var Registration[]
      * @ORM\OrderBy({"created" = "ASC"})
-     * @ORM\OneToMany(targetEntity="\CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration", mappedBy="mailingList",
+     * @ORM\OneToMany(targetEntity="\CodeRhapsodie\IbexaMailingBundle\Entity\Registration", mappedBy="mailingList",
      *                                                                                      cascade={"persist","remove"},
      *                                                                                      orphanRemoval=true,
      *                                                                                      fetch="EXTRA_LAZY"
@@ -55,7 +55,7 @@ class MailingList
 
     /**
      * @var Campaign[]
-     * @ORM\ManyToMany(targetEntity="\CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign", mappedBy="mailingLists",
+     * @ORM\ManyToMany(targetEntity="\CodeRhapsodie\IbexaMailingBundle\Entity\Campaign", mappedBy="mailingLists",
      *                                                                                  cascade={"persist"},
      *                                                                                  orphanRemoval=true,
      *                                                                                  fetch="EXTRA_LAZY")

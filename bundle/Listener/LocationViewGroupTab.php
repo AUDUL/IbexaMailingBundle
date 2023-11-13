@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Listener;
+namespace CodeRhapsodie\IbexaMailingBundle\Listener;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Tab\Campaigns as CampaignsTab;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Tab\Mailings as MailingsTab;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Core\Tab\Campaigns as CampaignsTab;
+use CodeRhapsodie\IbexaMailingBundle\Core\Tab\Mailings as MailingsTab;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\AdminUi\Tab\Event\TabGroupEvent;
 use Ibexa\AdminUi\Tab\TabRegistry;

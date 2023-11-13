@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Import;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Import;
 
 use Carbon\Carbon;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\UserImport;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User as UserEntity;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\UserImport;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;

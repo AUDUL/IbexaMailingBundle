@@ -17,5 +17,5 @@
 {% set subtitle = "campaign.mailings.campaign"|trans %}
 {% block ibexamailing_subtitle %}{{ subtitle }}{% endblock %}
 {% block content %}
-    {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\CampaignController::campaignTabsAction", {campaign: item.id, status: status})) }}
+    {{ render_esi(controller("CodeRhapsodie\\IbexaMailingBundle\\Controller\\Admin\\CampaignController::campaignTabsAction", {campaign: item.id, status: status})) }}
 {% endblock %}

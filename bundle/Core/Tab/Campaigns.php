@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Tab;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Tab;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
 use Ibexa\Contracts\AdminUi\Tab\AbstractTab;
 
 class Campaigns extends AbstractTab

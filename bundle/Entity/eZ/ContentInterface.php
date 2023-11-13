@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\eZ;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity\eZ;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as eZContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as eZLocation;

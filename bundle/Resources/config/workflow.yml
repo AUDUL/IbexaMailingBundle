@@ -5,7 +5,7 @@ workflows:
             type: 'method'
             property: 'status'
         supports:
-            - CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing
+            - CodeRhapsodie\IbexaMailingBundle\Entity\Mailing
         places:
             - draft
             - tested

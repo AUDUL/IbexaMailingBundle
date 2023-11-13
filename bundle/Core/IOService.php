@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core;
+namespace CodeRhapsodie\IbexaMailingBundle\Core;
 
 use Ibexa\Core\IO\IOServiceInterface;
 use Symfony\Component\Filesystem\Filesystem;

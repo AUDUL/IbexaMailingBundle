@@ -4,13 +4,13 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface as TestMailing;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Form\MailingType;
+use CodeRhapsodie\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface as TestMailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Form\MailingType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\AdminUi\Form\Factory\FormFactory;
@@ -95,9 +95,9 @@ class MailingController
 
     /**
      * @Route("/edit/{mailing}", name="ibexamailing_mailing_edit")
-     * @ParamConverter("mailing", class="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing", options={"id"="mailing"})
+     * @ParamConverter("mailing", class="CodeRhapsodie\IbexaMailingBundle\Entity\Mailing", options={"id"="mailing"})
      * @Route("/create/{campaign}", name="ibexamailing_mailing_create")
-     * @ParamConverter("campaign", class="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign", options={"id"="campaign"})
+     * @ParamConverter("campaign", class="CodeRhapsodie\IbexaMailingBundle\Entity\Campaign", options={"id"="campaign"})
      * @Template()
      *
      * @return array|RedirectResponse

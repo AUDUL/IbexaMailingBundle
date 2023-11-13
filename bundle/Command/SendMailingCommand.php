@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Command;
+namespace CodeRhapsodie\IbexaMailingBundle\Command;
 
 use Carbon\Carbon;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\SendMailingProcessorInterface as SendMailing;
+use CodeRhapsodie\IbexaMailingBundle\Core\Processor\SendMailingProcessorInterface as SendMailing;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

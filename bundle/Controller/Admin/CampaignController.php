@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\User as UserProvider;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Form\CampaignType;
+use CodeRhapsodie\IbexaMailingBundle\Core\Provider\User as UserProvider;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Form\CampaignType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\AdminUi\Tab\LocationView\ContentTab;

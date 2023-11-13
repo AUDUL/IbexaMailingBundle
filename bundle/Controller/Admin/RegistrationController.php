@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\AjaxGuard;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Core\AjaxGuard;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Registration;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

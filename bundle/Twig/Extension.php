@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Twig;
+namespace CodeRhapsodie\IbexaMailingBundle\Twig;
 
 use Symfony\Component\Intl\Countries;
 use Twig\Extension\AbstractExtension as TwigExtension;

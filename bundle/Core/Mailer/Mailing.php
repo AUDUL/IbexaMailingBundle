@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Mailer;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Mailer;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\Broadcast;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\MailingContent;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing as MailingEntity;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Core\Provider\Broadcast;
+use CodeRhapsodie\IbexaMailingBundle\Core\Provider\MailingContent;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing as MailingEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;

@@ -4,16 +4,16 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core;
+namespace CodeRhapsodie\IbexaMailingBundle\Core;
 
 use Carbon\Carbon;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Registration;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Unregistration;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Mailer\Simple as SimpleMailer;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\ConfirmationToken;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration as RegistrationEntity;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Unregistration;
+use CodeRhapsodie\IbexaMailingBundle\Core\Mailer\Simple as SimpleMailer;
+use CodeRhapsodie\IbexaMailingBundle\Entity\ConfirmationToken;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Registration as RegistrationEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;

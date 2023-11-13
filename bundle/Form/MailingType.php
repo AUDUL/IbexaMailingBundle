@@ -4,11 +4,11 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Form;
+namespace CodeRhapsodie\IbexaMailingBundle\Form;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Validator\Constraints\Location as LocationConstraint;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Validator\Constraints\Names as NamesConstraint;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Validator\Constraints\Location as LocationConstraint;
+use CodeRhapsodie\IbexaMailingBundle\Validator\Constraints\Names as NamesConstraint;
 use Ibexa\AdminUi\Siteaccess\SiteaccessResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;

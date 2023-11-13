@@ -18,7 +18,7 @@ public function registerBundles()
        new FrameworkBundle(),
        ...
        // IbexaMailingBundle
-       new CodeRhapsodie\Bundle\IbexaMailingBundle\IbexaMailingBundle(),
+       new CodeRhapsodie\IbexaMailingBundle\IbexaMailingBundle(),
    );
    ...
 }

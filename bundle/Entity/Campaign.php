@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,8 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="mailing_campaign")
  *
- * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\Campaign")
- * @ORM\EntityListeners({"CodeRhapsodie\Bundle\IbexaMailingBundle\Listener\EntityContentLink"})
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\Campaign")
+ * @ORM\EntityListeners({"CodeRhapsodie\IbexaMailingBundle\Listener\EntityContentLink"})
  */
 class Campaign implements eZ\ContentInterface
 {
@@ -73,7 +73,7 @@ class Campaign implements eZ\ContentInterface
 
     /**
      * @var MailingList[]
-     * @ORM\ManyToMany(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList", inversedBy="campaigns")
+     * @ORM\ManyToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\MailingList", inversedBy="campaigns")
      * @ORM\JoinTable(name="ibexamailing_campaign_mailinglists_destination",
      *      joinColumns={@ORM\JoinColumn(name="ML_id", referencedColumnName="CAMP_id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="CAMP_id", referencedColumnName="ML_id")}
@@ -84,7 +84,7 @@ class Campaign implements eZ\ContentInterface
 
     /**
      * @var Mailing[]
-     * @ORM\OneToMany(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing", mappedBy="campaign",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Mailing", mappedBy="campaign",
      *                                                                                cascade={"persist","remove"})
      */
     private $mailings;

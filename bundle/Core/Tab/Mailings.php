@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Tab;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Tab;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing as MailingEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing as MailingEntity;
 use Ibexa\Contracts\AdminUi\Tab\AbstractTab;
 
 class Mailings extends AbstractTab

@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
 
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User as UserEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;

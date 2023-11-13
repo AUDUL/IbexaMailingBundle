@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Processor;
 
 use Carbon\Carbon;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Mailer\Mailing as MailingMailer;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Utils\Clock;
-use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Core\Mailer\Mailing as MailingMailer;
+use CodeRhapsodie\IbexaMailingBundle\Core\Utils\Clock;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Workflow\Registry;

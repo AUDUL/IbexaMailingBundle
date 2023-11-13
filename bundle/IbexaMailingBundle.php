@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle;
+namespace CodeRhapsodie\IbexaMailingBundle;
 
 use LogicException;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;

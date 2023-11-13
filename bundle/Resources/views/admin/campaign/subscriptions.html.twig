@@ -18,7 +18,7 @@
 {% block ibexamailing_subtitle %}{{ subtitle }}{% endblock %}
 
 {% block content %}
-    {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\CampaignController::campaignTabsAction", {campaign: item.id})) }}
+    {{ render_esi(controller("CodeRhapsodie\\IbexaMailingBundle\\Controller\\Admin\\CampaignController::campaignTabsAction", {campaign: item.id})) }}
 
     <h2>
         <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/subscriptions.png") }}"

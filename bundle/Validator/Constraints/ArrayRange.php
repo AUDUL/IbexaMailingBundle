@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Validator\Constraints;
+namespace CodeRhapsodie\IbexaMailingBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 

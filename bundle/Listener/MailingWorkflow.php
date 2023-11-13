@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Listener;
+namespace CodeRhapsodie\IbexaMailingBundle\Listener;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Workflow\Event\Event;
