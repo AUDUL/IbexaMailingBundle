@@ -1,27 +1,19 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Listener;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Listener;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Tab\Campaigns as CampaignsTab;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Tab\Mailings as MailingsTab;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\AdminUi\Tab\Event\TabGroupEvent;
 use Ibexa\AdminUi\Tab\TabRegistry;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
-use Novactive\Bundle\eZMailingBundle\Core\Tab\Campaigns as CampaignsTab;
-use Novactive\Bundle\eZMailingBundle\Core\Tab\Mailings as MailingsTab;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 
 class LocationViewGroupTab
 {

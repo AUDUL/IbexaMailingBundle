@@ -1,18 +1,10 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\DependencyInjection;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\DependencyInjection;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -21,7 +13,7 @@ class Configuration extends SiteAccessAware\Configuration
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('nova_ezmailing');
+        $treeBuilder = new TreeBuilder('ibexamailing');
         $rootNode = $treeBuilder->getRootNode();
         $systemNode = $this->generateScopeBaseNode($rootNode);
 

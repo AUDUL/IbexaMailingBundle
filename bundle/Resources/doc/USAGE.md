@@ -1,17 +1,17 @@
 # Usage
 
-This **NovaEzMailing** Bundle is the upgraded version of **CJW Newsletter** and **Ez Mailing** bundles.
+This **IbexaMailing** Bundle is the upgraded version of **CJW Newsletter** and **Ez Mailing** bundles.
 After the bundle is installed within _Ez Platform_ which already contains one of those old bundles the database can be migrated
 to the new Bundle.
 
 1. If the old bundle is **CJW Newletter** run the following commands inside _ezplatform_ folder:
 
-    - php bin/console novaezmailing:migrate:cjwnl --export
-    - php bin/console novaezmailing:migrate:cjwnl --import
+   - php bin/console ibexamailing:migrate:cjwnl --export
+   - php bin/console ibexamailing:migrate:cjwnl --import
     
 2. If the old bundle is **Ez Mailing** run the following commands inside _ezplatform_ folder:
-    - php bin/console novaezmailing:migrate:ezmailing --export
-    - php bin/console novaezmailing:migrate:ezmailing --import
+   - php bin/console ibexamailing:migrate:ibexamailing --export
+   - php bin/console ibexamailing:migrate:ibexamailing --import
 
 The first one exports the data from the old database to json files.
 The second one imports the data from json files to the new database.
@@ -34,9 +34,10 @@ What the migration script does:
     - We take and save only those subscriptions for the users which are related to existing mailing lists.
     - We don't migrate amy mailings here because there is not enough data for that.
 
+There is also the option for both cases to truncate the current **IbexaMailing** **Bundle** tables in the database:
 
-There is also the option for both cases to truncate the current **NovaEzMailing** **Bundle** tables in the database:
-- php bin/console novaezmailing:migrate:cjwnl --clean
+- php bin/console ibexamailing:migrate:cjwnl --clean
 
 or
-- php bin/console novaezmailing:migrate:ezmailing --clean 
+
+- php bin/console ibexamailing:migrate:ibexamailing --clean 

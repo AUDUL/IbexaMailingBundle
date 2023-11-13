@@ -1,23 +1,15 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Repository;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Repository;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User as UserEntity;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign as CampaignEntity;
-use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
 
 class User extends EntityRepository
 {

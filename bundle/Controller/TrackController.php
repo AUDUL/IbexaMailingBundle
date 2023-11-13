@@ -1,24 +1,16 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Utils\Browser;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\StatHit;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Novactive\Bundle\eZMailingBundle\Core\Utils\Browser;
-use Novactive\Bundle\eZMailingBundle\Entity\Broadcast;
-use Novactive\Bundle\eZMailingBundle\Entity\StatHit;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +25,7 @@ class TrackController
     public const PIXEL_CONTENT_TYPE = 'image/gif';
 
     /**
-     * @Route("/continue/{salt}/{broadcastId}/{url}", name="novaezmailing_t_continue")
+     * @Route("/continue/{salt}/{broadcastId}/{url}", name="ibexamailing_t_continue")
      */
     public function continueAction(
         string                 $salt,
@@ -61,7 +53,7 @@ class TrackController
     }
 
     /**
-     * @Route("/read/{salt}/{broadcastId}", name="novaezmailing_t_read")
+     * @Route("/read/{salt}/{broadcastId}", name="ibexamailing_t_read")
      */
     public function readAction(
         string                 $salt,

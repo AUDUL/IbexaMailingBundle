@@ -1,18 +1,10 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <m.strukov@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core;
 
 use Ibexa\Core\IO\IOServiceInterface;
 use Symfony\Component\Filesystem\Filesystem;

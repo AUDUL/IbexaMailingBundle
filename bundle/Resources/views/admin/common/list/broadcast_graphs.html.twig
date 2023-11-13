@@ -1,24 +1,24 @@
-{% trans_default_domain 'ezmailing' %}
+{% trans_default_domain 'ibexamailing' %}
 
 {% for broadcast in items %}
     {% if broadcast.emailSentCount > 0 %}
-        <div class="novaezmailing-broadcast-charts-group">
-            <h3>{{"common.list.broadcast_graph.broadcasted_on"|trans}} {{ broadcast.started|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</h3>
+        <div class="ibexamailing-broadcast-charts-group">
+            <h3>{{ "common.list.broadcast_graph.broadcasted_on"|trans }} {{ broadcast.started|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</h3>
             <hr/>
             <div class="graph-broadcast full">
-                {{ render_esi(controller("Novactive\\Bundle\\eZMailingBundle\\Controller\\Admin\\ChartController::openedTimeChart", {broadcastId: broadcast.id })) }}
+                {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\ChartController::openedTimeChart", {broadcastId: broadcast.id })) }}
             </div>
             <div class="graph-broadcast">
-                {{ render_esi(controller("Novactive\\Bundle\\eZMailingBundle\\Controller\\Admin\\ChartController::openedChart", {broadcastId: broadcast.id })) }}
+                {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\ChartController::openedChart", {broadcastId: broadcast.id })) }}
             </div>
             <div class="graph-broadcast">
-                {{ render_esi(controller("Novactive\\Bundle\\eZMailingBundle\\Controller\\Admin\\ChartController::urlChart", {broadcastId: broadcast.id })) }}
+                {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\ChartController::urlChart", {broadcastId: broadcast.id })) }}
             </div>
             <div class="graph-broadcast">
-                {{ render_esi(controller("Novactive\\Bundle\\eZMailingBundle\\Controller\\Admin\\ChartController::browserChart", {broadcastId: broadcast.id })) }}
+                {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\ChartController::browserChart", {broadcastId: broadcast.id })) }}
             </div>
             <div class="graph-broadcast">
-                {{ render_esi(controller("Novactive\\Bundle\\eZMailingBundle\\Controller\\Admin\\ChartController::osChart", {broadcastId: broadcast.id })) }}
+                {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\ChartController::osChart", {broadcastId: broadcast.id })) }}
             </div>
             <hr/>
         </div>

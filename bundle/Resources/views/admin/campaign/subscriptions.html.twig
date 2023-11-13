@@ -1,9 +1,9 @@
-{% extends '@NovaeZMailing/admin/layout/pagelayout.html.twig' %}
-{% trans_default_domain 'ezmailing' %}
+{% extends '@IbexaMailing/admin/layout/pagelayout.html.twig' %}
+{% trans_default_domain 'ibexamailing' %}
 
-{% block novezmailing_breadcrumb %}
+{% block ibexamailing_breadcrumb %}
     {% set items = [
-        {'url':path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
+        {'url':path("ibexamailing_dashboard_index"), 'value': 'Ibexa Mailing' },
         {'value': "campaign.breadcrumb.campaigns"|trans },
         {'value':  item.name },
         {'value': "campaign.breadcrumb.subscription"|trans },
@@ -11,26 +11,28 @@
 
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
-{% block novezmailing_title %}
-    <img src="{{ asset("/bundles/novaezmailing/admin/images/32x32/campaign.png") }}" class="nova-icon"/> {{ item.name }}{% endblock %}
+{% block ibexamailing_title %}
+    <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/campaign.png") }}"
+         class="mailing-icon"/> {{ item.name }}{% endblock %}
 {% set subtitle = "campaign.subscriptions.campaign"|trans %}
-{% block novezmailing_subtitle %}{{ subtitle }}{% endblock %}
+{% block ibexamailing_subtitle %}{{ subtitle }}{% endblock %}
 
 {% block content %}
-    {{ render_esi(controller("Novactive\\Bundle\\eZMailingBundle\\Controller\\Admin\\CampaignController::campaignTabsAction", {campaign: item.id})) }}
+    {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\CampaignController::campaignTabsAction", {campaign: item.id})) }}
 
     <h2>
-        <img src="{{ asset("/bundles/novaezmailing/admin/images/32x32/subscriptions.png") }}" class="nova-icon"/> {{ "campaign.subscriptions.campaign"|trans }}
+        <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/subscriptions.png") }}"
+             class="mailing-icon"/> {{ "campaign.subscriptions.campaign"|trans }}
     </h2>
-    {% include "@NovaeZMailing/admin/common/list/users_filterer.html.twig" with {
-        route: "novaezmailing_campaign_subscriptions",
+    {% include "@IbexaMailing/admin/common/list/users_filterer.html.twig" with {
+        route: "ibexamailing_campaign_subscriptions",
         limit: pager.maxPerPage,
         currentStatus: currentStatus,
         statuses: statuses,
         extraParams: {campaign: item.id}
     } only %}
     {% if pager.nbResults > 0 %}
-        {% include "@NovaeZMailing/admin/common/list/users.html.twig" with {items:pager.currentPageResults, withRegistrations: true} only %}
+        {% include "@IbexaMailing/admin/common/list/users.html.twig" with {items:pager.currentPageResults, withRegistrations: true} only %}
         <div class="pagerfanta">
             {{ pagerfanta(pager, 'ibexa') }}
         </div>

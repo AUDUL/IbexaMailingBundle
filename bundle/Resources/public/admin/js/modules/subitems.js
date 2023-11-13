@@ -4,7 +4,7 @@ export const eZMailingSubItemsModule = function () {
     function _init($, $app) {
         token = document.querySelector('meta[name="CSRF-Token"]').content;
         siteaccess = document.querySelector('meta[name="SiteAccess"]').content;
-        $(".ezmailing-subitem-children", $app).each(function ($container) {
+        $(".ibexamailing-subitem-children", $app).each(function ($container) {
             _generate($(this));
         });
     }
@@ -30,7 +30,7 @@ export const eZMailingSubItemsModule = function () {
             contentTypesMap: contentTypesMap,
             totalCount: subitemsList.ChildrenCount,
             handleEditItem: function (content) {
-                alert("@todo: please PR to https://github.com/Novactive/Nova-eZPlatform-Bundles");
+                alert("@todo: please PR to https://github.com/code-rhapsodie");
             },
             generateLink: function (locationId,contentId) {
                 return window.Routing.generate('_ez_content_view', { locationId, contentId });

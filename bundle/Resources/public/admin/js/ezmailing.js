@@ -2,14 +2,13 @@ import {eZMailingApprobationModule} from "./modules/approbation"
 import {eZMailingSearchModule} from "./modules/search"
 import {eZMailingChartsModule} from "./modules/charts"
 import {eZMainlingNormalizeModule} from "./modules/doc"
-import {eZMailingSubItemsModule} from "./modules/subitems"
 import {eZMailingEditFormModule} from "./modules/editForms"
 import {eZMailingContentSelectionModule} from "./modules/contentSelection"
 
 jQuery(function () {
     "use strict";
     var $ = jQuery;
-    var $app = $(".novaezmailing-app:first");
+    var $app = $(".ibexamailing-app:first");
     eZMailingApprobationModule.init(jQuery, $app);
     eZMailingSearchModule.init(jQuery, $app);
     eZMailingChartsModule.init(jQuery, $app);

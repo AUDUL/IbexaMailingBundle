@@ -1,22 +1,14 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Command;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Command;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface as TestMailing;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
 use Doctrine\ORM\EntityManagerInterface;
-use Novactive\Bundle\eZMailingBundle\Core\Processor\TestMailingProcessorInterface as TestMailing;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -45,7 +37,7 @@ class SendTestMailingCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('novaezmailing:test:send:mailing')
+            ->setName('ibexamailing:test:send:mailing')
             ->setDescription('Send a mailing to an specific email')
             ->setHidden(true)
             ->addArgument('mailingId', InputArgument::REQUIRED, 'The Mailing Id')

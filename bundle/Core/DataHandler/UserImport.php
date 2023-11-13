@@ -1,18 +1,8 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <j.canat@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\DataHandler;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;

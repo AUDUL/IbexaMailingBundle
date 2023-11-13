@@ -1,26 +1,18 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\DataFixtures;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\DataFixtures;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Entity\Registration;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
 
 class UsersRegistrationsFixtures extends Fixture implements DependentFixtureInterface
 {

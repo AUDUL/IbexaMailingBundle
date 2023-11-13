@@ -1,5 +1,5 @@
-{% extends '@NovaeZMailing/admin/layout/pagelayout.html.twig' %}
-{% trans_default_domain 'ezmailing' %}
+{% extends '@IbexaMailing/admin/layout/pagelayout.html.twig' %}
+{% trans_default_domain 'ibexamailing' %}
 
 {% form_theme form with ['@ibexadesign/ui/form_fields.html.twig', _self ] %}
 
@@ -18,7 +18,7 @@
     <button data-target-id="#{{ id }}"
             data-target-name="#{{ id }}_name"
             type="button"
-            class="btn btn-sm btn-primary js-novaezmailing-select-location-id"
+            class="btn btn-sm btn-primary js-ibexamailing-select-location-id"
             data-udw-config="{{ ez_udw_config('plop') }}"
     >
         {% if value > 0 %}
@@ -27,9 +27,9 @@
     </button>
 {% endblock %}
 
-{% block novezmailing_breadcrumb %}
+{% block ibexamailing_breadcrumb %}
     {% set items = [
-        {'url':path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
+        {'url':path("ibexamailing_dashboard_index"), 'value': 'Ibexa Mailing' },
         {'value': "campaign.breadcrumb.campaigns"|trans },
         {'value':  item.name },
         {'value': "campaign.breadcrumb.edit"|trans },
@@ -37,16 +37,17 @@
 
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
-{% block novezmailing_title %}
-    <img src="{{ asset("/bundles/novaezmailing/admin/images/32x32/campaign.png") }}" class="nova-icon"/>{{"campaign.edit.edit"|trans}} {{ item.name }}{% endblock %}
-{% block novezmailing_subtitle %}{{"campaign.edit.edition"|trans}}{% endblock %}
+{% block ibexamailing_title %}
+    <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/campaign.png") }}"
+         class="mailing-icon"/>{{ "campaign.edit.edit"|trans }} {{ item.name }}{% endblock %}
+{% block ibexamailing_subtitle %}{{ "campaign.edit.edition"|trans }}{% endblock %}
 {% block content %}
-    {{ form_start(form, {attr: {class:'col-11', novaezmailing:'mainform'}}) }}
+    {{ form_start(form, {attr: {class:'col-11', ibexamailing:'mainform'}}) }}
     {{ form_rest(form) }}
     <button type="submit" hidden></button>
     {{ form_end(form) }}
 {% endblock %}
 {% block rightbar %}
-    {% set sidebar_right = knp_menu_get('novaezmailing.menu.save_cancel', []) %}
+    {% set sidebar_right = knp_menu_get('ibexamailing.menu.save_cancel', []) %}
     {{ knp_menu_render(sidebar_right, {'template': '@ibexadesign/ui/menu/context_menu.html.twig'}) }}
 {% endblock %}

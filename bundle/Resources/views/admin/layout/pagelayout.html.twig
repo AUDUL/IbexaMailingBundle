@@ -1,24 +1,25 @@
-{% trans_default_domain 'ezmailing' %}
+{% trans_default_domain 'ibexamailing' %}
 {% set content = block('content') %}
-{% set novezmailing_title = block('novezmailing_title') %}
-{% set novezmailing_subtitle = block('novezmailing_subtitle') %}
-{% set novezmailing_breadcrumb = block('novezmailing_breadcrumb') %}
+{% set ibexamailing_title = block('ibexamailing_title') %}
+{% set ibexamailing_subtitle = block('ibexamailing_subtitle') %}
+{% set ibexamailing_breadcrumb = block('ibexamailing_breadcrumb') %}
 {% set rightbar = block('rightbar') ?? '' %}
 
 {% embed '@ibexadesign/ui/layout.html.twig' %}
     {% block content %}
-        {% trans_default_domain 'ezmailing' %}
-        <div class="novaezmailing-app row" data-search-endpoint="{{ path('novaezmailing_dashboard_search_autocomplete') }}">
+        {% trans_default_domain 'ibexamailing' %}
+        <div class="ibexamailing-app row"
+             data-search-endpoint="{{ path('ibexamailing_dashboard_search_autocomplete') }}">
             <div class="container-fluid">
-                {% include "@NovaeZMailing/admin/layout/header.html.twig" with { title: novezmailing_title, subTitle: novezmailing_subtitle, breadcrumb: novezmailing_breadcrumb } only %}
+                {% include "@IbexaMailing/admin/layout/header.html.twig" with { title: ibexamailing_title, subTitle: ibexamailing_subtitle, breadcrumb: ibexamailing_breadcrumb } only %}
                 <div class="content row">
                     <div class="col-2 sidebar">
                         <h2>{{"layout.pagelayout.campaigns"|trans}}</h2>
                         <div class="campaigns">
-                            {{ knp_menu_render('novaezmailing.menu.campaigns', {template:"@NovaeZMailing/admin/common/menu.html.twig"}) }}
+                            {{ knp_menu_render('ibexamailing.menu.campaigns', {template:"@IbexaMailing/admin/common/menu.html.twig"}) }}
                         </div>
                         <h2>{{"layout.pagelayout.administration"|trans}}</h2>
-                        {{ knp_menu_render('novaezmailing.menu.admin') }}
+                        {{ knp_menu_render('ibexamailing.menu.admin') }}
                     </div>
                     {% if rightbar is empty %}
                         <div class="col-10 innercontent">
@@ -33,7 +34,7 @@
                         </div>
                     {% endif %}
                 </div>
-                {% include "@NovaeZMailing/admin/layout/footer.html.twig" with {} only %}
+                {% include "@IbexaMailing/admin/layout/footer.html.twig" with {} only %}
             </div>
         </div>
     {% endblock %}

@@ -1,27 +1,16 @@
 {
-    "name": "novactive/ezmailingbundle",
-    "description": "Novactive eZ Mailing Bundle is an eZ Platform bundle that provides mailing features",
+    "name": "code-rhapsodie/ibexamailingbundle",
+    "description": "Code Rhapsodie eZ Mailing Bundle is an eZ Platform bundle that provides mailing features",
     "keywords": [
         "mailing",
         "newsletter",
         "ezpublish",
-        "novactive",
-        "ezplatform"
+        "code-rhapsodie",
+        "ezplatform",
+        "ibexa"
     ],
-    "homepage": "https://github.com/Novactive/NovaeZMailingBundle",
-    "type": "ezplatform-bundle",
-    "authors": [
-        {
-            "name": "Novactive",
-            "homepage": "https://www.novactive.us",
-            "email": "ezmailing@novactive.com"
-        },
-        {
-            "name": "Sebastien Morel",
-            "homepage": "https://github.com/Plopix",
-            "email": "morel.seb@gmail.com"
-        }
-    ],
+    "homepage": "https://github.com/code-rhapsodie/IbexaMailingBundle",
+    "type": "ibexa-bundle",
     "license": [
         "MIT"
     ],
@@ -38,16 +27,26 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
-        "fakerphp/faker": "^1.9"
+        "fakerphp/faker": "^1.9",
+        "phpunit/phpunit": "^10.4",
+        "doctrine/doctrine-migrations-bundle": "^3.0"
+    },
+    "suggest": {
+        "doctrine/doctrine-migrations-bundle": "^3.0"
     },
     "autoload": {
         "psr-4": {
-            "Novactive\\Bundle\\eZMailingBundle\\": "bundle"
+            "CodeRhapsodie\\Bundle\\IbexaMailingBundle\\": "bundle"
         }
     },
     "config": {
         "allow-plugins": {
             "php-http/discovery": false
         }
+    },
+    "scripts": {
+        "test": [
+            "./vendor/bin/phpunit  tests"
+        ]
     }
 }

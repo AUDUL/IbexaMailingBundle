@@ -1,24 +1,16 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Listener;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Listener;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\eZ\ContentInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\PostLoad;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Repository;
-use Novactive\Bundle\eZMailingBundle\Entity\eZ\ContentInterface;
 
 /**
  * Class ContentLink

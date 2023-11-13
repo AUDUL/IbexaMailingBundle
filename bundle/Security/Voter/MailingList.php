@@ -1,23 +1,15 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Security\Voter;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList as MailingListEntity;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use LogicException;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList as MailingListEntity;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 

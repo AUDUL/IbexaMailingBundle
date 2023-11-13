@@ -1,24 +1,16 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Provider;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider;
 
 use App\Kernel;
-use Novactive\Bundle\eZMailingBundle\Core\Modifier\ModifierInterface;
-use Novactive\Bundle\eZMailingBundle\Entity\Broadcast as BroadcastEntity;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Modifier\ModifierInterface;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User as UserEntity;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpKernel\HttpKernelBrowser;
 use Symfony\Component\Mime\Address;
@@ -59,7 +51,7 @@ class MailingContent
         $kernel = new Kernel($this->kernelEnv, false);
         $client = new HttpKernelBrowser($kernel);
         $url = $this->router->generate(
-            '_novaezmailing_ez_content_view',
+            '_ibexamailing_ez_content_view',
             [
                 'locationId' => $mailing->getLocation()->id,
                 'contentId' => $mailing->getContent()->id,

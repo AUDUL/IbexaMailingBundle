@@ -1,29 +1,21 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\UserImport;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Import\User;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\User as UserProvider;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User as UserEntity;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Form\ImportType;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Form\MailingListType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Core\Helper\TranslationHelper;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\UserImport;
-use Novactive\Bundle\eZMailingBundle\Core\Import\User;
-use Novactive\Bundle\eZMailingBundle\Core\Provider\User as UserProvider;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
-use Novactive\Bundle\eZMailingBundle\Form\ImportType;
-use Novactive\Bundle\eZMailingBundle\Form\MailingListType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -39,7 +31,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class MailingListController
 {
     /**
-     * @Route("/show/{mailingList}/{status}/{page}/{limit}", name="novaezmailing_mailinglist_show",
+     * @Route("/show/{mailingList}/{status}/{page}/{limit}", name="ibexamailing_mailinglist_show",
      *                                              defaults={"page":1, "limit":10, "status":"all"})
      * @Security("is_granted('view', mailingList)")
      * @Template()
@@ -66,7 +58,7 @@ class MailingListController
     }
 
     /**
-     * @Route("", name="novaezmailing_mailinglist_index")
+     * @Route("", name="ibexamailing_mailinglist_index")
      * @Template()
      */
     public function indexAction(EntityManagerInterface $entityManager): array
@@ -77,8 +69,8 @@ class MailingListController
     }
 
     /**
-     * @Route("/edit/{mailinglist}", name="novaezmailing_mailinglist_edit")
-     * @Route("/create", name="novaezmailing_mailinglist_create")
+     * @Route("/edit/{mailinglist}", name="ibexamailing_mailinglist_edit")
+     * @Route("/create", name="ibexamailing_mailinglist_create")
      * @Security("is_granted('edit', mailinglist)")
      * @Template()
      *
@@ -109,7 +101,7 @@ class MailingListController
             $entityManager->flush();
 
             return new RedirectResponse(
-                $router->generate('novaezmailing_mailinglist_show', ['mailingList' => $mailinglist->getId()])
+                $router->generate('ibexamailing_mailinglist_show', ['mailingList' => $mailinglist->getId()])
             );
         }
 
@@ -120,7 +112,7 @@ class MailingListController
     }
 
     /**
-     * @Route("/delete/{mailinglist}", name="novaezmailing_mailinglist_remove")
+     * @Route("/delete/{mailinglist}", name="ibexamailing_mailinglist_remove")
      * @Security("is_granted('edit', mailinglist)")
      */
     public function deleteAction(
@@ -132,11 +124,11 @@ class MailingListController
         $entityManager->remove($mailinglist);
         $entityManager->flush();
 
-        return new RedirectResponse($router->generate('novaezmailing_mailinglist_index'));
+        return new RedirectResponse($router->generate('ibexamailing_mailinglist_index'));
     }
 
     /**
-     * @Route("/import/{mailinglist}", name="novaezmailing_mailinglist_import")
+     * @Route("/import/{mailinglist}", name="ibexamailing_mailinglist_import")
      * @Security("is_granted('edit', mailinglist)")
      * @Template()
      */

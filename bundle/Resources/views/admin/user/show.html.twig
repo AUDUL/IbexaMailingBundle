@@ -1,17 +1,17 @@
-{% extends '@NovaeZMailing/admin/layout/pagelayout.html.twig' %}
-{% trans_default_domain 'ezmailing' %}
+{% extends '@IbexaMailing/admin/layout/pagelayout.html.twig' %}
+{% trans_default_domain 'ibexamailing' %}
 
-{% block novezmailing_breadcrumb %}
+{% block ibexamailing_breadcrumb %}
     {% set items = [
-        {'url':path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
-        {'url': path("novaezmailing_user_index"), 'value': "campaign.breadcrumb.users"|trans },
+        {'url':path("ibexamailing_dashboard_index"), 'value': 'Ibexa Mailing' },
+        {'url': path("ibexamailing_user_index"), 'value': "campaign.breadcrumb.users"|trans },
         {'value': item.gender ~ " " ~ item.firstName ~ " " ~ item.lastname },
     ] %}
 
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
-{% block novezmailing_title %}{{ item.gender }} {{ item.firstName }} {{ item.lastname }}{% endblock %}
-{% block novezmailing_subtitle %}{{ item.email }}{% endblock %}
+{% block ibexamailing_title %}{{ item.gender }} {{ item.firstName }} {{ item.lastname }}{% endblock %}
+{% block ibexamailing_subtitle %}{{ item.email }}{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -41,7 +41,7 @@
                 </tr>
                 <tr>
                     <th>{{"generic.users.table.birthdate"|trans}}</th>
-                    <td>{{ item.birthDate|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
+                    <td>{{ item.birthDate|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
                 </tr>
                 <tr>
                     <th>{{"generic.users.table.phone"|trans}}</th>
@@ -88,25 +88,25 @@
                 {% for registration in item.registrations %}
                     <tr>
                         <td>
-                            <a href="{{ path('novaezmailing_mailinglist_show', {mailingList: registration.mailingList.id }) }}">{{ registration.mailingList.name }}</a>
+                            <a href="{{ path('ibexamailing_mailinglist_show', {mailingList: registration.mailingList.id }) }}">{{ registration.mailingList.name }}</a>
                         </td>
-                        <td>{{ registration.updated|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
-                        <td>{{ registration.created|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
+                        <td>{{ registration.updated|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
+                        <td>{{ registration.created|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
                     </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
-    <div class="novaezmailing-button-actions float-right">
+    <div class="ibexamailing-button-actions float-right">
         <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                data-bs-target="#novaezmailingconfirmremoveusermodal">
+                data-bs-target="#ibexamailingconfirmremoveusermodal">
             <svg class="ez-icon" width="30" height="30">
                 <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#trash"></use>
             </svg>
             <span>{{"button.actions.delete"|trans}}</span>
         </button>
     </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="novaezmailingconfirmremoveusermodal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="ibexamailingconfirmremoveusermodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -122,7 +122,7 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <a href="{{ path('novaezmailing_user_remove', {'user':item.id }) }}" type="button"
+                    <a href="{{ path('ibexamailing_user_remove', {'user':item.id }) }}" type="button"
                        class="btn btn-danger">{{ "button.confirm"|trans }}</a>
                     <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ "button.cancel"|trans }}</button>

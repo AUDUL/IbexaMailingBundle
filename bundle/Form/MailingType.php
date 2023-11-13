@@ -1,23 +1,15 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Form;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Form;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Validator\Constraints\Location as LocationConstraint;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Validator\Constraints\Names as NamesConstraint;
 use Ibexa\AdminUi\Siteaccess\SiteaccessResolver;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Validator\Constraints\Location as LocationConstraint;
-use Novactive\Bundle\eZMailingBundle\Validator\Constraints\Names as NamesConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -139,7 +131,7 @@ class MailingType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => Mailing::class,
-                'translation_domain' => 'ezmailing',
+                'translation_domain' => 'ibexamailing',
             ]
         );
     }

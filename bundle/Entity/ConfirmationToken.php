@@ -1,26 +1,18 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="novaezmailing_confirmation_token")
+ * @ORM\Table(name="mailing_confirmation_token")
  *
- * @ORM\Entity(repositoryClass="Novactive\Bundle\eZMailingBundle\Repository\ConfirmationToken")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\ConfirmationToken")
  */
 class ConfirmationToken
 {

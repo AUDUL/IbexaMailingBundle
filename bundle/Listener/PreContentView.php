@@ -1,24 +1,16 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Listener;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Listener;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Core\MVC\Symfony\Event\PreContentViewEvent;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -56,7 +48,7 @@ class PreContentView
             return;
         }
 
-        if ('novaezmailingfull' !== $contentView->getViewType()) {
+        if ('ibexamailingfull' !== $contentView->getViewType()) {
             return;
         }
 

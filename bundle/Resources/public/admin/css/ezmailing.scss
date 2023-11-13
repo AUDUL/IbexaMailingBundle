@@ -2,7 +2,7 @@ $eZDarkBackground: #555555;
 $eZMediumBackground: #E5E3E3;
 $eZLightBackground: #F5F5F5;
 
-.novaezmailing-app {
+.ibexamailing-app {
 
     h1, h2, h3 {
         color: rgba(51, 51, 51, .9);
@@ -39,7 +39,8 @@ $eZLightBackground: #F5F5F5;
     .innercontent {
         padding-left: 0;
         padding-right: 0;
-        .novaezmailing-tabs-content {
+
+      .ibexamailing-tabs-content {
             padding: 10px;
             border: 2px solid #E5E3E3;
             border-top: none;
@@ -47,7 +48,8 @@ $eZLightBackground: #F5F5F5;
             height: 400px;
             overflow: auto;
         }
-        .novaezmailing-ez-content-view {
+
+      .ibexamailing-ez-content-view {
 
             .container {
                 width: 100% !important;
@@ -63,14 +65,15 @@ $eZLightBackground: #F5F5F5;
             }
         }
 
-        .novaezmailing-registration-approbation {
+      .ibexamailing-registration-approbation {
             button:not([disabled]) {
                 cursor: pointer;
             }
         }
 
     }
-    .novaezmailing-broadcast-charts-group {
+
+  .ibexamailing-broadcast-charts-group {
         clear: both;
     }
 
@@ -102,7 +105,8 @@ $eZLightBackground: #F5F5F5;
     .item-tabs-content {
         padding-bottom: 35px;
     }
-    .novaezmailing-button-actions {
+
+  .ibexamailing-button-actions {
         padding: 5px;
         a, button {
             svg {
@@ -142,7 +146,7 @@ $eZLightBackground: #F5F5F5;
     }
 }
 
-.novaezmailing-ez-mailings-view {
+.ibexamailing-ez-mailings-view {
     .edit-button svg {
         fill: #f15a10;
         width: 20px;
@@ -181,7 +185,7 @@ $eZLightBackground: #F5F5F5;
 }
 
 .tab-pane {
-    .novaezmailing-broadcast-charts-group .graph-broadcast {
+  .ibexamailing-broadcast-charts-group .graph-broadcast {
         width: 600px;
         height: 300px;
         float: left;

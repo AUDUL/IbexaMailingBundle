@@ -1,24 +1,16 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Form;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Form;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Doctrine\ORM\EntityManagerInterface;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Security\Voter\Campaign as CampaignVoter;
-use Novactive\Bundle\eZMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

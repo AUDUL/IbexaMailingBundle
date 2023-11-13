@@ -1,21 +1,13 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
 
-use Novactive\Bundle\eZMailingBundle\Core\AjaxGuard;
-use Novactive\Bundle\eZMailingBundle\Entity\Registration;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\AjaxGuard;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController
 {
     /**
-     * @Route("/accept/{registration}", name="novaezmailing_registration_accept", methods={"POST"})
+     * @Route("/accept/{registration}", name="ibexamailing_registration_accept", methods={"POST"})
      */
     public function acceptAction(
         Request $request,
@@ -47,7 +39,7 @@ class RegistrationController
     }
 
     /**
-     * @Route("/deny/{registration}", name="novaezmailing_registration_deny")
+     * @Route("/deny/{registration}", name="ibexamailing_registration_deny")
      */
     public function denyAction(
         Request $request,

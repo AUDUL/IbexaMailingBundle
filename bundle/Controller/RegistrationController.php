@@ -1,28 +1,22 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Registration;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Unregistration;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Registrar;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\ConfirmationToken;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Form\RegistrationType;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Registration;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Unregistration;
-use Novactive\Bundle\eZMailingBundle\Core\Registrar;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\ConfirmationToken;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
-use Novactive\Bundle\eZMailingBundle\Form\RegistrationType;
-use Novactive\Bundle\eZMailingBundle\Security\Voter\Campaign as CampaignVoter;
-use Novactive\Bundle\eZMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +36,7 @@ class RegistrationController
     }
 
     /**
-     * @Route("/register", name="novaezmailing_registration_create")
+     * @Route("/register", name="ibexamailing_registration_create")
      *
      * @Template()
      */
@@ -70,7 +64,7 @@ class RegistrationController
     }
 
     /**
-     * @Route("/register/default", name="novaezmailing_registration_default_create")
+     * @Route("/register/default", name="ibexamailing_registration_default_create")
      *
      * @Template()
      */
@@ -102,7 +96,7 @@ class RegistrationController
     }
 
     /**
-     * @Route("/register/confirm/{id}", name="novaezmailing_registration_confirm")
+     * @Route("/register/confirm/{id}", name="ibexamailing_registration_confirm")
      *
      * @Template()
      */
@@ -116,7 +110,7 @@ class RegistrationController
     }
 
     /**
-     * @Route("/unregister/{email}", name="novaezmailing_registration_remove")
+     * @Route("/unregister/{email}", name="ibexamailing_registration_remove")
      *
      * @Template()
      */
@@ -137,7 +131,7 @@ class RegistrationController
             $unregistration->setUser($user);
         }
 
-        if ($this->configResolver->getParameter('unsubscribe_all', 'nova_ezmailing')) {
+        if ($this->configResolver->getParameter('unsubscribe_all', 'ibexamailing')) {
             $allowedMailingList = [];
             $campaignRepository = $this->entityManager->getRepository(Campaign::class);
             // permissions on Campaing can be more complex, then we don't filter in SQL
@@ -166,14 +160,14 @@ class RegistrationController
 
         $params += [
             'form' => $form->createView(),
-            'unsubscribeAll' => $this->configResolver->getParameter('unsubscribe_all', 'nova_ezmailing'),
+            'unsubscribeAll' => $this->configResolver->getParameter('unsubscribe_all', 'ibexamailing'),
         ];
 
         return $params;
     }
 
     /**
-     * @Route("/unregister/confirm/{id}", name="novaezmailing_unregistration_confirm")
+     * @Route("/unregister/confirm/{id}", name="ibexamailing_unregistration_confirm")
      *
      * @Template()
      */

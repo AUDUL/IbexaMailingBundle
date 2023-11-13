@@ -1,33 +1,25 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core;
 
 use Carbon\Carbon;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Registration;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Unregistration;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Mailer\Simple as SimpleMailer;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\ConfirmationToken;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration as RegistrationEntity;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Registration;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Unregistration;
-use Novactive\Bundle\eZMailingBundle\Core\Mailer\Simple as SimpleMailer;
-use Novactive\Bundle\eZMailingBundle\Entity\ConfirmationToken;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Entity\Registration as RegistrationEntity;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
 use RuntimeException;
 
 class Registrar
@@ -203,7 +195,7 @@ class Registrar
 
         // if no more registration then we remove the user
         if (0 == $user->getRegistrations()->count()) {
-            if ($this->configResolver->getParameter('delete_user', 'nova_ezmailing')) {
+            if ($this->configResolver->getParameter('delete_user', 'ibexamailing')) {
                 $this->entityManager->remove($user);
             } else {
                 $user->setStatus(User::REMOVED);
@@ -235,8 +227,8 @@ class Registrar
     public function getDefaultMailingList(): ArrayCollection
     {
         $mailingListId = null;
-        if ($this->configResolver->hasParameter('default_mailinglist_id', 'nova_ezmailing')) {
-            $mailingListId = $this->configResolver->getParameter('default_mailinglist_id', 'nova_ezmailing');
+        if ($this->configResolver->hasParameter('default_mailinglist_id', 'ibexamailing')) {
+            $mailingListId = $this->configResolver->getParameter('default_mailinglist_id', 'ibexamailing');
         }
         $mailingList = $this->entityManager->getRepository(MailingList::class)->findOneBy(
             ['id' => $mailingListId]

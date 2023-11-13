@@ -1,18 +1,10 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Command;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -25,14 +17,14 @@ class InstallCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('novaezmailing:install')
+            ->setName('ibexamailing:install')
             ->setDescription('Install what necessary in the DB');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Update the Database with Custom Novactive eZ Mailing Table');
+        $io->title('Update the Database with Custom Ibexa Mailing Table');
         $command = $this->getApplication()->find('doctrine:schema:update');
         $arguments = [
             'command' => 'doctrine:schema:update',

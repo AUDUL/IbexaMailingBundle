@@ -1,24 +1,16 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Novactive\Bundle\eZMailingBundle\Entity\Broadcast;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +21,7 @@ use Symfony\Component\Routing\RouterInterface;
 class DashboardController
 {
     /**
-     * @Route("/", name="novaezmailing_dashboard_index")
+     * @Route("/", name="ibexamailing_dashboard_index")
      * @Template()
      *
      * @return Response
@@ -48,7 +40,7 @@ class DashboardController
     }
 
     /**
-     * @Route("/search/autocomplete", name="novaezmailing_dashboard_search_autocomplete")
+     * @Route("/search/autocomplete", name="ibexamailing_dashboard_search_autocomplete")
      */
     public function autocompleteSearchAction(
         Request $request,
@@ -73,7 +65,7 @@ class DashboardController
 
                 return [
                     'value' => $userName,
-                    'data' => $router->generate('novaezmailing_user_show', ['user' => $user->getId()]),
+                    'data' => $router->generate('ibexamailing_user_show', ['user' => $user->getId()]),
                 ];
             },
             $users
@@ -86,7 +78,7 @@ class DashboardController
                 return [
                     'value' => trim($mailingList->getName()),
                     'data' => $router->generate(
-                        'novaezmailing_mailinglist_show',
+                        'ibexamailing_mailinglist_show',
                         ['mailingList' => $mailingList->getId()]
                     ),
                 ];

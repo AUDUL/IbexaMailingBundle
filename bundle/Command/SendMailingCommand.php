@@ -1,21 +1,13 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Command;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Command;
 
 use Carbon\Carbon;
-use Novactive\Bundle\eZMailingBundle\Core\Processor\SendMailingProcessorInterface as SendMailing;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\SendMailingProcessorInterface as SendMailing;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -38,7 +30,7 @@ class SendMailingCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('novaezmailing:send:mailing')
+            ->setName('ibexamailing:send:mailing')
             ->addOption(
                 'overrideDatetime',
                 'o',

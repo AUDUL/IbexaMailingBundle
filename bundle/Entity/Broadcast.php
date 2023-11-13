@@ -1,18 +1,10 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,9 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
  * with a certain html contents (we will backup here)
  * It's really a record of a Mailing broadcast.
  *
- * @ORM\Table(name="novaezmailing_broadcast")
+ * @ORM\Table(name="mailing_broadcast")
  *
- * @ORM\Entity(repositoryClass="Novactive\Bundle\eZMailingBundle\Repository\Broadcast")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\Broadcast")
  */
 class Broadcast
 {
@@ -65,14 +57,14 @@ class Broadcast
 
     /**
      * @var Mailing
-     * @ORM\ManyToOne(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\Mailing", inversedBy="broadcasts")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing", inversedBy="broadcasts")
      * @ORM\JoinColumn(name="MAIL_id", referencedColumnName="MAIL_id")
      */
     private $mailing;
 
     /**
      * @var StatHit[]
-     * @ORM\OneToMany(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\StatHit", mappedBy="broadcast",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\StatHit", mappedBy="broadcast",
      *                                                                                cascade={"persist","remove"},
      *                                                                                fetch="EXTRA_LAZY")
      */

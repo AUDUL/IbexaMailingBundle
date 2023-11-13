@@ -10,7 +10,7 @@ export const eZMailingChartsModule = function () {
     }
 
     function _init($, $app) {
-        $app.find("canvas.nova-ezmailing-chart").each(function () {
+        $app.find("canvas.ibexamailing-chart").each(function () {
             _render($(this));
         });
     }

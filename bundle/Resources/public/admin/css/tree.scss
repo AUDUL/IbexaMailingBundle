@@ -1,4 +1,4 @@
-.novaezmailing-app .sidebar .campaigns {
+.ibexamailing-app .sidebar .campaigns {
     /* CSS Tree menu styles */
     ul {
         padding: 0 0 0 30px;
@@ -8,7 +8,7 @@
             position: relative;
             margin-left: -15px;
             list-style: none;
-            background: url(/bundles/novaezmailing/admin/images/16x16/toggle-small-expand.png) -3px 3px no-repeat;
+          background: url(/bundles/ibexamailing/admin/images/16x16/toggle-small-expand.png) -3px 3px no-repeat;
 
             input {
                 position: absolute;
@@ -58,7 +58,7 @@
         }
 
         li.expand {
-            background: url(/bundles/novaezmailing/admin/images/16x16/toggle-small.png) -3px 3px no-repeat;
+          background: url(/bundles/ibexamailing/admin/images/16x16/toggle-small.png) -3px 3px no-repeat;
         }
 
         li.leaf {
@@ -73,61 +73,61 @@
         }
 
         li label {
-            background-image: url(/bundles/novaezmailing/admin/images/16x16/campaign.png);
+          background-image: url(/bundles/ibexamailing/admin/images/16x16/campaign.png);
         }
         li.aborted a {
-            background-image: url(/bundles/novaezmailing/admin/images/16x16/aborted.png);
+          background-image: url(/bundles/ibexamailing/admin/images/16x16/aborted.png);
         }
         li.archived a {
-            background-image: url(/bundles/novaezmailing/admin/images/16x16/archived.png);
+          background-image: url(/bundles/ibexamailing/admin/images/16x16/archived.png);
         }
         li.sent a {
-            background-image: url(/bundles/novaezmailing/admin/images/16x16/sent.png);
+          background-image: url(/bundles/ibexamailing/admin/images/16x16/sent.png);
         }
         li.processing a {
-            background-image: url(/bundles/novaezmailing/admin/images/16x16/processing.png);
+          background-image: url(/bundles/ibexamailing/admin/images/16x16/processing.png);
         }
         li.pending a {
-            background-image: url(/bundles/novaezmailing/admin/images/16x16/pending.png);
+          background-image: url(/bundles/ibexamailing/admin/images/16x16/pending.png);
         }
         li.draft a {
-            background-image: url(/bundles/novaezmailing/admin/images/16x16/draft.png);
+          background-image: url(/bundles/ibexamailing/admin/images/16x16/draft.png);
         }
         li.tested a {
-            background-image: url(/bundles/novaezmailing/admin/images/16x16/tested.png);
+          background-image: url(/bundles/ibexamailing/admin/images/16x16/tested.png);
         }
         li.subscriptions a {
-            background-image: url(/bundles/novaezmailing/admin/images/16x16/subscriptions.png);
+          background-image: url(/bundles/ibexamailing/admin/images/16x16/subscriptions.png);
         }
     }
 
     ul.kcode {
         li label {
-            background-image: url(/bundles/novaezmailing/admin/images/kcode/16x16/campaign.png);
+          background-image: url(/bundles/ibexamailing/admin/images/kcode/16x16/campaign.png);
         }
         li.aborted a {
-            background-image: url(/bundles/novaezmailing/admin/images/kcode/16x16/aborted.png);
+          background-image: url(/bundles/ibexamailing/admin/images/kcode/16x16/aborted.png);
         }
         li.archived a {
-            background-image: url(/bundles/novaezmailing/admin/images/kcode/16x16/archived.png);
+          background-image: url(/bundles/ibexamailing/admin/images/kcode/16x16/archived.png);
         }
         li.sent a {
-            background-image: url(/bundles/novaezmailing/admin/images/kcode/16x16/sent.png);
+          background-image: url(/bundles/ibexamailing/admin/images/kcode/16x16/sent.png);
         }
         li.processing a {
-            background-image: url(/bundles/novaezmailing/admin/images/kcode/16x16/processing.png);
+          background-image: url(/bundles/ibexamailing/admin/images/kcode/16x16/processing.png);
         }
         li.pending a {
-            background-image: url(/bundles/novaezmailing/admin/images/kcode/16x16/pending.png);
+          background-image: url(/bundles/ibexamailing/admin/images/kcode/16x16/pending.png);
         }
         li.draft a {
-            background-image: url(/bundles/novaezmailing/admin/images/kcode/16x16/draft.png);
+          background-image: url(/bundles/ibexamailing/admin/images/kcode/16x16/draft.png);
         }
         li.tested a {
-            background-image: url(/bundles/novaezmailing/admin/images/kcode/16x16/tested.png);
+          background-image: url(/bundles/ibexamailing/admin/images/kcode/16x16/tested.png);
         }
         li.subscriptions a {
-            background-image: url(/bundles/novaezmailing/admin/images/kcode/16x16/subscriptions.png);
+          background-image: url(/bundles/ibexamailing/admin/images/kcode/16x16/subscriptions.png);
         }
     }
 

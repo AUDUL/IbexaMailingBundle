@@ -1,28 +1,20 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\User as UserProvider;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Form\CampaignType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\AdminUi\Tab\LocationView\ContentTab;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\Helper\TranslationHelper;
-use Novactive\Bundle\eZMailingBundle\Core\Provider\User as UserProvider;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Form\CampaignType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -77,7 +69,7 @@ class CampaignController
     }
 
     /**
-     * @Route("/show/subscriptions/{campaign}/{status}/{page}/{limit}", name="novaezmailing_campaign_subscriptions",
+     * @Route("/show/subscriptions/{campaign}/{status}/{page}/{limit}", name="ibexamailing_campaign_subscriptions",
      *                                              defaults={"page":1, "limit":10, "status":"all"})
      * @Template()
      * @Security("is_granted('view', campaign)")
@@ -103,7 +95,7 @@ class CampaignController
     }
 
     /**
-     * @Route("/show/mailings/{campaign}/{status}", name="novaezmailing_campaign_mailings")
+     * @Route("/show/mailings/{campaign}/{status}", name="ibexamailing_campaign_mailings")
      * @Template()
      * @Security("is_granted('view', campaign)")
      */
@@ -125,8 +117,8 @@ class CampaignController
     }
 
     /**
-     * @Route("/edit/{campaign}", name="novaezmailing_campaign_edit")
-     * @Route("/create", name="novaezmailing_campaign_create")
+     * @Route("/edit/{campaign}", name="ibexamailing_campaign_edit")
+     * @Route("/create", name="ibexamailing_campaign_create")
      * @Security("is_granted('edit', campaign)")
      * @Template()
      *
@@ -155,7 +147,7 @@ class CampaignController
             $entityManager->flush();
 
             return new RedirectResponse(
-                $router->generate('novaezmailing_campaign_subscriptions', ['campaign' => $campaign->getId()])
+                $router->generate('ibexamailing_campaign_subscriptions', ['campaign' => $campaign->getId()])
             );
         }
 
@@ -166,7 +158,7 @@ class CampaignController
     }
 
     /**
-     * @Route("/delete/{campaign}", name="novaezmailing_campaign_remove")
+     * @Route("/delete/{campaign}", name="ibexamailing_campaign_remove")
      * @Security("is_granted('edit', campaign)")
      */
     public function deleteAction(
@@ -177,6 +169,6 @@ class CampaignController
         $entityManager->remove($campaign);
         $entityManager->flush();
 
-        return new RedirectResponse($router->generate('novaezmailing_dashboard_index'));
+        return new RedirectResponse($router->generate('ibexamailing_dashboard_index'));
     }
 }

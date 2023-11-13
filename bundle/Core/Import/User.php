@@ -1,29 +1,18 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <j.canat@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Import;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Import;
 
 use Carbon\Carbon;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\UserImport;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User as UserEntity;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Generator;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\UserImport;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Entity\Registration;
-use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 

@@ -1,28 +1,29 @@
-{% extends '@NovaeZMailing/admin/layout/pagelayout.html.twig' %}
-{% trans_default_domain 'ezmailing' %}
+{% extends '@IbexaMailing/admin/layout/pagelayout.html.twig' %}
+{% trans_default_domain 'ibexamailing' %}
 
-{% block novezmailing_breadcrumb %}
+{% block ibexamailing_breadcrumb %}
     {% set items = [
-        {'url':path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
+        {'url':path("ibexamailing_dashboard_index"), 'value': 'Ibexa Mailing' },
         {'value': "campaign.breadcrumb.campaigns"|trans },
-        {'url': path('novaezmailing_campaign_subscriptions', {campaign: item.campaign.id}), 'value':  item.campaign.name },
+        {'url': path('ibexamailing_campaign_subscriptions', {campaign: item.campaign.id}), 'value':  item.campaign.name },
         {'value': item.name },
     ] %}
 
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
-{% block novezmailing_title %}
-    <img src="{{ asset("/bundles/novaezmailing/admin/images/32x32/"~item.status~".png") }}" class="nova-icon"/> {{ item.name }}{% endblock %}
+{% block ibexamailing_title %}
+    <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/"~item.status~".png") }}"
+         class="mailing-icon"/> {{ item.name }}{% endblock %}
 
-{% block novezmailing_subtitle %}{{"mailing.edit.mailing"|trans}}{% endblock %}
+{% block ibexamailing_subtitle %}{{ "mailing.edit.mailing"|trans }}{% endblock %}
 {% block content %}
-    {{ render_esi(controller("Novactive\\Bundle\\eZMailingBundle\\Controller\\Admin\\MailingController::mailingTabsAction", {mailing: item.id})) }}
+    {{ render_esi(controller("CodeRhapsodie\\Bundle\\IbexaMailingBundle\\Controller\\Admin\\MailingController::mailingTabsAction", {mailing: item.id})) }}
     <br/>
     {{ form_start(form_subitems_content_edit, { 'action': path('ibexa.content.edit'), 'attr': { 'hidden': 'hidden' }}) }}
     {{ form_end(form_subitems_content_edit) }}
 
     <!--
-    <div class="ezmailing-subitem-children" data-location="{{ item.locationId }}" data-items="{{ subitems_module.items }}" data-content-types="{{ subitems_module.content_type_info_list }}"></div>
+    <div class="ibexamailing-subitem-children" data-location="{{ item.locationId }}" data-items="{{ subitems_module.items }}" data-content-types="{{ subitems_module.content_type_info_list }}"></div>
     <div class="ibexa-main-row ez-extra-actions-container"></div>
     -->
 {% endblock %}

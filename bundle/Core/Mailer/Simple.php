@@ -1,24 +1,16 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Mailer;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Mailer;
 
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Registration;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Unregistration;
-use Novactive\Bundle\eZMailingBundle\Core\Provider\MessageContent;
-use Novactive\Bundle\eZMailingBundle\Entity\ConfirmationToken;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing as MailingEntity;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Registration;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\Unregistration;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\MessageContent;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\ConfirmationToken;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing as MailingEntity;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Message;

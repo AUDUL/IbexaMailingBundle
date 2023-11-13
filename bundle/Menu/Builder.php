@@ -1,26 +1,18 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Menu;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Menu;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
-use Novactive\Bundle\eZMailingBundle\Security\Voter\Campaign as CampaignVoter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -53,15 +45,15 @@ class Builder
     {
         $request = $requestStack->getMainRequest();
         $route = $request?->attributes->get('_route');
-        $mailingRoute = 'novaezmailing_mailinglist';
-        $userRoute = 'novaezmailing_user';
+        $mailingRoute = 'ibexamailing_mailinglist';
+        $userRoute = 'ibexamailing_user';
 
         $menu = $this->factory->createItem('root');
         $child = $menu->addChild(
             'mailinglists',
             [
                 'route' => "{$mailingRoute}_index",
-                'label' => $this->translator->trans('menu.admin_menu.mailing_lists', [], 'ezmailing'),
+                'label' => $this->translator->trans('menu.admin_menu.mailing_lists', [], 'ibexamailing'),
             ]
         );
 
@@ -73,7 +65,7 @@ class Builder
             'users',
             [
                 'route' => "{$userRoute}_index",
-                'label' => $this->translator->trans('menu.admin_menu.users', [], 'ezmailing'),
+                'label' => $this->translator->trans('menu.admin_menu.users', [], 'ibexamailing'),
             ]
         );
         if (substr($route, 0, \strlen($userRoute)) === $userRoute) {
@@ -109,9 +101,9 @@ class Builder
             $child->addChild(
                 "camp_{$campaign->getId()}_subsciptions",
                 [
-                    'route' => 'novaezmailing_campaign_subscriptions',
+                    'route' => 'ibexamailing_campaign_subscriptions',
                     'routeParameters' => ['campaign' => $campaign->getId()],
-                    'label' => $this->translator->trans('menu.campaign_menu.subscriptions', [], 'ezmailing').
+                    'label' => $this->translator->trans('menu.campaign_menu.subscriptions', [], 'ibexamailing') .
                                          " ({$count})",
                     'attributes' => [
                         'class' => 'leaf subscriptions',
@@ -129,7 +121,7 @@ class Builder
                 $child->addChild(
                     "mailing_status_{$status}",
                     [
-                        'route' => 'novaezmailing_campaign_mailings',
+                        'route' => 'ibexamailing_campaign_mailings',
                         'routeParameters' => [
                             'campaign' => $campaign->getId(),
                             'status' => $status,
@@ -137,7 +129,7 @@ class Builder
                         'label' => $this->translator->trans(
                             'generic.mailing_statuses.'.$status,
                             [],
-                            'ezmailing'
+                                'ibexamailing'
                         )." ({$count})",
                         'attributes' => [
                             'class' => "leaf {$status}",
@@ -154,9 +146,9 @@ class Builder
     {
         $menu = $this->factory->createItem('root');
         $menu->addChild(
-            'novaezmailing_save',
+            'ibexamailing_save',
             [
-                'label' => $this->translator->trans('menu.savecancel.save', [], 'ezmailing'),
+                'label' => $this->translator->trans('menu.savecancel.save', [], 'ibexamailing'),
                 'extras' => [
                     'icon' => 'save',
                 ],
@@ -164,9 +156,9 @@ class Builder
         );
 
         $menu->addChild(
-            'novaezmailing_cancel',
+            'ibexamailing_cancel',
             [
-                'label' => $this->translator->trans('menu.savecancel.cancel', [], 'ezmailing'),
+                'label' => $this->translator->trans('menu.savecancel.cancel', [], 'ibexamailing'),
                 'attributes' => ['class' => 'btn-danger'],
                 'extras' => [
                     'icon' => 'circle-close',

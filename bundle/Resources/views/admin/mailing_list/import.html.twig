@@ -1,19 +1,20 @@
-{% extends '@NovaeZMailing/admin/layout/pagelayout.html.twig' %}
-{% trans_default_domain 'ezmailing' %}
+{% extends '@IbexaMailing/admin/layout/pagelayout.html.twig' %}
+{% trans_default_domain 'ibexamailing' %}
 {% form_theme form with ['@ibexadesign/ui/form_fields.html.twig', _self ] %}
 
-{% block novezmailing_breadcrumb %}
+{% block ibexamailing_breadcrumb %}
     {% set items = [
-        {'url':path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
-        {'url': path("novaezmailing_mailinglist_index"), 'value': "campaign.breadcrumb.mailing_lists"|trans },
+        {'url':path("ibexamailing_dashboard_index"), 'value': 'Ibexa Mailing' },
+        {'url': path("ibexamailing_mailinglist_index"), 'value': "campaign.breadcrumb.mailing_lists"|trans },
         {'value': item.name },
     ] %}
 
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
-{% block novezmailing_title %}
-    <img src="{{ asset("/bundles/novaezmailing/admin/images/32x32/user.png") }}" class="nova-icon"/> {{"mailing_list.import.title"|trans}}{% endblock %}
-{% block novezmailing_subtitle %}{{"mailing_list.import.subtitle"|trans}}{% endblock %}
+{% block ibexamailing_title %}
+    <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/user.png") }}"
+         class="mailing-icon"/> {{ "mailing_list.import.title"|trans }}{% endblock %}
+{% block ibexamailing_subtitle %}{{ "mailing_list.import.subtitle"|trans }}{% endblock %}
 
 {% block content %}
     <p>{{"mailing_list.import.inject_users1"|trans}}</p>
@@ -37,7 +38,7 @@
             <th>{{"generic.users.table.company"|trans}}</th>
         </tr>
         <tr>
-            <td>ezmailing@novactive.com</td>
+            <td>ibexamailing@code-rhapsodie.com</td>
             <td>John</td>
             <td>Doe</td>
             <td>Mr.</td>
@@ -48,7 +49,7 @@
             <td>California</td>
             <td>United States Of America</td>
             <td>CTO</td>
-            <td>Novactive</td>
+            <td>Code-Rhapsodie</td>
         </tr>
     </table>
     {{ form_start(form) }}
@@ -77,15 +78,15 @@
     {% endif %}
     <hr/>
 
-    <div class="novaezmailing-button-actions float-right">
-        <a href="{{ url('novaezmailing_mailinglist_show', { mailingList: item.id }) }}" class="btn btn-sm btn-info">
+    <div class="ibexamailing-button-actions float-right">
+        <a href="{{ url('ibexamailing_mailinglist_show', { mailingList: item.id }) }}" class="btn btn-sm btn-info">
             <svg class="ez-icon" width="30" height="30">
                 <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>
             </svg>
             <span>{{"mailing_list.import.view_mailing_list"|trans}}</span>
         </a>
     </div>
-    <div class="novaezmailing-button-actions">
+    <div class="ibexamailing-button-actions">
         <button type="submit" class="btn btn-sm btn-success">
             <svg class="ez-icon" width="30" height="30">
                 <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#wand"></use>

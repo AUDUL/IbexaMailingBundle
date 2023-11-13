@@ -1,19 +1,16 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface as TestMailing;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Form\MailingType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\AdminUi\Form\Factory\FormFactory;
@@ -22,11 +19,6 @@ use Ibexa\AdminUi\UI\Module\Subitems\ContentViewParameterSupplier;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
-use Novactive\Bundle\eZMailingBundle\Core\Processor\TestMailingProcessorInterface as TestMailing;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
-use Novactive\Bundle\eZMailingBundle\Form\MailingType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -44,7 +36,7 @@ use Symfony\Component\Workflow\Registry;
 class MailingController
 {
     /**
-     * @Route("/show/{mailing}", name="novaezmailing_mailing_show")
+     * @Route("/show/{mailing}", name="ibexamailing_mailing_show")
      * @Template()
      * @IsGranted("view", subject="mailing")
      */
@@ -102,10 +94,10 @@ class MailingController
     }
 
     /**
-     * @Route("/edit/{mailing}", name="novaezmailing_mailing_edit")
-     * @ParamConverter("mailing", class="Novactive\Bundle\eZMailingBundle\Entity\Mailing", options={"id"="mailing"})
-     * @Route("/create/{campaign}", name="novaezmailing_mailing_create")
-     * @ParamConverter("campaign", class="Novactive\Bundle\eZMailingBundle\Entity\Campaign", options={"id"="campaign"})
+     * @Route("/edit/{mailing}", name="ibexamailing_mailing_edit")
+     * @ParamConverter("mailing", class="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing", options={"id"="mailing"})
+     * @Route("/create/{campaign}", name="ibexamailing_mailing_create")
+     * @ParamConverter("campaign", class="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign", options={"id"="campaign"})
      * @Template()
      *
      * @return array|RedirectResponse
@@ -145,7 +137,7 @@ class MailingController
             $entityManager->flush();
 
             return new RedirectResponse(
-                $router->generate('novaezmailing_mailing_show', ['mailing' => $mailing->getId()])
+                $router->generate('ibexamailing_mailing_show', ['mailing' => $mailing->getId()])
             );
         }
 
@@ -163,9 +155,9 @@ class MailingController
     }
 
     /**
-     * @Route("/confirm/{mailing}", name="novaezmailing_mailing_confirm")
-     * @Route("/archive/{mailing}", name="novaezmailing_mailing_archive")
-     * @Route("/abort/{mailing}",   name="novaezmailing_mailing_cancel")
+     * @Route("/confirm/{mailing}", name="ibexamailing_mailing_confirm")
+     * @Route("/archive/{mailing}", name="ibexamailing_mailing_archive")
+     * @Route("/abort/{mailing}",   name="ibexamailing_mailing_cancel")
      * @IsGranted("view", subject="mailing")
      */
     public function statusAction(
@@ -175,16 +167,16 @@ class MailingController
         EntityManagerInterface $entityManager,
         Registry $workflows
     ): RedirectResponse {
-        $action = substr($request->get('_route'), \strlen('novaezmailing_mailing_'));
+        $action = substr($request->get('_route'), \strlen('ibexamailing_mailing_'));
         $machine = $workflows->get($mailing);
         $machine->apply($mailing, $action);
         $entityManager->flush();
 
-        return new RedirectResponse($router->generate('novaezmailing_mailing_show', ['mailing' => $mailing->getId()]));
+        return new RedirectResponse($router->generate('ibexamailing_mailing_show', ['mailing' => $mailing->getId()]));
     }
 
     /**
-     * @Route("/test/{mailing}", name="novaezmailing_mailing_test", methods={"POST"})
+     * @Route("/test/{mailing}", name="ibexamailing_mailing_test", methods={"POST"})
      * @IsGranted("view", subject="mailing")
      */
     public function testAction(
@@ -205,6 +197,6 @@ class MailingController
             }
         }
 
-        return new RedirectResponse($router->generate('novaezmailing_mailing_show', ['mailing' => $mailing->getId()]));
+        return new RedirectResponse($router->generate('ibexamailing_mailing_show', ['mailing' => $mailing->getId()]));
     }
 }

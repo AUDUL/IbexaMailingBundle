@@ -1,21 +1,13 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Provider;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User as UserEntity;
 use Doctrine\ORM\EntityManagerInterface;
-use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 

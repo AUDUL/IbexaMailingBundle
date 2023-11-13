@@ -1,22 +1,14 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Provider\User as UserProvider;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Novactive\Bundle\eZMailingBundle\Core\Provider\User as UserProvider;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -29,7 +21,7 @@ use Symfony\Component\Routing\RouterInterface;
 class UserController
 {
     /**
-     * @Route("/show/{user}", name="novaezmailing_user_show")
+     * @Route("/show/{user}", name="ibexamailing_user_show")
      * @Template()
      */
     public function showAction(User $user): array
@@ -44,7 +36,7 @@ class UserController
     }
 
     /**
-     * @Route("/delete/{user}", name="novaezmailing_user_remove")
+     * @Route("/delete/{user}", name="ibexamailing_user_remove")
      */
     public function deleteAction(
         User $user,
@@ -54,11 +46,11 @@ class UserController
         $entityManager->remove($user);
         $entityManager->flush();
 
-        return new RedirectResponse($router->generate('novaezmailing_user_index'));
+        return new RedirectResponse($router->generate('ibexamailing_user_index'));
     }
 
     /**
-     * @Route("/{status}/{page}/{limit}", name="novaezmailing_user_index",
+     * @Route("/{status}/{page}/{limit}", name="ibexamailing_user_index",
      *                                              defaults={"page":1, "limit":10, "status":"all"})
      * @Template()
      */

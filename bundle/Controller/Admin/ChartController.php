@@ -1,29 +1,21 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Controller\Admin;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Utils\ChartDataBuilder;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\StatHit;
 use Doctrine\ORM\EntityManagerInterface;
-use Novactive\Bundle\eZMailingBundle\Core\Utils\ChartDataBuilder;
-use Novactive\Bundle\eZMailingBundle\Entity\Broadcast;
-use Novactive\Bundle\eZMailingBundle\Entity\StatHit;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class ChartController
 {
     /**
-     * @Template("@NovaeZMailing/admin/chart/generic.html.twig")
+     * @Template("@IbexaMailing/admin/chart/generic.html.twig")
      */
     public function browserChart(int $broadcastId, EntityManagerInterface $entityManager): array
     {
@@ -40,7 +32,7 @@ class ChartController
     }
 
     /**
-     * @Template("@NovaeZMailing/admin/chart/generic.html.twig")
+     * @Template("@IbexaMailing/admin/chart/generic.html.twig")
      */
     public function osChart(int $broadcastId, EntityManagerInterface $entityManager): array
     {
@@ -58,7 +50,7 @@ class ChartController
     }
 
     /**
-     * @Template("@NovaeZMailing/admin/chart/generic.html.twig")
+     * @Template("@IbexaMailing/admin/chart/generic.html.twig")
      */
     public function urlChart(int $broadcastId, EntityManagerInterface $entityManager): array
     {
@@ -76,7 +68,7 @@ class ChartController
     }
 
     /**
-     * @Template("@NovaeZMailing/admin/chart/generic.html.twig")
+     * @Template("@IbexaMailing/admin/chart/generic.html.twig")
      */
     public function openedChart(int $broadcastId, EntityManagerInterface $entityManager): array
     {
@@ -98,7 +90,7 @@ class ChartController
     }
 
     /**
-     * @Template("@NovaeZMailing/admin/chart/generic.html.twig")
+     * @Template("@IbexaMailing/admin/chart/generic.html.twig")
      */
     public function openedTimeChart(int $broadcastId, EntityManagerInterface $entityManager): array
     {

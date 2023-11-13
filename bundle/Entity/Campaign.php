@@ -1,18 +1,10 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,10 +15,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A Campaign contains generic information shared between the Mailings it contains.
  * It owns also a Link to a eZ Content that is going to be injected in the template.
  *
- * @ORM\Table(name="novaezmailing_campaign")
+ * @ORM\Table(name="mailing_campaign")
  *
- * @ORM\Entity(repositoryClass="Novactive\Bundle\eZMailingBundle\Repository\Campaign")
- * @ORM\EntityListeners({"Novactive\Bundle\eZMailingBundle\Listener\EntityContentLink"})
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\Campaign")
+ * @ORM\EntityListeners({"CodeRhapsodie\Bundle\IbexaMailingBundle\Listener\EntityContentLink"})
  */
 class Campaign implements eZ\ContentInterface
 {
@@ -81,8 +73,8 @@ class Campaign implements eZ\ContentInterface
 
     /**
      * @var MailingList[]
-     * @ORM\ManyToMany(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\MailingList", inversedBy="campaigns")
-     * @ORM\JoinTable(name="novaezmailing_campaign_mailinglists_destination",
+     * @ORM\ManyToMany(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList", inversedBy="campaigns")
+     * @ORM\JoinTable(name="ibexamailing_campaign_mailinglists_destination",
      *      joinColumns={@ORM\JoinColumn(name="ML_id", referencedColumnName="CAMP_id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="CAMP_id", referencedColumnName="ML_id")}
      *      )
@@ -92,7 +84,7 @@ class Campaign implements eZ\ContentInterface
 
     /**
      * @var Mailing[]
-     * @ORM\OneToMany(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\Mailing", mappedBy="campaign",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Mailing", mappedBy="campaign",
      *                                                                                cascade={"persist","remove"})
      */
     private $mailings;

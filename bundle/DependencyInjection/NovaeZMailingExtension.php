@@ -1,18 +1,10 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\DependencyInjection;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\DependencyInjection;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
 use Symfony\Component\Config\FileLocator;
@@ -23,11 +15,11 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Yaml\Yaml;
 
-class NovaeZMailingExtension extends Extension implements PrependExtensionInterface
+class IbexaMailingExtension extends Extension implements PrependExtensionInterface
 {
     public function getAlias(): string
     {
-        return 'nova_ezmailing';
+        return 'ibexamailing';
     }
 
     public function load(array $configs, ContainerBuilder $container): void

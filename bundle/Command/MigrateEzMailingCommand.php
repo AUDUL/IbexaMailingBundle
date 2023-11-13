@@ -1,27 +1,19 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <m.strukov@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Command;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Command;
 
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\IOService;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-use Novactive\Bundle\eZMailingBundle\Core\IOService;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Entity\Registration;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -57,7 +49,7 @@ class MigrateEzMailingCommand extends Command
 
     public const DEFAULT_FALLBACK_LOCATION_ID = 2;
 
-    public const DUMP_FOLDER = 'migrate/ezmailing';
+    public const DUMP_FOLDER = 'migrate/ibexamailing';
 
     public function __construct(
         IOService $ioService,
@@ -75,18 +67,18 @@ class MigrateEzMailingCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('novaezmailing:migrate:ezmailing')
+            ->setName('ibexamailing:migrate:ibexamailing')
             ->setDescription('Import database from the old one.')
             ->addOption('export', null, InputOption::VALUE_NONE, 'Export from old DB to json files')
             ->addOption('import', null, InputOption::VALUE_NONE, 'Import from json files to new DB')
             ->addOption('clean', null, InputOption::VALUE_NONE, 'Clean the existing data')
-            ->setHelp('Run novaezmailing:migrate:ezmailing --export|--import|--clean');
+            ->setHelp('Run ibexamailing:migrate:ibexamailing --export|--import|--clean');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);
-        $this->io->title('Update the Database with Custom Novactive EzMailing Tables');
+        $this->io->title('Update the Database with Custom IbexaMailing Tables');
 
         if ($input->getOption('export')) {
             $this->export();
@@ -95,7 +87,7 @@ class MigrateEzMailingCommand extends Command
         } elseif ($input->getOption('clean')) {
             $this->clean();
         } else {
-            $this->io->error('No export or import option found. Run novaezmailing:migrate:ezmailing --export|--import');
+            $this->io->error('No export or import option found. Run ibexamailing:migrate:ibexamailing --export|--import');
         }
 
         return Command::SUCCESS;
@@ -103,7 +95,7 @@ class MigrateEzMailingCommand extends Command
 
     private function export(): void
     {
-        // clean the 'ezmailing' dir
+        // clean the 'ibexamailing' dir
         $this->ioService->cleanDir(self::DUMP_FOLDER);
         $this->io->section('Cleaned the folder with json files.');
         $this->io->section('Exporting from old database to json files.');
@@ -117,7 +109,7 @@ class MigrateEzMailingCommand extends Command
 
         // Lists
 
-        $sql = 'SELECT id, name, lang FROM ezmailingmailinglist WHERE draft = 0';
+        $sql = 'SELECT id, name, lang FROM ibexamailingmailinglist WHERE draft = 0';
 
         $list_rows = $this->runQuery($sql);
         foreach ($list_rows as $list_row) {
@@ -132,7 +124,7 @@ class MigrateEzMailingCommand extends Command
 
         $sql = 'SELECT id, subject, sender_name, sender_email, report_email, destination_mailing_list ';
 
-        $sql .= 'FROM ezmailingcampaign WHERE draft = 0';
+        $sql .= 'FROM ibexamailingcampaign WHERE draft = 0';
 
         $campaign_rows = $this->runQuery($sql);
         foreach ($campaign_rows as $campaign_row) {
@@ -152,13 +144,13 @@ class MigrateEzMailingCommand extends Command
         }
 
         // Users
-        $sql = 'SELECT id, email, first_name, last_name, origin FROM ezmailinguser WHERE draft = 0 ';
+        $sql = 'SELECT id, email, first_name, last_name, origin FROM ibexamailinguser WHERE draft = 0 ';
 
-        $sql .= 'AND (id, email) in (select max(id), email from ezmailinguser group by email)';
+        $sql .= 'AND (id, email) in (select max(id), email from ibexamailinguser group by email)';
 
         $user_rows = $this->runQuery($sql);
         foreach ($user_rows as $user_row) {
-            $sql = 'SELECT mailinglist_id, state FROM ezmailingregistration WHERE mailing_user_id = ?';
+            $sql = 'SELECT mailinglist_id, state FROM ibexamailingregistration WHERE mailing_user_id = ?';
             $subscription_rows = $this->runQuery($sql, [$user_row['id']]);
             $subscriptions = [];
             foreach ($subscription_rows as $subscription_row) {
@@ -300,22 +292,22 @@ class MigrateEzMailingCommand extends Command
     private function clean(): void
     {
         // We don't run TRUNCATE command here because of foreign keys constraints
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_stats_hit');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_stats_hit AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_broadcast');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_broadcast AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_mailing');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_mailing AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_campaign_mailinglists_destination');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_campaign');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_campaign AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_confirmation_token');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_registrations');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_registrations AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_mailing_list');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_mailing_list AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM novaezmailing_user');
-        $this->entityManager->getConnection()->query('ALTER TABLE novaezmailing_user AUTO_INCREMENT = 1');
+        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_stats_hit');
+        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_stats_hit AUTO_INCREMENT = 1');
+        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_broadcast');
+        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_broadcast AUTO_INCREMENT = 1');
+        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_mailing');
+        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_mailing AUTO_INCREMENT = 1');
+        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_campaign_mailinglists_destination');
+        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_campaign');
+        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_campaign AUTO_INCREMENT = 1');
+        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_confirmation_token');
+        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_registrations');
+        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_registrations AUTO_INCREMENT = 1');
+        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_mailing_list');
+        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_mailing_list AUTO_INCREMENT = 1');
+        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_user');
+        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_user AUTO_INCREMENT = 1');
         $this->io->section('Current tables in the new database have been cleaned.');
     }
 

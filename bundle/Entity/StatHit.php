@@ -1,26 +1,18 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="novaezmailing_stats_hit")
+ * @ORM\Table(name="mailing_stats_hit")
  *
- * @ORM\Entity(repositoryClass="Novactive\Bundle\eZMailingBundle\Repository\StatHit")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\StatHit")
  */
 class StatHit
 {
@@ -65,7 +57,7 @@ class StatHit
 
     /**
      * @var Broadcast
-     * @ORM\ManyToOne(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\Broadcast", inversedBy="statHits")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast", inversedBy="statHits")
      * @ORM\JoinColumn(name="BDCST_id", referencedColumnName="BDCST_id")
      */
     private $broadcast;

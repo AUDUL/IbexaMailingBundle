@@ -117,7 +117,7 @@ common.registration_approbation_button.deny: Rejeter
 layout.header.search: Rechercher
 layout.pagelayout.campaigns: Campagnes
 layout.pagelayout.administration: Administration
-layout.footer.novactive: Novactive eZ Mailing | Fait avec <3 et conçu par Novactive en Californie.
+layout.footer.ibexamailing: Ibexa Mailing | Fait avec <3 et conçu par Code-Rhapsodie.
 mailing.details.name: Nom
 mailing.details.status: Statut
 mailing.details.subject: Sujet
@@ -229,15 +229,15 @@ messages.stop_sending.sent2: a été effectué
 messages.stop_sending.sent3: Un nouveau mail a été envoyé
 messages.stop_sending.follow_broadcast1: Vous pouvez désormais suivre les
 messages.stop_sending.follow_broadcast2: informations de diffusion ici
-novaezmailingfull.generic.hello: Bonjour
-novaezmailingfull.generic.generic_view1: Vous utilisez la vue générique 'novaezmailingfull'.
-novaezmailingfull.generic.nova_test_tracking_link: Tester le lien de suivi - Novactive
-novaezmailingfull.generic.ez_test_tracking_link: Tester le lien de suivi - eZ No
-novaezmailingfull.generic.mailing: Envoi
-novaezmailingfull.generic.associated_content: Contenu associé
-novaezmailingfull.generic.campaign: Campagne
-novaezmailingfull.generic.define_a_view: Veuillez définir une "vue" qui fonctionne dans votre projet
-novaezmailingfull.generic.define_a_view2: "Par exemple pour un dossier: "
+ibexamailingfull.generic.hello: Bonjour
+ibexamailingfull.generic.generic_view1: Vous utilisez la vue générique 'ibexamailingfull'.
+ibexamailingfull.generic.test_tracking_link: Tester le lien de suivi - Code-Rhapsodie
+ibexamailingfull.generic.ez_test_tracking_link: Tester le lien de suivi - eZ No
+ibexamailingfull.generic.mailing: Envoi
+ibexamailingfull.generic.associated_content: Contenu associé
+ibexamailingfull.generic.campaign: Campagne
+ibexamailingfull.generic.define_a_view: Veuillez définir une "vue" qui fonctionne dans votre projet
+ibexamailingfull.generic.define_a_view2: "Par exemple pour un dossier: "
 menu.savecancel.save: Sauvegarder
 menu.savecancel.cancel: Annuler
 menu.admin_menu.users: Utilisateurs

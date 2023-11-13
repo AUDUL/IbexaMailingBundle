@@ -1,18 +1,10 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,9 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 use RuntimeException;
 
 /**
- * @ORM\Table(name="novaezmailing_mailing_list")
+ * @ORM\Table(name="mailing_mailing_list")
  *
- * @ORM\Entity(repositoryClass="Novactive\Bundle\eZMailingBundle\Repository\MailingList")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\MailingList")
  */
 class MailingList
 {
@@ -41,7 +33,7 @@ class MailingList
     /**
      * @var Registration[]
      * @ORM\OrderBy({"created" = "ASC"})
-     * @ORM\OneToMany(targetEntity="\Novactive\Bundle\eZMailingBundle\Entity\Registration", mappedBy="mailingList",
+     * @ORM\OneToMany(targetEntity="\CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration", mappedBy="mailingList",
      *                                                                                      cascade={"persist","remove"},
      *                                                                                      orphanRemoval=true,
      *                                                                                      fetch="EXTRA_LAZY"
@@ -63,7 +55,7 @@ class MailingList
 
     /**
      * @var Campaign[]
-     * @ORM\ManyToMany(targetEntity="\Novactive\Bundle\eZMailingBundle\Entity\Campaign", mappedBy="mailingLists",
+     * @ORM\ManyToMany(targetEntity="\CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign", mappedBy="mailingLists",
      *                                                                                  cascade={"persist"},
      *                                                                                  orphanRemoval=true,
      *                                                                                  fetch="EXTRA_LAZY")

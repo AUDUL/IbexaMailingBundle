@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+    ###> doctrine/doctrine-bundle ###
+    database:
+        image: mariadb:10.11
+        environment:
+            MARIADB_DATABASE: ${MARIADB_DB:-app}
+            # You should definitely change the password in production
+            MARIADB_ROOT_PASSWORD: ${MARIADB_PASSWORD:-!ChangeMe!}
+            MARIADB_PASSWORD: ${MARIADB_PASSWORD:-!ChangeMe!}
+            MARIADB_USER: ${MARIADB_USER:-app}
+        ports:
+            - "3306:3306"

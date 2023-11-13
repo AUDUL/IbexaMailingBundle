@@ -9,13 +9,13 @@ if (fs.existsSync(subItemsModule)) {
 module.exports = (Encore) => {
     Encore
         .autoProvidejQuery()
-        .addEntry('nova_ezmailing', [
-        path.resolve(__dirname, '../public/admin/css/ezmailing.scss'),
+        .addEntry('ibexamailing', [
+            path.resolve(__dirname, '../public/admin/css/ibexamailing.scss'),
         path.resolve(__dirname, '../public/admin/css/tree.scss'),
         path.resolve(__dirname, '../public/admin/js/jquery.autocomplete.min.js'),
         path.resolve(__dirname, '../public/admin/js/jquery.peity.min.js'),
         path.resolve(__dirname, '../public/admin/js/Chart.min.js'),
-        path.resolve(__dirname, '../public/admin/js/ezmailing.js'),
+            path.resolve(__dirname, '../public/admin/js/ibexamailing.js'),
         subItemsModule
     ]);
 };

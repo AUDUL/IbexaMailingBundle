@@ -1,32 +1,24 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
 
 use Carbon\Carbon;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\Utils\Clock;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Validator\Constraints as IbexaMailing;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Novactive\Bundle\eZMailingBundle\Core\Utils\Clock;
-use Novactive\Bundle\eZMailingBundle\Validator\Constraints as NovaEzMailingAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="novaezmailing_mailing")
+ * @ORM\Table(name="mailing_mailing")
  *
- * @ORM\Entity(repositoryClass="Novactive\Bundle\eZMailingBundle\Repository\Mailing")
- * @ORM\EntityListeners({"Novactive\Bundle\eZMailingBundle\Listener\EntityContentLink"})
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\Mailing")
+ * @ORM\EntityListeners({"CodeRhapsodie\Bundle\IbexaMailingBundle\Listener\EntityContentLink"})
  */
 class Mailing implements eZ\ContentInterface
 {
@@ -105,63 +97,63 @@ class Mailing implements eZ\ContentInterface
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=0,max=24)
+     * @IbexaMailing\ArrayRange(min=0,max=24)
      * @ORM\Column(name="MAIL_hours_of_day", type="array", nullable=false)
      */
     private $hoursOfDay;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=7)
+     * @IbexaMailing\ArrayRange(min=1,max=7)
      * @ORM\Column(name="MAIL_days_of_week", type="array", nullable=true)
      */
     private $daysOfWeek;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=31)
+     * @IbexaMailing\ArrayRange(min=1,max=31)
      * @ORM\Column(name="MAIL_days_of_month", type="array", nullable=true)
      */
     private $daysOfMonth;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=365)
+     * @IbexaMailing\ArrayRange(min=1,max=365)
      * @ORM\Column(name="MAIL_days_of_year", type="array", nullable=true)
      */
     private $daysOfYear;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=5)
+     * @IbexaMailing\ArrayRange(min=1,max=5)
      * @ORM\Column(name="MAIL_weeks_of_month", type="array", nullable=true)
      */
     private $weeksOfMonth;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=12)
+     * @IbexaMailing\ArrayRange(min=1,max=12)
      * @ORM\Column(name="MAIL_months_of_year", type="array", nullable=true)
      */
     private $monthsOfYear;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=53)
+     * @IbexaMailing\ArrayRange(min=1,max=53)
      * @ORM\Column(name="MAIL_weeks_of_year", type="array", nullable=true)
      */
     private $weeksOfYear;
 
     /**
      * @var Campaign
-     * @ORM\ManyToOne(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\Campaign", inversedBy="mailings")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Campaign", inversedBy="mailings")
      * @ORM\JoinColumn(name="CAMP_id", referencedColumnName="CAMP_id")
      */
     private $campaign;
 
     /**
      * @var Broadcast[]
-     * @ORM\OneToMany(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\Broadcast", mappedBy="mailing",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Broadcast", mappedBy="mailing",
      *                                                                                  cascade={"persist","remove"},
      *                                                                                  fetch="EXTRA_LAZY")
      */

@@ -1,5 +1,5 @@
-{% trans_default_domain "ezmailing" %}
-{% extends "@NovaeZMailing/eZViews/mailing_base.html.twig" %}
+{% trans_default_domain "ibexamailing" %}
+{% extends "@IbexaMailing/eZViews/mailing_base.html.twig" %}
 
 {% block unregistrer %}{% endblock %}
 
@@ -15,5 +15,7 @@
         {% endfor %}
     </ul>
 
-    <p><a href="{{ url('novaezmailing_registration_confirm', {id:token.id}) }}">{{ "messages.confirm_registration.confirm_process2"|trans }}</a></p>
+    <p>
+        <a href="{{ url('ibexamailing_registration_confirm', {id:token.id}) }}">{{ "messages.confirm_registration.confirm_process2"|trans }}</a>
+    </p>
 {% endblock %}

@@ -1,18 +1,8 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <j.canat@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Form;
 
-namespace Novactive\Bundle\eZMailingBundle\Form;
-
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\UserImport;
+use CodeRhapsodie\Bundle\IbexaMailingBundle\Core\DataHandler\UserImport;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,7 +23,7 @@ class ImportType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => UserImport::class,
-                'translation_domain' => 'ezmailing',
+                'translation_domain' => 'ibexamailing',
             ]
         );
     }

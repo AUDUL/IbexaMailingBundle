@@ -1,7 +1,7 @@
 {% set withRegistrations = withRegistrations is defined ? withRegistrations : true %}
 {% set withStatus = withStatus is defined ? withStatus : true %}
-{% import "@NovaeZMailing/admin/common/registration_approbation_button.html.twig" as ApprobationButton %}
-{% trans_default_domain 'ezmailing' %}
+{% import "@IbexaMailing/admin/common/registration_approbation_button.html.twig" as ApprobationButton %}
+{% trans_default_domain 'ibexamailing' %}
 
 <div class="tab-content ibexa-tab-content">
     <table class="table ibexa-table c-table-view">
@@ -31,10 +31,10 @@
             <tr class="ibexa-table__row c-table-view-item">
                 <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.id }}</td>
                 <td class="ibexa-table__cell c-table-view-item__cell"><a
-                            href="{{ path('novaezmailing_user_show', {user:item.id}) }}" data-toggle="popover"
+                            href="{{ path('ibexamailing_user_show', {user:item.id}) }}" data-toggle="popover"
                             title="{{ item.gender }} {{ item.firstname }} {{ item.lastName }}"
                             data-content="
-                        {% if item.birthDate is not empty %}<p><strong>{{ "generic.users.table.birthdate"|trans }}</strong>: {{ item.birthDate|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date)|default('') }}</p>{% endif %}
+                        {% if item.birthDate is not empty %}<p><strong>{{ "generic.users.table.birthdate"|trans }}</strong>: {{ item.birthDate|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date)|default('') }}</p>{% endif %}
                         {% if item.phone is not empty %}<p><strong>{{ "generic.users.table.phone"|trans }}</strong>: {{ item.phone }}</p>{% endif %}
                         {% if item.zipcode is not empty or item.city is not empty or item.city is not empty or item.state is not empty %}<p><strong>{{ "generic.users.table.location"|trans }}</strong>:{{ item.zipcode }} {{ item.city }} {{ item.state }}</p>{% endif %}
                         {% if item.jobTitle is not empty or item.company is not empty %}<p><strong>{{ "generic.users.table.job"|trans }}</strong>: {{ item.jobTitle }} {{ item.company }}</p>{% endif %}
@@ -55,13 +55,13 @@
                             {% if currentMailingList is defined and currentMailingList.withApproval %}
                                 <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ ApprobationButton.show(registration) }}</td>
                             {% endif %}
-                            <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ registration.updated|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
-                            <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ registration.created|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
+                            <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ registration.updated|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
+                            <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ registration.created|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
                         {% endif %}
                     {% endfor %}
                 {% elseif not withRegistrations %}
-                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.updated|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
-                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.created|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
+                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.updated|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
+                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.created|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
                 {% endif %}
                 {% if withRegistrations %}
                     <td class="ibexa-table__cell c-table-view-item__cell">
@@ -82,18 +82,18 @@
                                 {% for registration in item.registrations %}
                                     <tr class="ibexa-table__row c-table-view-item">
                                         <td class="ibexa-table__cell c-table-view-item__cell">
-                                            <a href="{{ path('novaezmailing_mailinglist_show',{mailingList:registration.mailinglist.id}) }}">
-                                                <img src="{{ asset("/bundles/novaezmailing/admin/images/16x16/mailinglist.png") }}"
-                                                     class="nova-icon"/>
+                                            <a href="{{ path('ibexamailing_mailinglist_show',{mailingList:registration.mailinglist.id}) }}">
+                                                <img src="{{ asset("/bundles/ibexamailing/admin/images/16x16/mailinglist.png") }}"
+                                                     class="mailing-icon"/>
                                                 {{ registration.mailinglist.name }}
                                             </a>
                                         </td>
                                         <td align="center"
                                             class="ibexa-table__cell c-table-view-item__cell">{{ ApprobationButton.show(registration) }}</td>
                                         <td align="center"
-                                            class="ibexa-table__cell c-table-view-item__cell">{{ registration.updated|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
+                                            class="ibexa-table__cell c-table-view-item__cell">{{ registration.updated|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
                                         <td align="center"
-                                            class="ibexa-table__cell c-table-view-item__cell">{{ registration.created|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
+                                            class="ibexa-table__cell c-table-view-item__cell">{{ registration.created|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

@@ -116,7 +116,7 @@ common.registration_approbation_button.deny: Deny
 layout.header.search: Search
 layout.pagelayout.campaigns: Campaigns
 layout.pagelayout.administration: Administration
-layout.footer.novactive: Novactive eZ Mailing | Made with <3 and designed by Novactive in California.
+layout.footer.ibexamailing: Ibexa Mailing | Made with <3 and designed by Code-Rhapsodie.
 mailing.details.name: Name
 mailing.details.status: Status
 mailing.details.subject: Subject
@@ -228,15 +228,15 @@ messages.stop_sending.sent2: has been sent
 messages.stop_sending.sent3: A new Mailing has been sent
 messages.stop_sending.follow_broadcast1: You can now follow the
 messages.stop_sending.follow_broadcast2: broadcast information here
-novaezmailingfull.generic.hello: Hello
-novaezmailingfull.generic.generic_view1: You are using the generic 'novaezmailingfull' view.
-novaezmailingfull.generic.nova_test_tracking_link: Test Tracking Link - Novactive
-novaezmailingfull.generic.ez_test_tracking_link: Test Tracking Link - eZ No
-novaezmailingfull.generic.mailing: Mailing
-novaezmailingfull.generic.associated_content: Associated content
-novaezmailingfull.generic.campaign: Campaign
-novaezmailingfull.generic.define_a_view1: Please define a "view" that works in your project
-novaezmailingfull.generic.define_a_view2: "Example for a folder: "
+ibexamailingfull.generic.hello: Hello
+ibexamailingfull.generic.generic_view1: You are using the generic 'ibexamailingfull' view.
+ibexamailingfull.generic.test_tracking_link: Test Tracking Link - Code-Rhapsodie
+ibexamailingfull.generic.ez_test_tracking_link: Test Tracking Link - eZ No
+ibexamailingfull.generic.mailing: Mailing
+ibexamailingfull.generic.associated_content: Associated content
+ibexamailingfull.generic.campaign: Campaign
+ibexamailingfull.generic.define_a_view1: Please define a "view" that works in your project
+ibexamailingfull.generic.define_a_view2: "Example for a folder: "
 menu.savecancel.save: Save
 menu.savecancel.cancel: Cancel
 menu.admin_menu.users: Users

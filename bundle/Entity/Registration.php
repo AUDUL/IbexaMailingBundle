@@ -1,30 +1,22 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
+
 
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="novaezmailing_registrations",
+ * @ORM\Table(name="mailing_registrations",
  *            uniqueConstraints={ @ORM\UniqueConstraint(name="unique_registration",columns={"ML_id","USER_id"})},
  *            indexes={
  *                @ORM\Index(name="search_idx_approved", columns={"REG_approved"})
  *            }
  * )
- * @ORM\Entity(repositoryClass="Novactive\Bundle\eZMailingBundle\Repository\Registration")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\Registration")
  */
 class Registration
 {
@@ -40,14 +32,14 @@ class Registration
 
     /**
      * @var MailingList
-     * @ORM\ManyToOne(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\MailingList", inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\MailingList", inversedBy="registrations")
      * @ORM\JoinColumn(name="ML_id", referencedColumnName="ML_id", nullable=false)
      */
     private $mailingList;
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\User", inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\User", inversedBy="registrations")
      * @ORM\JoinColumn(name="USER_id", referencedColumnName="USER_id", nullable=false)
      */
     private $user;

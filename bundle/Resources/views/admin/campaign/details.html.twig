@@ -1,4 +1,4 @@
-{% trans_default_domain 'ezmailing' %}
+{% trans_default_domain 'ibexamailing' %}
 <table class="table table-striped table-hover table-sm">
     <tr>
         <th>{{"campaign.details.name"|trans}}</th>
@@ -31,10 +31,11 @@
         <td>
             <div class="list-group">
                 {% for mailingList in item.mailingLists %}
-                    <a href="{{ path('novaezmailing_mailinglist_show',{mailingList:mailingList.id}) }}"
+                    <a href="{{ path('ibexamailing_mailinglist_show',{mailingList:mailingList.id}) }}"
                        class="list-group-item list-group-item-action"
                     >
-                        <img src="{{ asset("/bundles/novaezmailing/admin/images/16x16/mailinglist.png") }}" class="nova-icon" /> {{ mailingList.name }}
+                        <img src="{{ asset("/bundles/ibexamailing/admin/images/16x16/mailinglist.png") }}"
+                             class="mailing-icon"/> {{ mailingList.name }}
                     </a>
                 {% endfor %}
             </div>

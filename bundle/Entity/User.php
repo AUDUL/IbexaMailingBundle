@@ -1,18 +1,8 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity;
+namespace CodeRhapsodie\Bundle\IbexaMailingBundle\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,14 +12,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="novaezmailing_user",
+ * @ORM\Table(name="mailing_user",
  *            uniqueConstraints={ @ORM\UniqueConstraint(name="unique_email",columns={"USER_email"})},
  *            indexes={
  *                @ORM\Index(name="search_idx_restricted", columns={"USER_restricted"}),
  *                @ORM\Index(name="search_idx_status", columns={"USER_status"})
  *            }
  * )
- * @ORM\Entity(repositoryClass="Novactive\Bundle\eZMailingBundle\Repository\User")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\Bundle\IbexaMailingBundle\Repository\User")
  * @UniqueEntity(
  *     fields={"email"},
  *     errorPath="email",
@@ -210,7 +200,7 @@ class User
     /**
      * @var Registration[]
      * @ORM\OrderBy({"created" = "ASC"})
-     * @ORM\OneToMany(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\Registration", mappedBy="user",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\Bundle\IbexaMailingBundle\Entity\Registration", mappedBy="user",
      *                                                                                     cascade={"persist","remove"},
      *                                                                                     orphanRemoval=true
      * )
@@ -219,7 +209,7 @@ class User
 
     public function getId(): int
     {
-        return (int) $this->id;
+        return (int)$this->id;
     }
 
     public function setId(int $id): self
