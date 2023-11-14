@@ -11,7 +11,6 @@ use CodeRhapsodie\IbexaMailingBundle\Entity\Registration;
 use CodeRhapsodie\IbexaMailingBundle\Entity\StatHit;
 use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -32,14 +31,14 @@ class InstallCommand extends Command
         $schemaTool = new SchemaTool($this->entityManager);
 
         $sqls = $schemaTool->getCreateSchemaSql([
-            new ClassMetadata(Broadcast::class),
-            new ClassMetadata(Campaign::class),
-            new ClassMetadata(ConfirmationToken::class),
-            new ClassMetadata(Mailing::class),
-            new ClassMetadata(MailingList::class),
-            new ClassMetadata(Registration::class),
-            new ClassMetadata(StatHit::class),
-            new ClassMetadata(User::class),
+            $this->entityManager->getClassMetadata(Broadcast::class),
+            $this->entityManager->getClassMetadata(Campaign::class),
+            $this->entityManager->getClassMetadata(ConfirmationToken::class),
+            $this->entityManager->getClassMetadata(Mailing::class),
+            $this->entityManager->getClassMetadata(MailingList::class),
+            $this->entityManager->getClassMetadata(Registration::class),
+            $this->entityManager->getClassMetadata(StatHit::class),
+            $this->entityManager->getClassMetadata(User::class),
         ]);
 
         foreach ($sqls as $sql) {
