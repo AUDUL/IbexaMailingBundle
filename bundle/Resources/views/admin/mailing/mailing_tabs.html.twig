@@ -88,58 +88,37 @@
             </div>
         {% endif %}
     </div>
-    <div class="ibexamailing-button-actions float-right">
+    <div class="ibexamailing-button-actions float-right ">
         <a target="_blank"
            href="{{ url('_ibexamailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}"
-           class="btn btn-sm btn-info">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>
-            </svg>
+           class="btn btn-sm btn-info ibexa-btn ibexa-btn--secondary">
             <span>{{ "mailing.mailing_tabs.views"|trans }}</span>
         </a>
         <a {% if workflow_can(item,'edit') %} href="{{ path("ibexamailing_mailing_edit", {mailing: item.id}) }}" {% else %} disabled {% endif %}
-                class="btn btn-sm btn-secondary">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#edit"></use>
-            </svg>
+                class="btn btn-sm ibexa-btn ibexa-btn--secondary">
             <span>{{ "mailing.mailing_tabs.edit"|trans }}</span>
         </a>
         <a {% if workflow_can(item,'archive') %} href="{{ path("ibexamailing_mailing_archive", {mailing: item.id}) }}" {% else %} disabled {% endif %}
-                class="btn btn-sm btn-warning">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#move"></use>
-            </svg>
+                class="btn btn-sm ibexa-btn ibexa-btn--secondary">
             <span>{{ "mailing.mailing_tabs.archive"|trans }}</span>
         </a>
         <a {% if workflow_can(item,'cancel') %} href="{{ path("ibexamailing_mailing_cancel", {mailing: item.id}) }}" {% else %} disabled {% endif %}
-                class="btn btn-sm btn-danger">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#trash"></use>
-            </svg>
+                class="btn btn-sm ibexa-btn ibexa-btn--secondary">
             <span>{{ "mailing.mailing_tabs.abort"|trans }}</span>
         </a>
     </div>
     <div class="ibexamailing-button-actions float-left">
-        <button type="button" {% if not workflow_can(item,'test') %} disabled {% endif %} class="btn btn-sm btn-dark"
+        <button type="button" {% if not workflow_can(item,'test') %} disabled {% endif %} class="btn btn-sm ibexa-btn ibexa-btn--secondary"
                 data-bs-toggle="modal" data-bs-target="#ibexamailingmailingtestmodal">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#checkmark"></use>
-            </svg>
             <span>{{ "mailing.mailing_tabs.test"|trans }}</span>
         </button>
         <button type="button" {% if not workflow_can(item,'confirm') %} disabled {% endif %}
-                class="btn btn-sm btn-success" data-bs-toggle="modal"
+                class="btn btn-sm ibexa-btn ibexa-btn--secondary" data-bs-toggle="modal"
                 data-bs-target="#ibexamailingmailingconfirmmodal">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#publish"></use>
-            </svg>
             <span>{{ "mailing.mailing_tabs.confirm"|trans }}</span>
         </button>
-        <button type="button" class="btn btn-sm btn-primary js-ibexamailing-create-content"
+        <button type="button" class="btn btn-sm ibexa-btn ibexa-btn--secondary js-ibexamailing-create-content"
                 data-parent-location-id="{{ item.location.id }}">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
-            </svg>
             <span>{{ "mailing.mailing_tabs.create_content"|trans }}</span>
         </button>
     </div>
