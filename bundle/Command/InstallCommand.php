@@ -16,6 +16,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand('ibexamailing:install')]
 class InstallCommand extends Command
@@ -28,7 +29,10 @@ class InstallCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
         $schemaTool = new SchemaTool($this->entityManager);
+
+        $ignore = $schemaTool->getCreateSchemaSql([]);
 
         $sqls = $schemaTool->getCreateSchemaSql([
             $this->entityManager->getClassMetadata(Broadcast::class),
@@ -41,9 +45,14 @@ class InstallCommand extends Command
             $this->entityManager->getClassMetadata(User::class),
         ]);
 
+        $sqls = array_diff($sqls, $ignore);
+
         foreach ($sqls as $sql) {
             $this->entityManager->getConnection()->executeQuery($sql);
         }
+
+        $io->info('Tables created');
+
         return parent::SUCCESS;
     }
 }
