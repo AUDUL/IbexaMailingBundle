@@ -52,13 +52,6 @@ services:
     CodeRhapsodie\IbexaMailingBundle\Menu\Builder:
         arguments: ["@knp_menu.factory"]
 
-    ibexamailing.menu.main:
-        class: Knp\Menu\MenuItem
-        factory: [ '@CodeRhapsodie\IbexaMailingBundle\Menu\Builder','createAdminMenu' ]
-        arguments: ["@request_stack"]
-        tags:
-            - { name: knp_menu.menu, alias: ibexamailing.menu.admin }
-
     ibexamailing.menu.campaigns:
         class: Knp\Menu\MenuItem
         factory: [ '@CodeRhapsodie\IbexaMailingBundle\Menu\Builder','createCampaignMenu' ]

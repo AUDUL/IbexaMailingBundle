@@ -41,40 +41,6 @@ class Builder
         $this->translator = $translator;
     }
 
-    public function createAdminMenu(RequestStack $requestStack): ItemInterface
-    {
-        $request = $requestStack->getMainRequest();
-        $route = $request?->attributes->get('_route');
-        $mailingRoute = 'ibexamailing_mailinglist';
-        $userRoute = 'ibexamailing_user';
-
-        $menu = $this->factory->createItem('root');
-        $child = $menu->addChild(
-            'mailinglists',
-            [
-                'route' => "{$mailingRoute}_index",
-                'label' => $this->translator->trans('menu.admin_menu.mailing_lists', [], 'ibexamailing'),
-            ]
-        );
-
-        if (substr($route, 0, \strlen($mailingRoute)) === $mailingRoute) {
-            $child->setCurrent(true);
-        }
-
-        $child = $menu->addChild(
-            'users',
-            [
-                'route' => "{$userRoute}_index",
-                'label' => $this->translator->trans('menu.admin_menu.users', [], 'ibexamailing'),
-            ]
-        );
-        if (substr($route, 0, \strlen($userRoute)) === $userRoute) {
-            $child->setCurrent(true);
-        }
-
-        return $menu;
-    }
-
     public function createCampaignMenu(RequestStack $requestStack, EntityManagerInterface $entityManager): ItemInterface
     {
         $menu = $this->factory->createItem('root');
