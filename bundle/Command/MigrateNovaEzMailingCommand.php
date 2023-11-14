@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand('ibexamailing:migrate:novaezmailing')]
+#[AsCommand(name: 'ibexamailing:migrate:novaezmailing', description: 'Migrate data from old structure')]
 class MigrateNovaEzMailingCommand extends Command
 {
     private const TABLES = [

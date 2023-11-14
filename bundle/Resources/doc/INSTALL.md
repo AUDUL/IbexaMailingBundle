@@ -80,20 +80,10 @@ ibexamailing:
             mailing_mailer: "main"
 ```
 
-Add DoctrineMigration Folder in `doctrine_migrations.yaml`
-
-```yaml
-doctrine_migrations:
-    migrations_paths:
-        ...
-        'IbexaMailingBundle': '%kernel.project_dir%/vendor/code-rhapsodie/ibexamailingbundle/migrations'
-```
-
 ### Add the tables
 
 ```bash
-bin/console doctrine:migration:migrate IbexaMailingBundle\Version20231113102632
-bin/console doctrine:migration:migrate IbexaMailingBundle\Version20231113113924
+bin/console ibexamailing:install
 ```
 
 ### Specify the Default Mailing List Id

@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand('ibexamailing:install')]
+#[AsCommand(name: 'ibexamailing:install', description: 'Add IbexaMailing tables to database')]
 class InstallCommand extends Command
 {
 

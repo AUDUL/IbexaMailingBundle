@@ -21,6 +21,11 @@ class TopMenu implements EventSubscriberInterface
             [
                 'route' => 'ibexamailing_dashboard_index',
                 'label' => 'Ibexa Mailing',
+                'extras' => [
+                    'routes' => [
+                        'ibexamailing' => '_ibexamailing_bundle',
+                    ],
+                ],
             ]
         );
     }
