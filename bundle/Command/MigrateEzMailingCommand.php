@@ -1,7 +1,6 @@
 <?php
 
 
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Command;
@@ -11,6 +10,7 @@ use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
 use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Registration;
 use CodeRhapsodie\IbexaMailingBundle\Entity\User;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -23,45 +23,27 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MigrateEzMailingCommand extends Command
 {
     /**
-     * @var IOService
-     */
-    private $ioService;
-
-    /**
      * @var SymfonyStyle
      */
     private $io;
 
     /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var Repository;
-     */
-    private $ezRepository;
-
-    /**
      * @var ConfigResolverInterface
      */
-    private $configResolver;
-
     public const DEFAULT_FALLBACK_LOCATION_ID = 2;
 
     public const DUMP_FOLDER = 'migrate/ibexamailing';
 
+    private readonly Connection $connection;
+
     public function __construct(
-        IOService $ioService,
-        EntityManagerInterface $entityManager,
-        Repository $ezRepository,
-        ConfigResolverInterface $configResolver
-    ) {
+        private readonly IOService              $ioService,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly Repository             $ezRepository,
+    )
+    {
         parent::__construct();
-        $this->ioService = $ioService;
-        $this->entityManager = $entityManager;
-        $this->ezRepository = $ezRepository;
-        $this->configResolver = $configResolver;
+        $this->connection = $this->entityManager->getConnection();
     }
 
     protected function configure(): void
@@ -109,12 +91,12 @@ class MigrateEzMailingCommand extends Command
 
         // Lists
 
-        $sql = 'SELECT id, name, lang FROM ibexamailingmailinglist WHERE draft = 0';
+        $sql = 'SELECT id, name, lang FROM ezmailingmailinglist WHERE draft = 0';
 
         $list_rows = $this->runQuery($sql);
         foreach ($list_rows as $list_row) {
             $fileName = $this->ioService->saveFile(
-                self::DUMP_FOLDER."/list/list_{$list_row['id']}.json",
+                self::DUMP_FOLDER . "/list/list_{$list_row['id']}.json",
                 json_encode([$list_row['lang'] => $list_row['name']]) // Approve should be false when importing
             );
             $lists[] = pathinfo($fileName)['filename'];
@@ -124,12 +106,12 @@ class MigrateEzMailingCommand extends Command
 
         $sql = 'SELECT id, subject, sender_name, sender_email, report_email, destination_mailing_list ';
 
-        $sql .= 'FROM ibexamailingcampaign WHERE draft = 0';
+        $sql .= 'FROM ezmailingcampaign WHERE draft = 0';
 
         $campaign_rows = $this->runQuery($sql);
         foreach ($campaign_rows as $campaign_row) {
             $fileName = $this->ioService->saveFile(
-                self::DUMP_FOLDER."/campaign/campaign_{$campaign_row['id']}.json",
+                self::DUMP_FOLDER . "/campaign/campaign_{$campaign_row['id']}.json",
                 json_encode(
                     [
                         'name' => [$defaultLanguageCode => $campaign_row['subject']],
@@ -144,13 +126,13 @@ class MigrateEzMailingCommand extends Command
         }
 
         // Users
-        $sql = 'SELECT id, email, first_name, last_name, origin FROM ibexamailinguser WHERE draft = 0 ';
+        $sql = 'SELECT id, email, first_name, last_name, origin FROM ezmailinguser WHERE draft = 0 ';
 
-        $sql .= 'AND (id, email) in (select max(id), email from ibexamailinguser group by email)';
+        $sql .= 'AND (id, email) in (select max(id), email from ezmailinguser group by email)';
 
         $user_rows = $this->runQuery($sql);
         foreach ($user_rows as $user_row) {
-            $sql = 'SELECT mailinglist_id, state FROM ibexamailingregistration WHERE mailing_user_id = ?';
+            $sql = 'SELECT mailinglist_id, state FROM ezmailingregistration WHERE mailing_user_id = ?';
             $subscription_rows = $this->runQuery($sql, [$user_row['id']]);
             $subscriptions = [];
             foreach ($subscription_rows as $subscription_row) {
@@ -162,7 +144,7 @@ class MigrateEzMailingCommand extends Command
             }
 
             $fileName = $this->ioService->saveFile(
-                self::DUMP_FOLDER."/user/user_{$user_row['id']}.json",
+                self::DUMP_FOLDER . "/user/user_{$user_row['id']}.json",
                 json_encode(
                     [
                         'email' => $user_row['email'],
@@ -177,12 +159,12 @@ class MigrateEzMailingCommand extends Command
         }
 
         $this->ioService->saveFile(
-            self::DUMP_FOLDER.'/manifest.json',
+            self::DUMP_FOLDER . '/manifest.json',
             json_encode(['lists' => $lists, 'campaigns' => $campaigns, 'users' => $users])
         );
         $this->io->section(
-            'Total: '.count($lists).' lists, '.count($campaigns).' campaigns, '.$mailingCounter.' mailings, '.
-            count($users).' users, '.$registrationCounter.' registrations.'
+            'Total: ' . count($lists) . ' lists, ' . count($campaigns) . ' campaigns, ' . $mailingCounter . ' mailings, ' .
+            count($users) . ' users, ' . $registrationCounter . ' registrations.'
         );
         $this->io->success('Export done.');
     }
@@ -193,7 +175,7 @@ class MigrateEzMailingCommand extends Command
         $this->clean();
         $this->io->section('Importing from json files to new database.');
 
-        $manifest = $this->ioService->readFile(self::DUMP_FOLDER.'/manifest.json');
+        $manifest = $this->ioService->readFile(self::DUMP_FOLDER . '/manifest.json');
         $fileNames = json_decode($manifest);
 
         // Lists
@@ -205,9 +187,9 @@ class MigrateEzMailingCommand extends Command
         $userRepository = $this->entityManager->getRepository(User::class);
 
         foreach ($fileNames->lists as $listFile) {
-            $listData = json_decode($this->ioService->readFile(self::DUMP_FOLDER.'/list/'.$listFile.'.json'));
+            $listData = json_decode($this->ioService->readFile(self::DUMP_FOLDER . '/list/' . $listFile . '.json'));
             $mailingList = new MailingList();
-            $mailingList->setNames((array) $listData);
+            $mailingList->setNames((array)$listData);
             $mailingList->setWithApproval(false);
             $this->entityManager->persist($mailingList);
             ++$listCounter;
@@ -218,10 +200,10 @@ class MigrateEzMailingCommand extends Command
         // Campaigns
         foreach ($fileNames->campaigns as $campaignFile) {
             $campaignData = json_decode(
-                $this->ioService->readFile(self::DUMP_FOLDER.'/campaign/'.$campaignFile.'.json')
+                $this->ioService->readFile(self::DUMP_FOLDER . '/campaign/' . $campaignFile . '.json')
             );
             $campaign = new Campaign();
-            $campaign->setNames((array) $campaignData->name);
+            $campaign->setNames((array)$campaignData->name);
             $campaign->setReportEmail($campaignData->reportEmail);
             $campaign->setSenderEmail($campaignData->senderEmail);
             $campaign->setReturnPathEmail('');
@@ -248,7 +230,7 @@ class MigrateEzMailingCommand extends Command
 
         // Users & Subscriptions
         foreach ($fileNames->users as $userFile) {
-            $userData = json_decode($this->ioService->readFile(self::DUMP_FOLDER.'/user/'.$userFile.'.json'));
+            $userData = json_decode($this->ioService->readFile(self::DUMP_FOLDER . '/user/' . $userFile . '.json'));
 
             // check if email already exists
             $existingUser = $userRepository->findOneBy(['email' => $userData->email]);
@@ -283,8 +265,8 @@ class MigrateEzMailingCommand extends Command
         $this->entityManager->flush();
 
         $this->io->section(
-            'Total: '.$listCounter.' lists, '.$campaignCounter.' campaigns, '.$mailingCounter.' mailings, '.
-            $userCounter.' users, '.$registrationCounter.' registrations.'
+            'Total: ' . $listCounter . ' lists, ' . $campaignCounter . ' campaigns, ' . $mailingCounter . ' mailings, ' .
+            $userCounter . ' users, ' . $registrationCounter . ' registrations.'
         );
         $this->io->success('Import done.');
     }
@@ -292,33 +274,33 @@ class MigrateEzMailingCommand extends Command
     private function clean(): void
     {
         // We don't run TRUNCATE command here because of foreign keys constraints
-        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_stats_hit');
-        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_stats_hit AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_broadcast');
-        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_broadcast AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_mailing');
-        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_mailing AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_campaign_mailinglists_destination');
-        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_campaign');
-        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_campaign AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_confirmation_token');
-        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_registrations');
-        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_registrations AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_mailing_list');
-        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_mailing_list AUTO_INCREMENT = 1');
-        $this->entityManager->getConnection()->query('DELETE FROM ibexamailing_user');
-        $this->entityManager->getConnection()->query('ALTER TABLE ibexamailing_user AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_stats_hit');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_stats_hit AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_broadcast');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_broadcast AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_mailing');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_mailing AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_campaign_mailinglists_destination');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_campaign');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_campaign AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_confirmation_token');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_registrations');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_registrations AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_mailing_list');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_mailing_list AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_user');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_user AUTO_INCREMENT = 1');
         $this->io->section('Current tables in the new database have been cleaned.');
     }
 
-    private function runQuery(string $sql, array $parameters = [], $fetchMode = null): array
+    private function runQuery(string $sql, array $parameters = []): array
     {
-        $stmt = $this->entityManager->getConnection()->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
         for ($i = 1, $iMax = count($parameters); $i <= $iMax; ++$i) {
             $stmt->bindValue($i, $parameters[$i - 1]);
         }
-        $stmt->execute();
+        $result = $stmt->executeQuery();
 
-        return $stmt->fetchAll($fetchMode);
+        return $result->fetchAllAssociative();
     }
 }

@@ -52,7 +52,7 @@ class PreContentView
             return;
         }
 
-        $masterRequest = $this->requestStack->getMasterRequest();
+        $masterRequest = $this->requestStack->getMainRequest();
         if (null === $masterRequest) {
             return;
         }

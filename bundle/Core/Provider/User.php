@@ -8,7 +8,7 @@ namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
 
 use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
 use Doctrine\ORM\EntityManagerInterface;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 
 class User
@@ -26,7 +26,7 @@ class User
     public function getPagerFilters(array $filters = [], int $page = 1, int $limit = 25): Pagerfanta
     {
         $repo = $this->entityManager->getRepository(UserEntity::class);
-        $adapter = new DoctrineORMAdapter($repo->createQueryBuilderForFilters($filters));
+        $adapter = new QueryAdapter($repo->createQueryBuilderForFilters($filters));
         $pager = new Pagerfanta($adapter);
         $pager->setMaxPerPage($limit);
         $pager->setCurrentPage($page);

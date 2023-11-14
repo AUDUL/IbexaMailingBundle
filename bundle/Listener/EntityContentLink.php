@@ -7,9 +7,10 @@ declare(strict_types=1);
 namespace CodeRhapsodie\IbexaMailingBundle\Listener;
 
 use CodeRhapsodie\IbexaMailingBundle\Entity\eZ\ContentInterface;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PostLoadEventArgs;
 use Doctrine\ORM\Mapping\PostLoad;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
 
 /**
@@ -18,26 +19,19 @@ use Ibexa\Contracts\Core\Repository\Repository;
  */
 class EntityContentLink
 {
-    /**
-     * @var Repository
-     */
-    private $repository;
-
-    public function __construct(Repository $repository)
+    public function __construct(private readonly Repository $repository, private readonly LocationService $locationService)
     {
-        $this->repository = $repository;
     }
 
     /** @PostLoad */
-    public function postLoadHandler(ContentInterface $entity, LifecycleEventArgs $event): void
+    public function postLoadHandler(ContentInterface $entity, PostLoadEventArgs $event): void
     {
         if (null !== $entity->getLocationId()) {
             try {
                 $this->repository->sudo(function () use ($entity) {
-                    $location = $this->repository->getLocationService()->loadLocation($entity->getLocationId());
-                    $content = $this->repository->getContentService()->loadContentByContentInfo($location->contentInfo);
+                    $location = $this->locationService->loadLocation($entity->getLocationId());
                     $entity->setLocation($location);
-                    $entity->setContent($content);
+                    $entity->setContent($location->getContent());
                 });
             } catch (NotFoundException) {
             }

@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace CodeRhapsodie\IbexaMailingBundle\Core;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Proxy\Proxy;
+use Doctrine\Persistence\Proxy;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Csrf\CsrfToken;

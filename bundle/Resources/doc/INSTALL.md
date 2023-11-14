@@ -15,7 +15,6 @@ public function registerBundles()
 {
    ...
    $bundles = array(
-       new FrameworkBundle(),
        ...
        // IbexaMailingBundle
        new CodeRhapsodie\IbexaMailingBundle\IbexaMailingBundle(),
@@ -68,32 +67,33 @@ ibexamailing:
 Example in dev mode
 
 ```yaml
-swiftmailer:
-    default_mailer: myfirst_mailer
-    mailers:
-        myfirst_mailer:
-            transport: 'smtp'
-            host: 127.0.0.1
-            port: 1025
-            spool: { type: memory }
-        mysecond_mailer:
-            transport: 'smtp'
-            host: 127.0.0.1
-            port: 1025
-            spool: { type: memory }
+framework:
+    mailer:
+        transports:
+            main: '%env(MAILER_DSN)%'
+
 
 ibexamailing:
     system:
         default:
-            simple_mailer: "swiftmailer.mailer.myfirst_mailer"
-            mailing_mailer: "swiftmailer.mailer.mysecond_mailer"
+            simple_mailer: "main"
+            mailing_mailer: "main"
 ```
 
+Add DoctrineMigration Folder in `doctrine_migrations.yaml`
+
+```yaml
+doctrine_migrations:
+    migrations_paths:
+        ...
+        'IbexaMailingBundle': '%kernel.project_dir%/vendor/code-rhapsodie/ibexamailingbundle/migrations'
+```
 
 ### Add the tables
 
 ```bash
-bin/console ibexamailing:install
+bin/console doctrine:migration:migrate IbexaMailingBundle\Version20231113102632
+bin/console doctrine:migration:migrate IbexaMailingBundle\Version20231113113924
 ```
 
 ### Specify the Default Mailing List Id
