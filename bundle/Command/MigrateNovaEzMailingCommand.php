@@ -7,6 +7,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand('ibexamailing:migrate:novaezmailing')]
 class MigrateNovaEzMailingCommand extends Command
@@ -30,17 +31,21 @@ class MigrateNovaEzMailingCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+
         foreach (self::TABLES as $oldTable => $newTable) {
             try {
                 $this->connection->executeQuery("SELECT * from $oldTable");
             } catch (\Exception) {
-                throw  new \Exception("Missing table : $oldTable");
+                $io->error("Missing table : $oldTable");
+                return parent::FAILURE;
             }
 
             try {
                 $this->connection->executeQuery("SELECT * from $newTable");
             } catch (\Exception) {
-                throw  new \Exception("Missing table : $newTable (please execute ibexamailing:install)");
+                $io->error("Missing table : $newTable (please execute ibexamailing:install)");
+                return parent::FAILURE;
             }
 
             $this->connection->executeQuery("INSERT INTO $newTable SELECT * FROM $oldTable");
