@@ -23,6 +23,7 @@ class TopMenu implements EventSubscriberInterface
                 'route' => 'ibexamailing_dashboard_index',
                 'label' => 'Ibexa Mailing',
                 'extras' => [
+                    'icon' => 'mail',
                     'routes' => array_filter(array_keys($this->router->getRouteCollection()->all()), function (string $key) {
                         return str_starts_with($key, 'ibexamailing');
                     })
