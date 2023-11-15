@@ -118,13 +118,19 @@
             <span>{{ "mailing.mailing_tabs.confirm"|trans }}</span>
         </button>
     </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="ibexamailingmailingtestmodal">
+    <div class="modal fade ibexa-modal ibexa-modal--no-header-border" tabindex="-1" role="dialog"
+         id="ibexamailingmailingtestmodal">
         <div class="modal-dialog" role="document">
             <form class="modal-content" action="{{ path("ibexamailing_mailing_test", {mailing: item.id}) }}"
                   method="post">
                 <div class="modal-header">
                     <h5 class="modal-title">{{ "mailing.mailing_tabs.test_mailing"|trans }}: {{ item.name }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="close" type="button" data-bs-dismiss="modal" aria-label="Fermer"
+                            data-original-title="Fermer" data-bs-original-title="Fermer" title="">
+                        <svg class="ibexa-icon ibexa-icon--small-medium" aria-hidden="true">
+                            <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#discard"></use>
+                        </svg>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <p>{{ "mailing.mailing_tabs.report_mail1"|trans }}
@@ -141,19 +147,26 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">{{ "mailing.mailing_tabs.send_test"|trans }}</button>
-                    <button type="button" class="btn btn-secondary"
+                    <button type="submit"
+                            class="btn ibexa-btn ibexa-btn--primary">{{ "mailing.mailing_tabs.send_test"|trans }}</button>
+                    <button type="button" class="btn ibexa-btn ibexa-btn--secondary"
                             data-bs-dismiss="modal">{{ "mailing.mailing_tabs.cancel"|trans }}</button>
                 </div>
             </form>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="ibexamailingmailingconfirmmodal">
+    <div class="modal fade ibexa-modal ibexa-modal--no-header-border" tabindex="-1" role="dialog"
+         id="ibexamailingmailingconfirmmodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{ "mailing.mailing_tabs.confirm_sending"|trans }}: {{ item.name }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="close" type="button" data-bs-dismiss="modal" aria-label="Fermer"
+                            data-original-title="Fermer" data-bs-original-title="Fermer" title="">
+                        <svg class="ibexa-icon ibexa-icon--small-medium" aria-hidden="true">
+                            <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#discard"></use>
+                        </svg>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <p>{{ "mailing.mailing_tabs.mailing_lists_count1"|trans }} {{ item.campaign.mailingLists|length }} {{ "mailing.mailing_tabs.mailing_lists_count2"|trans }}
@@ -166,9 +179,9 @@
                     <p>{{ "mailing.mailing_tabs.mailing_list_reach"|trans }} {{ totalRecipients }}.</p>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-success"
+                    <a class="btn ibexa-btn ibexa-btn--primary"
                        href="{{ path("ibexamailing_mailing_confirm", {mailing: item.id}) }}">{{ "mailing.mailing_tabs.confirm"|trans }}</a>
-                    <button type="button" class="btn btn-secondary"
+                    <button type="button" class="btn ibexa-btn ibexa-btn--secondary"
                             data-bs-dismiss="modal">{{ "mailing.mailing_tabs.cancel"|trans }}</button>
                 </div>
             </div>

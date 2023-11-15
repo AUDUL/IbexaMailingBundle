@@ -54,12 +54,18 @@
             <span>{{"button.actions.export_users"|trans}}</span>
         </a>
     </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="ibexamailingconfirmremovemailinglistmodal">
+    <div class="modal fade ibexa-modal ibexa-modal--no-header-border" tabindex="-1" role="dialog"
+         id="ibexamailingconfirmremovemailinglistmodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{"generic.confirm_removal"|trans}}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="close" type="button" data-bs-dismiss="modal" aria-label="Fermer"
+                            data-original-title="Fermer" data-bs-original-title="Fermer" title="">
+                        <svg class="ibexa-icon ibexa-icon--small-medium" aria-hidden="true">
+                            <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#discard"></use>
+                        </svg>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <p>{{"mailing_list.show.removal_details1"|trans}}</p>
@@ -74,8 +80,8 @@
                 </div>
                 <div class="modal-footer">
                     <a href="{{ path('ibexamailing_mailinglist_remove', {mailinglist:item.id}) }}" type="button"
-                       class="btn btn-danger">{{ "button.confirm"|trans }}</a>
-                    <button type="button" class="btn btn-secondary"
+                       class="btn ibexa-btn ibexa-btn--primary">{{ "button.confirm"|trans }}</a>
+                    <button type="button" class="btn ibexa-btn ibexa-btn--secondary"
                             data-bs-dismiss="modal">{{ "button.cancel"|trans }}</button>
                 </div>
             </div>

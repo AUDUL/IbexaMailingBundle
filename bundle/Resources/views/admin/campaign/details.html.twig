@@ -1,50 +1,71 @@
 {% trans_default_domain 'ibexamailing' %}
-<table class="table table-striped table-hover table-sm">
-    <tr>
-        <th>{{"campaign.details.name"|trans}}</th>
-        <td>{{ item.name }}</td>
-    </tr>
-    <tr>
-        <th>{{"campaign.details.sender"|trans}}</th>
-        <td>{{ item.senderName }} &lt;{{ item.senderEmail }}&gt;</td>
-    </tr>
-    <tr>
-        <th>{{"campaign.details.report_email"|trans}}</th>
-        <td>{{ item.reportEmail }}</td>
-    </tr>
+<div class="ibexa-fieldgroup">
+    <div class="ibexa-content-field">
+        <div class="ibexa-content-field__name">{{ "campaign.details.name"|trans }}</div>
+        <div class="ibexa-content-field__value">
+            <span class="ezstring-field">{{ item.name }}</span>
+        </div>
+    </div>
+    <div class="ibexa-content-field">
+        <div class="ibexa-content-field__name">{{ "campaign.details.sender"|trans }}</div>
+        <div class="ibexa-content-field__value">
+            <span class="ezstring-field">{{ item.senderName }} &lt;{{ item.senderEmail }}&gt;</span>
+        </div>
+    </div>
+    <div class="ibexa-content-field">
+        <div class="ibexa-content-field__name">{{ "campaign.details.report_email"|trans }}</div>
+        <div class="ibexa-content-field__value">
+            <span class="ezstring-field">{{ item.reportEmail }}</span>
+        </div>
+    </div>
     {% if item.siteaccessLimit|length > 0 %}
-        <tr>
-            <th>{{"campaign.details.siteaccess_limit"|trans}}</th>
-            <td>
-                <div class="list-group">
+        <div class="ibexa-content-field">
+            <div class="ibexa-content-field__name">{{ "campaign.details.siteaccess_limit"|trans }}</div>
+            <div class="ibexa-content-field__value">
+                <table class="ibexa-table table">
+                    <tbody class="ibexa-table__body">
                     {% for sa in item.siteaccessLimit %}
-                        <a class="list-group-item list-group-item-action">
-                            {{ sa }}
-                        </a>
+                        <tr class="ibexa-table__row">
+                            <td class="ibexa-table__cell">
+                                <a class="list-group-item list-group-item-action">
+                                    {{ sa }}
+                                </a>
+                            </td>
+                        </tr>
                     {% endfor %}
-                </div>
-            </td>
-        </tr>
-    {% endif %}
-    <tr>
-        <th>{{"campaign.details.mailing_lists"|trans({count:item.mailingLists|length})}}</th>
-        <td>
-            <div class="list-group">
-                {% for mailingList in item.mailingLists %}
-                    <a href="{{ path('ibexamailing_mailinglist_show',{mailingList:mailingList.id}) }}"
-                       class="list-group-item list-group-item-action"
-                    >
-                        <img src="{{ asset("/bundles/ibexamailing/admin/images/16x16/mailinglist.png") }}"
-                             class="mailing-icon"/> {{ mailingList.name }}
-                    </a>
-                {% endfor %}
+                    </tbody>
+                </table>
             </div>
-        </td>
-    </tr>
-    {% if item.content is defined and item.content is not null %}
-        <tr>
-            <th>{{ "campaign.details.associated_content"|trans }}</th>
-            <td>{{ ibexa_content_name(item.content) }}</td>
-        </tr>
+        </div>
     {% endif %}
-</table>
+    <div class="ibexa-content-field">
+        <div class="ibexa-content-field__name">{{ "campaign.details.mailing_lists"|trans({count:item.mailingLists|length}) }}</div>
+        <div class="ibexa-content-field__value">
+            <table class="ibexa-table table">
+                <tbody class="ibexa-table__body">
+                {% for mailingList in item.mailingLists %}
+                    <tr class="ibexa-table__row">
+                        <td class="ibexa-table__cell">
+                            <a href="{{ path('ibexamailing_mailinglist_show',{mailingList:mailingList.id}) }}"
+                               class="list-group-item list-group-item-action"
+                            >
+                                <img src="{{ asset("/bundles/ibexamailing/admin/images/16x16/mailinglist.png") }}"
+                                     class="mailing-icon"/> {{ mailingList.name }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% if item.content is defined and item.content is not null %}
+        <div class="ibexa-content-field">
+            <div class="ibexa-content-field__name">{{ "campaign.details.associated_content"|trans }}</div>
+            <div class="ibexa-content-field__value">
+                <span class="ezstring-field"><a
+                            href="{{ ibexa_path(item.content) }}">{{ ibexa_content_name(item.content) }}</a></span>
+            </div>
+        </div>
+    {% endif %}
+</div>
