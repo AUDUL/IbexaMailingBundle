@@ -183,7 +183,20 @@ $eZLightBackground: #F5F5F5;
         border-bottom: 1px solid #000;
     }
 }
-
+.leaf a {
+  align-items: center;
+  color: #131c26;
+  display: flex;
+  flex: 1;
+  font-size: .875rem;
+  line-height: 1.3125rem;
+  min-height: 1.3125rem;
+  overflow: hidden;
+  padding: 0.3125rem 0.875rem 0.3125rem 0;
+  position: relative;
+  text-decoration: none;
+  white-space: nowrap;
+}
 .tab-pane {
   .ibexamailing-broadcast-charts-group .graph-broadcast {
         width: 600px;
