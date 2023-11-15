@@ -36,33 +36,21 @@
         <p>{{"mailing_list.show.mailing_list_empty"|trans}}</p>
     {% endif %}
     <div class="ibexamailing-button-actions float-right">
-        <a class="btn btn-sm btn-secondary" href="{{ path("ibexamailing_mailinglist_edit", {mailinglist: item.id}) }}">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#edit"></use>
-            </svg>
+        <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path("ibexamailing_mailinglist_edit", {mailinglist: item.id}) }}">
             <span>{{"button.actions.edit"|trans}}</span>
         </a>
-        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+        <button type="button" class="btn btn-sm ibexa-btn ibexa-btn--secondary" data-bs-toggle="modal"
                 data-bs-target="#ibexamailingconfirmremovemailinglistmodal">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#trash"></use>
-            </svg>
             <span>{{"button.actions.delete"|trans}}</span>
         </button>
     </div>
     <div class="ibexamailing-button-actions float-left">
-        <a class="btn btn-sm btn-success" href="{{ path('ibexamailing_mailinglist_import', {mailinglist:item.id}) }}">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#catalog"></use>
-            </svg>
+        <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path('ibexamailing_mailinglist_import', {mailinglist:item.id}) }}">
             <span>{{"button.actions.import_users"|trans}}</span>
         </a>
 
-        <a class="btn btn-sm btn-success" href="{{ path('ibexamailing_mailinglist_export', {mailinglist:item.id}) }}"
+        <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path('ibexamailing_mailinglist_export', {mailinglist:item.id}) }}"
            onclick="">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#catalog"></use>
-            </svg>
             <span>{{"button.actions.export_users"|trans}}</span>
         </a>
     </div>

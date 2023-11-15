@@ -99,23 +99,14 @@
 
     {% if status == 'all' %}
         <div class="ibexamailing-button-actions float-right">
-            <a class="btn btn-sm btn-secondary" href="{{ path('ibexamailing_mailing_create', {campaign: item.id}) }}">
-                <svg class="ez-icon" width="30" height="30">
-                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
-                </svg>
+            <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path('ibexamailing_mailing_create', {campaign: item.id}) }}">
                 <span>{{ "campaign.tabs.create"|trans }}</span>
             </a>
-            <a class="btn btn-sm btn-secondary" href="{{ path("ibexamailing_campaign_edit", {campaign: item.id}) }}">
-                <svg class="ez-icon" width="30" height="30">
-                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#edit"></use>
-                </svg>
+            <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path("ibexamailing_campaign_edit", {campaign: item.id}) }}">
                 <span>{{ "campaign.tabs.edit"|trans }}</span>
             </a>
-            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+            <button type="button" class="btn btn-sm ibexa-btn ibexa-btn--secondary" data-bs-toggle="modal"
                     data-bs-target="#ibexamailingconfirmremovecampaignmodal">
-                <svg class="ez-icon" width="30" height="30">
-                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#trash"></use>
-                </svg>
                 <span>{{ "campaign.tabs.delete"|trans }}</span>
             </button>
         </div>
@@ -149,19 +140,13 @@
     {% else %}
         <div class="ibexamailing-button-actions float-right">
             {% if status == 'draft' %}
-                <a class="btn btn-sm btn-secondary"
+                <a class="btn btn-sm ibexa-btn ibexa-btn--secondary"
                    href="{{ path('ibexamailing_mailing_create', {campaign: item.id}) }}">
-                    <svg class="ez-icon" width="30" height="30">
-                        <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
-                    </svg>
                     <span>{{ "campaign.tabs.create"|trans }}</span>
                 </a>
             {% endif %}
             <a href="{{ url('ibexamailing_campaign_subscriptions', { campaign: item.id }) }}"
-               class="btn btn-sm btn-info">
-                <svg class="ez-icon" width="30" height="30">
-                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>
-                </svg>
+               class="btn btn-sm ibexa-btn ibexa-btn--secondary">
                 <span>{{ "mailing.mailing_tabs.views"|trans ~ " " ~ "menu.campaign_menu.subscriptions"|trans|capitalize }}</span>
             </a>
         </div>
