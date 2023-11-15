@@ -88,7 +88,7 @@
             </div>
         {% endif %}
     </div>
-    <div class="ibexamailing-button-actions float-right ">
+    <div class="ibexamailing-button-actions float-right mb-1">
         <a target="_blank"
            href="{{ url('_ibexamailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}"
            class="btn btn-sm btn-info ibexa-btn ibexa-btn--secondary">
@@ -116,10 +116,6 @@
                 class="btn btn-sm ibexa-btn ibexa-btn--secondary" data-bs-toggle="modal"
                 data-bs-target="#ibexamailingmailingconfirmmodal">
             <span>{{ "mailing.mailing_tabs.confirm"|trans }}</span>
-        </button>
-        <button type="button" class="btn btn-sm ibexa-btn ibexa-btn--secondary js-ibexamailing-create-content"
-                data-parent-location-id="{{ item.location.id }}">
-            <span>{{ "mailing.mailing_tabs.create_content"|trans }}</span>
         </button>
     </div>
     <div class="modal fade" tabindex="-1" role="dialog" id="ibexamailingmailingtestmodal">

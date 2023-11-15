@@ -17,7 +17,6 @@
 {% block content %}
     {% include "@IbexaMailing/admin/common/list/users_filterer.html.twig" with {
         route: "ibexamailing_user_index",
-        limit: pager.maxPerPage,
         currentStatus: currentStatus,
         statuses: statuses
     } only %}

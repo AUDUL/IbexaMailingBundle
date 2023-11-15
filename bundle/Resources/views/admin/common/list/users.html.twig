@@ -3,7 +3,7 @@
 {% import "@IbexaMailing/admin/common/registration_approbation_button.html.twig" as ApprobationButton %}
 {% trans_default_domain 'ibexamailing' %}
 
-<div class="tab-content ibexa-tab-content">
+<div class="tab-content ibexa-tab-content p-2">
     <table class="table ibexa-table c-table-view">
         <thead class="c-table-view__head">
         <tr class="ibexa-table__head-row c-table-view__row">
@@ -66,7 +66,7 @@
                 {% if withRegistrations %}
                     <td class="ibexa-table__cell c-table-view-item__cell">
                         {% if item.registrations|length > 0 %}
-                            <table class="table ibexa-table c-table-view">
+                            <table class="table ibexa-table c-table-view p-2">
                                 <thead class="c-table-view__head">
                                 <tr class="ibexa-table__head-row c-table-view__row">
                                     <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head text-center">{{ "generic.users.table.mailing_list"|trans }}</th>

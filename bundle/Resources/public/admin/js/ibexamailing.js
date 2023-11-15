@@ -14,7 +14,7 @@ jQuery(function () {
     eZMailingChartsModule.init(jQuery, $app);
     eZMainlingNormalizeModule.init(jQuery, $app);
     //eZMailingSubItemsModule.init(jQuery, $app);
-    eZMailingEditFormModule.init(jQuery, $app);
+    eZMailingEditFormModule.init();
     eZMailingContentSelectionModule.init(jQuery, $app);
 
     $('.campaigns > ul > li > label').click(function () {

@@ -9,6 +9,7 @@ namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 use CodeRhapsodie\IbexaMailingBundle\Core\Provider\User as UserProvider;
 use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Ibexa\User\UserSetting\UserSettingService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -50,18 +51,18 @@ class UserController
     }
 
     /**
-     * @Route("/{status}/{page}/{limit}", name="ibexamailing_user_index",
-     *                                              defaults={"page":1, "limit":10, "status":"all"})
+     * @Route("/{status}/{page}", name="ibexamailing_user_index",
+     *                                              defaults={"page":1, "status":"all"})
      * @Template()
      */
-    public function indexAction(UserProvider $provider, string $status = 'all', int $page = 1, int $limit = 10): array
+    public function indexAction(UserProvider $provider, UserSettingService $userSettingService, string $status = 'all', int $page = 1): array
     {
         $filters = [
             'status' => 'all' === $status ? null : $status,
         ];
 
         return [
-            'pager' => $provider->getPagerFilters($filters, $page, $limit),
+            'pager' => $provider->getPagerFilters($filters, $page, (int)$userSettingService->getUserSetting('subitems_limit')->value),
             'statuses' => $provider->getStatusesData($filters),
             'currentStatus' => $status,
         ];

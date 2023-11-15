@@ -2,7 +2,7 @@
 
 {% for broadcast in items %}
     {% if broadcast.emailSentCount > 0 %}
-        <div class="ibexamailing-broadcast-charts-group">
+        <div class="ibexamailing-broadcast-charts-group p-2">
             <h3>{{ "common.list.broadcast_graph.broadcasted_on"|trans }} {{ broadcast.started|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</h3>
             <hr/>
             <div class="graph-broadcast full">

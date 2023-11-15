@@ -20,7 +20,6 @@ class TopMenu implements EventSubscriberInterface
         $ibexaMailingMenu = $menu->addChild(
             'ibexamailing',
             [
-                'route' => 'ibexamailing_dashboard_index',
                 'label' => 'Ibexa Mailing',
                 'extras' => [
                     'icon' => 'mail',
@@ -73,7 +72,7 @@ class TopMenu implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ConfigureMenuEvent::MAIN_MENU => ['onMainMenuConfigure', 0],
+            ConfigureMenuEvent::MAIN_MENU => ['onMainMenuConfigure', -100],
         ];
     }
 }

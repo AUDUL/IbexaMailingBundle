@@ -14,101 +14,172 @@
 {% block ibexamailing_subtitle %}{{ item.email }}{% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-6">
-            <h3>{{ "user.show.information"|trans }}</h3>
-            <table class="table table-hover table-sm">
-                <tr>
-                    <th>ID</th>
-                    <td>{{ item.id }}</td>
-                </tr>
-                <tr>
-                    <th>{{ "generic.users.table.email"|trans }}</th>
-                    <td>{{ item.email }} -
-                        <span class="badge text-bg-{{ item.statusStyle }}">{{ item.status }}</span></td>
-                </tr>
-                <tr>
-                    <th>{{ "generic.users.table.firstname"|trans }}</th>
-                    <td>{{ item.firstName }}</td>
-                </tr>
-                <tr>
-                    <th>{{ "generic.users.table.lastname"|trans }}</th>
-                    <td>{{ item.lastName }}</td>
-                </tr>
-                <tr>
-                    <th>{{"generic.users.table.gender"|trans}}</th>
-                    <td>{{ item.gender }}</td>
-                </tr>
-                <tr>
-                    <th>{{"generic.users.table.birthdate"|trans}}</th>
-                    <td>{{ item.birthDate|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
-                </tr>
-                <tr>
-                    <th>{{"generic.users.table.phone"|trans}}</th>
-                    <td>{{ item.phone }}</td>
-                </tr>
-                <tr>
-                    <th>{{"generic.users.table.zipcode"|trans}}</th>
-                    <td>{{ item.zipcode }}</td>
-                </tr>
-                <tr>
-                    <th>{{"generic.users.table.city"|trans}}</th>
-                    <td>{{ item.city }}</td>
-                </tr>
-                <tr>
-                    <th>{{"generic.users.table.state"|trans}}</th>
-                    <td>{{ item.state }}</td>
-                </tr>
-                <tr>
-                    <th>{{"generic.users.table.country"|trans}}</th>
-                    <td>{{ item.country }}</td>
-                </tr>
-                <tr>
-                    <th>{{"generic.users.table.job_title"|trans}}</th>
-                    <td>{{ item.jobTitle }}</td>
-                </tr>
-                <tr>
-                    <th>{{"generic.users.table.company"|trans}}</th>
-                    <td>{{ item.company }}</td>
-                </tr>
-                <tr>
-                    <th>{{"mailing_list.import.origin"|trans}}</th>
-                    <td>{{ item.origin }}</td>
-                </tr>
-            </table>
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <div class="ibexa-header">
+                <div class="ibexa-tabs">
+                    <ul class="nav nav-tabs ibexa-tabs__list ibexa-adaptive-items" role="tablist">
+                        <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item ibexa-tabs__tab--active"
+                            role="presentation">
+                            <a id="ibexa-tab-label-location-view-content" href="#ibexa-tab-location-view-content"
+                               data-bs-toggle="tab" class="nav-link ibexa-tabs__link
+        active        " aria-selected="true" role="tab">
+                                Affichage
+                            </a>
+                            <span class="ibexa-tabs__tab-warning-icon">
+    !
+</span>
+                            <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path class="ibexa-svg-tab-corner-border"
+                                      d="M0.0436401 1H0.458984C11.8221 1 22.21 7.42007 27.2918 17.5836L43 49H0.0436401"
+                                      stroke-width="2"></path>
+                                <path class="ibexa-svg-tab-corner-inside"
+                                      d="M0 49V1C14.8 0.600001 23.8333 10.8333 26.5 16L43 49H0Z"></path>
+                            </svg>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content ibexa-tab-content">
+                <div class=" tab-pane ibexa-tab-content__pane active ibexa-fieldgroup">
+                    <section class="ibexa-view-rawcontentview">
+                        <div class="ibexa-raw-content-title">
+                            <div class="ibexa-raw-content-title__text">Informations</div>
+                        </div>
+                    </section>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">Id</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.id }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.email"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                    <span class="ezstring-field">{{ item.email }} -
+                        <span class="badge text-bg-{{ item.statusStyle }}">{{ item.status }}</span>
+                    </span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.firstname"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.firstName }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.lastname"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.lastName }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.gender"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.gender }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.birthdate"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.birthDate|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.phone"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.phone }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.zipcode"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.zipcode }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.city"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.city }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.state"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.state }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.country"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.country }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.job_title"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.jobTitle }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "generic.users.table.company"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.company }}</span>
+                        </div>
+                    </div>
+                    <div class="ibexa-content-field">
+                        <div class="ibexa-content-field__name">{{ "mailing_list.import.origin"|trans }}</div>
+                        <div class="ibexa-content-field__value">
+                            <span class="ezstring-field">{{ item.origin }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
+
+        <div>
             <h3>Registrations</h3>
-            <table class="table table-hover table-sm">
-                <tr>
-                    <th>{{"generic.users.table.mailing_list"|trans}}</th>
-                    <th>{{"generic.users.table.updated"|trans}}</th>
-                    <th>{{"generic.users.table.created"|trans}}</th>
+            <table class="table ibexa-table c-table-view m-1">
+                <thead class="c-table-view__head">
+                <tr class="ibexa-table__head-row c-table-view__row">
+                    <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head c-table-view__cell--name">{{ "generic.users.table.mailing_list"|trans }}</th>
+                    <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head c-table-view__cell--name">{{ "generic.users.table.updated"|trans }}</th>
+                    <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head c-table-view__cell--name">{{ "generic.users.table.created"|trans }}</th>
                 </tr>
+                </thead>
+                <tbody class="ibexa-table__body c-table-view__body">
                 {% for registration in item.registrations %}
-                    <tr>
-                        <td>
+                    <tr class="ibexa-table__row c-table-view-item">
+                        <td class="ibexa-table__cell c-table-view-item__cell text-center">
                             <a href="{{ path('ibexamailing_mailinglist_show', {mailingList: registration.mailingList.id }) }}">{{ registration.mailingList.name }}</a>
                         </td>
-                        <td>{{ registration.updated|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
-                        <td>{{ registration.created|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
+                        <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ registration.updated|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
+                        <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ registration.created|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
                     </tr>
                 {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
     <div class="ibexamailing-button-actions float-right ">
         <button type="button" class="btn btn-sm ibexa-btn ibexa-btn--secondary" data-bs-toggle="modal"
                 data-bs-target="#ibexamailingconfirmremoveusermodal">
-            <span>{{"button.actions.delete"|trans}}</span>
+            <span>{{ "button.actions.delete"|trans }}</span>
         </button>
     </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="ibexamailingconfirmremoveusermodal">
+    <div class="modal fade ibexa-modal ibexa-modal--no-header-border" tabindex="-1" role="dialog"
+         id="ibexamailingconfirmremoveusermodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{"generic.confirm_removal"|trans}}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">{{ "generic.confirm_removal"|trans }}</h5>
+                    <button class="close" type="button" data-bs-dismiss="modal" aria-label="Fermer"
+                            data-original-title="Fermer" data-bs-original-title="Fermer" title="">
+                        <svg class="ibexa-icon ibexa-icon--small-medium" aria-hidden="true">
+                            <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#discard"></use>
+                        </svg>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <p>{{ "user.show.delete_user_confirmation1"|trans }}</p>
@@ -120,8 +191,8 @@
                 </div>
                 <div class="modal-footer">
                     <a href="{{ path('ibexamailing_user_remove', {'user':item.id }) }}" type="button"
-                       class="btn btn-danger">{{ "button.confirm"|trans }}</a>
-                    <button type="button" class="btn btn-secondary"
+                       class="btn ibexa-btn ibexa-btn--primary">{{ "button.confirm"|trans }}</a>
+                    <button type="button" class="btn ibexa-btn ibexa-btn--secondary"
                             data-bs-dismiss="modal">{{ "button.cancel"|trans }}</button>
                 </div>
             </div>
