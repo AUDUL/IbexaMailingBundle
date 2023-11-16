@@ -34,4 +34,10 @@ jQuery(function () {
         $(this).parent().find('.ibexa-tabs__tab--active').removeClass('ibexa-tabs__tab--active')
         $(this).addClass('ibexa-tabs__tab--active');
     });
+    // Ajouter un écouteur d'événements à chaque élément li
+    document.querySelectorAll("li:not(.c-list-item--is-root-item).c-list-item--has-sub-items").forEach((li) => {
+        li.addEventListener('click',() => {
+            li.classList.toggle('c-list-item--is-expanded');
+        });
+    });
 });
