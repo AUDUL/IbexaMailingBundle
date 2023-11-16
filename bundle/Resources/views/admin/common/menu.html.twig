@@ -2,5 +2,72 @@
 
 
 {% block spanElement %}{% import 'knp_menu.html.twig' as knp_menu %}
-    <label class="c-list-item__label" {{ knp_menu.attributes(item.labelAttributes) }} for="tree-{{ item.name }}">{{ block('label') }}</label>
+    <span class="c-list-item__label" data-original-title="{{ block('label') }}"
+          data-bs-original-title="{{ block('label') }}" title="">{{ block('label') }}</span>
 {% endblock %}
+
+{% block list %}
+    {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
+        {% import _self as knp_menu %}
+        <ul class="c-list">
+            {{ block('children') }}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+
+{% block item %}
+    {% if item.displayed %}
+        {# building the class of the item #}
+        {%- set classes = ['c-list-item'] %}
+        {%- if matcher.isCurrent(item) %}
+            {%- set classes = classes|merge(['c-list-item--is-selected']) %}
+        {%- elseif matcher.isAncestor(item, options.matchingDepth) %}
+            {%- set classes = classes|merge(['c-list-item--is-expanded']) %}
+        {%- endif %}
+        {%- if item.actsLikeFirst %}
+            {%- set classes = classes|merge([options.firstClass]) %}
+        {%- endif %}
+        {%- if item.actsLikeLast %}
+            {%- set classes = classes|merge([options.lastClass]) %}
+        {%- endif %}
+        {% if item.hasChildren %}
+            {%- set classes = classes|merge(['c-list-item--has-sub-items']) %}
+        {% endif %}
+
+        {# Mark item as "leaf" (no children) or as "branch" (has children that are displayed) #}
+        {% if item.hasChildren and options.depth is not same as(0) %}
+            {% if options.branch_class is not empty and item.displayChildren %}
+                {%- set classes = classes|merge(['']) %}
+            {% endif %}
+        {% elseif options.leaf_class is not empty %}
+            {%- set classes = classes|merge([options.leaf_class]) %}
+        {%- endif %}
+
+        {%- set attributes = item.attributes %}
+        {%- if classes is not empty %}
+            {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
+        {%- endif %}
+        {# displaying the item #}
+        {% import _self as knp_menu %}
+        <li{{ knp_menu.attributes(attributes) }}>
+            <div class="c-list-item__row" style="--indent: 0;">
+                <span class="c-list-item__toggler" tabindex="-1"></span>
+                {%- if item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}
+                    {{ block('linkElement') }}
+                {%- else %}
+                    {{ block('spanElement') }}
+                {%- endif %}
+            </div>
+
+            {# render the list of children #}
+            {%- set childrenClasses = item.childrenAttribute('class') is not empty ? [item.childrenAttribute('class')] : [] %}
+            {%- set childrenClasses = childrenClasses|merge(['menu_level_' ~ item.level]) %}
+            {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
+            {{ block('list') }}
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block linkElement %}{% import _self as knp_menu %}<a href="{{ item.uri }}"
+                                                        class="c-list-item__label">{{ block('label') }}</a>{% endblock %}
