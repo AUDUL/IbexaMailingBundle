@@ -51,17 +51,15 @@ class Campaign implements eZ\ContentInterface
 
     /**
      * @var string
-     * @Assert\NotBlank()
      * @Assert\Email()
-     * @ORM\Column(name="CAMP_report_email", type="string", length=255, nullable=false)
+     * @ORM\Column(name="CAMP_report_email", type="string", length=255, nullable=true)
      */
     private $reportEmail;
 
     /**
      * @var string
-     * @Assert\NotBlank()
      * @Assert\Email()
-     * @ORM\Column(name="CAMP_return_path_email", type="string", length=255, nullable=false)
+     * @ORM\Column(name="CAMP_return_path_email", type="string", length=255, nullable=true)
      */
     private $returnPathEmail;
 

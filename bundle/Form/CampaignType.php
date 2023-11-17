@@ -51,11 +51,11 @@ class CampaignType extends AbstractType
             )
             ->add('senderName', TextType::class, ['required' => true, 'label' => 'campaign.form.sender_name'])
             ->add('senderEmail', EmailType::class, ['required' => true, 'label' => 'campaign.form.sender_email'])
-            ->add('reportEmail', EmailType::class, ['required' => true, 'label' => 'campaign.form.report_email'])
+            ->add('reportEmail', EmailType::class, ['required' => false, 'label' => 'campaign.form.report_email'])
             ->add(
                 'returnPathEmail',
                 EmailType::class,
-                ['required' => true, 'label' => 'campaign.form.return_path_email']
+                ['required' => false, 'label' => 'campaign.form.return_path_email']
             )
             ->add('locationId', HiddenType::class)
             ->add(

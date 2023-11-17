@@ -1,7 +1,6 @@
 <?php
 
 
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
@@ -92,7 +91,9 @@ class MailingContent
         $campaign = $mailing->getCampaign();
         $message->from(new Address($campaign->getSenderEmail(), $campaign->getSenderName()));
         $message->to($recipient->getEmail());
-        $message->bcc($campaign->getReportEmail());
+        if (!empty($campaign->getReportEmail())) {
+            $message->bcc($campaign->getReportEmail());
+        }
         if (!empty($campaign->getReturnPathEmail())) {
             $message->returnPath($campaign->getReturnPathEmail());
         }
