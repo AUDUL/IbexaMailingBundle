@@ -58,14 +58,14 @@ class Campaign implements eZ\ContentInterface
     private $senderEmail;
 
     /**
-     * @var string
+     * @var string|null
      * @Assert\Email()
      * @ORM\Column(name="CAMP_report_email", type="string", length=255, nullable=true)
      */
     private $reportEmail;
 
     /**
-     * @var string
+     * @var string|null
      * @Assert\Email()
      * @ORM\Column(name="CAMP_return_path_email", type="string", length=255, nullable=true)
      */
@@ -144,7 +144,7 @@ class Campaign implements eZ\ContentInterface
         return $this->reportEmail;
     }
 
-    public function setReportEmail(string $reportEmail): self
+    public function setReportEmail(?string $reportEmail): self
     {
         $this->reportEmail = $reportEmail;
 
@@ -226,7 +226,7 @@ class Campaign implements eZ\ContentInterface
         return $this->returnPathEmail;
     }
 
-    public function setReturnPathEmail(string $returnPathEmail): self
+    public function setReturnPathEmail(?string $returnPathEmail): self
     {
         $this->returnPathEmail = $returnPathEmail;
 
