@@ -71,6 +71,17 @@ class Mailing
                     $this->broadcastProvider->store($broadcast);
                 }
             }
+
+            //send copy of email
+            $fakeUser = new User();
+            $fakeUser->setEmail($mailing->getCampaign()->getReportEmail());
+            $fakeUser->setFirstName('XXXX');
+            $fakeUser->setLastName('YYYY');
+            $contentMessage = $this->contentProvider->getContentMailing($mailing, $fakeUser, $broadcast);
+            $this->sendMessage($contentMessage);
+            ++$recipientCounts;
+            $broadcast->setEmailSentCount($recipientCounts);
+
             $this->broadcastProvider->store($broadcast);
             $this->logger->notice("Mailing {$mailing->getName()} induced {$recipientCounts} emails sent.");
         }

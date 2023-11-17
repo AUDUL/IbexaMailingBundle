@@ -58,9 +58,10 @@ class Campaign implements eZ\ContentInterface
     private $senderEmail;
 
     /**
-     * @var string|null
+     * @var string
+     * @Assert\NotBlank()
      * @Assert\Email()
-     * @ORM\Column(name="CAMP_report_email", type="string", length=255, nullable=true)
+     * @ORM\Column(name="CAMP_report_email", type="string", length=255, nullable=false)
      */
     private $reportEmail;
 
@@ -139,12 +140,12 @@ class Campaign implements eZ\ContentInterface
         return $this;
     }
 
-    public function getReportEmail(): ?string
+    public function getReportEmail(): string
     {
         return $this->reportEmail;
     }
 
-    public function setReportEmail(?string $reportEmail): self
+    public function setReportEmail(string $reportEmail): self
     {
         $this->reportEmail = $reportEmail;
 

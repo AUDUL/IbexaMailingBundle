@@ -100,9 +100,6 @@ class MailingContent
         $campaign = $mailing->getCampaign();
         $message->from(new Address($campaign->getSenderEmail(), $campaign->getSenderName()));
         $message->to($recipient->getEmail());
-        if (!empty($campaign->getReportEmail())) {
-            $message->bcc($campaign->getReportEmail());
-        }
         if (!empty($campaign->getReturnPathEmail())) {
             $message->returnPath($campaign->getReturnPathEmail());
         }
