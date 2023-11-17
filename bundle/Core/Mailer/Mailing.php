@@ -71,8 +71,6 @@ class Mailing
             $fakeUser->setLastName('YYYY');
             $contentMessage = $this->contentProvider->getContentMailing($mailing, $fakeUser, $broadcast);
             $this->sendMessage($contentMessage);
-            ++$recipientCounts;
-            $broadcast->setEmailSentCount($recipientCounts);
 
             $this->broadcastProvider->store($broadcast);
             $this->logger->notice("Mailing {$mailing->getName()} induced {$recipientCounts} emails sent.");
