@@ -34,7 +34,7 @@
 
 {% block content_column %}
     {% trans_default_domain 'ibexamailing' %}
-    <div class="ibexa-main-container__content-column ibexa-back-to-top-scroll-container"
+    <div class="ibexamailing-app ibexa-main-container__content-column ibexa-back-to-top-scroll-container"
          data-search-endpoint="{{ path('ibexamailing_dashboard_search_autocomplete') }}">
         <div class="container ibexa-back-to-top-anchor">
             {% include "@IbexaMailing/admin/layout/header.html.twig" with { title: ibexamailing_title, subTitle: ibexamailing_subtitle, breadcrumb: ibexamailing_breadcrumb } only %}

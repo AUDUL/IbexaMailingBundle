@@ -11,7 +11,6 @@ module.exports = (Encore) => {
         .autoProvidejQuery()
         .addEntry('ibexamailing', [
             path.resolve(__dirname, '../public/admin/css/ibexamailing.scss'),
-        path.resolve(__dirname, '../public/admin/css/tree.scss'),
         path.resolve(__dirname, '../public/admin/js/jquery.autocomplete.min.js'),
         path.resolve(__dirname, '../public/admin/js/jquery.peity.min.js'),
         path.resolve(__dirname, '../public/admin/js/Chart.min.js'),

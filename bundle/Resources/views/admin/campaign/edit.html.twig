@@ -42,7 +42,7 @@
          class="mailing-icon"/>{{ "campaign.edit.edit"|trans }} {{ item.name }}{% endblock %}
 {% block ibexamailing_subtitle %}{{ "campaign.edit.edition"|trans }}{% endblock %}
 {% block content %}
-    {{ form_start(form, {attr: {class:'col-11', ibexamailing:'mainform'}}) }}
+    {{ form_start(form, {attr: {ibexamailing:'mainform'}}) }}
     {{ form_rest(form) }}
     <button type="submit" hidden></button>
     {{ form_end(form) }}
