@@ -90,7 +90,7 @@
     </div>
     <div class="ibexamailing-button-actions float-right mb-1">
         <a target="_blank"
-           href="{{ url('_ibexamailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}"
+           href="{{ path('_ibexamailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}"
            class="btn btn-sm btn-info ibexa-btn ibexa-btn--secondary">
             <span>{{ "mailing.mailing_tabs.views"|trans }}</span>
         </a>
