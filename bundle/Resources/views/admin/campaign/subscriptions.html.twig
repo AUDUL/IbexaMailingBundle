@@ -12,7 +12,7 @@
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
 {% block ibexamailing_title %}
-    <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/campaign.png") }}"
+    <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/campaign.svg") }}"
          class="mailing-icon"/> {{ item.name }}{% endblock %}
 {% set subtitle = "campaign.subscriptions.campaign"|trans %}
 {% block ibexamailing_subtitle %}{{ subtitle }}{% endblock %}
@@ -21,7 +21,7 @@
     {{ render_esi(controller("CodeRhapsodie\\IbexaMailingBundle\\Controller\\Admin\\CampaignController::campaignTabsAction", {campaign: item.id})) }}
 
     <h2>
-        <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/subscriptions.png") }}"
+        <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/subscriptions.svg") }}"
              class="mailing-icon"/> {{ "campaign.subscriptions.campaign"|trans }}
     </h2>
     {% include "@IbexaMailing/admin/common/list/users_filterer.html.twig" with {
