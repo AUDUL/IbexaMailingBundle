@@ -22,7 +22,7 @@
                                 <svg class="ibexa-icon ibexa-icon--small">
                                     <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#content-tree"></use>
                                 </svg>&nbsp;{{ "layout.pagelayout.campaigns"|trans }}</h2>
-                                {{ knp_menu_render('ibexamailing.menu.campaigns', {template:"@IbexaMailing/admin/common/menu.html.twig"}) }}
+                            {{ knp_menu_render('ibexamailing.menu.campaigns', {template:"@IbexaMailing/admin/common/menu.html.twig"}) }}
                         </li>
                     </ul >
                 </div>
@@ -44,10 +44,10 @@
                         {{ content|raw }}
                     </div>
                 {% else %}
-                    <div class="col-8 innercontent">
+                    <div class="col-8">
                         {{ content|raw }}
                     </div>
-                    <div class="col-2 ez-context-menu">
+                    <div class="col-4">
                         {{ rightbar|raw }}
                     </div>
                 {% endif %}
