@@ -12,7 +12,7 @@
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
 {% block ibexamailing_title %}
-    <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/"~item.status~".png") }}"
+    <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/"~item.status~".svg") }}"
          class="mailing-icon"/> {{ item.name }}{% endblock %}
 
 {% block ibexamailing_subtitle %}{{ "mailing.edit.mailing"|trans }}{% endblock %}
