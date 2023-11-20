@@ -4,7 +4,6 @@ $eZLightBackground: #F5F5F5;
 
 .ibexamailing-ez-mailings-view {
   .edit-button svg {
-    fill: #f15a10;
     width: 20px;
     height: 20px;
   }
@@ -13,7 +12,9 @@ $eZLightBackground: #F5F5F5;
     fill: #ccc;
   }
 }
-
+.edit-button {
+  text-decoration: none ;
+}
 .c-list-item__row {
   cursor: pointer;
 }
