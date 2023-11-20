@@ -21,7 +21,7 @@
         </div>
     </div>
     {% set nextTick = item.nextTick %}
-    {% if item.hasBeenSent %}
+    {% if item.hasBeenSent and item.lastSent is not null %}
         <div class="ibexa-content-field">
             <div class="ibexa-content-field__name">{{ "mailing.details.last_sent_date"|trans }}</div>
             <div class="ibexa-content-field__value">
@@ -76,9 +76,9 @@
                     </span>
                 </div>
             </div>
-        {% else %}
+        {% elseif item.hasBeenSent == false and item.lastSent is null %}
             <div class="ibexa-content-field">
-                <div class="ibexa-content-field__name">{{ "mailing.details.sending_date"|trans }}</div>
+                <div class="ibexa-content-field__name">{{ "mailing.details.next_sending_date"|trans }}</div>
                 <div class="ibexa-content-field__value">
                     <span class="ezstring-field">
                         {% if nextTick is not null %}
