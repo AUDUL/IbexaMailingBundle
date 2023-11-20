@@ -6,6 +6,7 @@ use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -29,9 +30,19 @@ class MigrateNovaEzMailingCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this
+            ->addOption('dump-sql', null, InputOption::VALUE_NONE, 'Instead of trying to apply generated SQLs into EntityManager Storage Connection, output them.')
+            ->addOption('remove tables', null, InputOption::VALUE_NONE, 'Remove old tables.');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $dumpSql = $input->getOption('dump-sql') === true;
+        $removeTables = $input->getOption('remove tables') === true;
+
 
         foreach (self::TABLES as $oldTable => $newTable) {
             try {
@@ -48,11 +59,25 @@ class MigrateNovaEzMailingCommand extends Command
                 return parent::FAILURE;
             }
 
-            $this->connection->executeQuery("INSERT INTO $newTable SELECT * FROM $oldTable");
+            $sql = "INSERT INTO $newTable SELECT * FROM $oldTable";
+            if ($dumpSql) {
+                $io->writeln($sql);
+                continue;
+            }
+
+            $this->connection->executeQuery($sql);
         }
 
-        foreach (\array_reverse(self::TABLES) as $oldTable => $newTable) {
-            $this->connection->executeQuery("DROP TABLE $oldTable");
+        if ($removeTables) {
+            foreach (\array_reverse(self::TABLES) as $oldTable => $newTable) {
+                $sql = "DROP TABLE $oldTable";
+                if ($dumpSql) {
+                    $io->writeln($sql);
+                    continue;
+                }
+
+                $this->connection->executeQuery($sql);
+            }
         }
 
         return parent::SUCCESS;
