@@ -75,29 +75,17 @@
                 </ul>
             {% endfor %}
         </div>
+        <hr/>
     {% endif %}
-    <hr/>
 
     <div class="ibexamailing-button-actions float-right">
-        <a href="{{ url('ibexamailing_mailinglist_show', { mailingList: item.id }) }}" class="btn btn-sm btn-info">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>
-            </svg>
-            <span>{{"mailing_list.import.view_mailing_list"|trans}}</span>
-        </a>
-    </div>
-    <div class="ibexamailing-button-actions">
-        <button type="submit" class="btn btn-sm btn-success">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#wand"></use>
-            </svg>
+        <button type="submit" class="btn ibexa-btn ibexa-btn--primary ibexa-btn--cotf-create">
             <span>{{"mailing_list.import.import_button"|trans}}</span>
         </button>
+        <a href="{{ url('ibexamailing_mailinglist_show', { mailingList: item.id }) }}"
+           class="btn ibexa-btn ibexa-btn--secondary">
+            <span>{{ "mailing_list.import.view_mailing_list"|trans }}</span>
+        </a>
     </div>
     {{ form_end(form) }}
-
-
-
-
-
 {% endblock %}
