@@ -4,11 +4,11 @@
 {% form_theme form with ['@ibexadesign/ui/form_fields.html.twig', _self ] %}
 
 {% block _campaign_names_entry_label %}
-    <label class="form-control-label">{{"campaign.edit.name"|trans}} {{ name }}</label>
+    <label class="form-control-label ibexa-label">{{"campaign.edit.name"|trans}} {{ name }}</label>
 {% endblock %}
 
 {% block _campaign_locationId_row %}
-    <label class="form-control-label">{{"campaign.edit.location"|trans}}</label>
+    <label class="form-control-label ibexa-label">{{"campaign.edit.location"|trans}}</label>
     {{ form_widget(form) }}
     <p id="{{ id }}_name">
         {% if value > 0 and form.parent.vars.value.content is not null %}
