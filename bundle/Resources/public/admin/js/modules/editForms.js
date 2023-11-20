@@ -1,6 +1,6 @@
 export const eZMailingEditFormModule = function () {
     function _init() {
-        const form = document.querySelector('form[name="mailing"]');
+        const form = document.querySelector('form[ibexamailing="mainform"]');
         const saveButton = document.getElementById("ibexamailing_save-tab");
         const cancelButton = document.getElementById("ibexamailing_cancel-tab");
 
