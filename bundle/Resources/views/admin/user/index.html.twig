@@ -24,7 +24,9 @@
     <div class="pagerfanta">
         {{ pagerfanta(pager, 'ibexa') }}
     </div>
-    <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path('ibexamailing_users_export') }}">
-        <span>{{"button.actions.export_users"|trans}}</span>
+    <a class="btn btn-sm ibexa-btn ibexa-btn--secondary"
+       onclick="setTimeout(() => {body.classList.remove('ibexa-prevent-click')}, 1000)"
+       href="{{ path('ibexamailing_users_export') }}">
+        <span>{{ "button.actions.export_users"|trans }}</span>
     </a>
 {% endblock %}

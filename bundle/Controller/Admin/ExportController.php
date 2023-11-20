@@ -27,7 +27,7 @@ class ExportController
     {
         $sql = 'SELECT u.USER_email, u.USER_first_name, u.USER_last_name, u.USER_gender,u.USER_birth_date,u.USER_phone,u.USER_zipcode,u.USER_city,u.USER_state,u.USER_country,u.USER_job_title,u.USER_company ,u.USER_status
 from mailing_user u
-inner join ibexamailing_registrations nr on u.USER_id = nr.USER_id
+inner join mailing_registrations nr on u.USER_id = nr.USER_id
 where nr.ML_id = ?';
 
         return new StreamedResponse($this->generate($connection, $sql, [$mailinglist->getId()]), headers: ['Content-Type' => 'text/csv; charset=utf-8', 'Content-Disposition' => 'attachment; filename="' . urlencode(str_replace(' ', '_', $mailinglist->getName())) . '.csv"']);

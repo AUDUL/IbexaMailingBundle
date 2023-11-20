@@ -35,7 +35,7 @@
     {% else %}
         <p>{{"mailing_list.show.mailing_list_empty"|trans}}</p>
     {% endif %}
-    <div class="ibexamailing-button-actions float-right">
+    <div class="ibexamailing-button-actions float-right mb-1">
         <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path("ibexamailing_mailinglist_edit", {mailinglist: item.id}) }}">
             <span>{{"button.actions.edit"|trans}}</span>
         </a>
@@ -50,7 +50,7 @@
         </a>
 
         <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path('ibexamailing_mailinglist_export', {mailinglist:item.id}) }}"
-           onclick="">
+           onclick="setTimeout(() => {body.classList.remove('ibexa-prevent-click')}, 1000)">
             <span>{{"button.actions.export_users"|trans}}</span>
         </a>
     </div>
