@@ -11,7 +11,7 @@
                     <a class="nav-link ibexa-tabs__link active" href="#ibexamailing-mailings-status-preview"
                        data-bs-toggle="tab"
                        role="tab">
-                         {{ statusKey|trans|capitalize ~ " " ~ "campaign.tabs.mailings"|trans }}
+                        {{ statusKey|trans|capitalize ~ " " ~ "campaign.tabs.mailings"|trans }}
                     </a>
                     <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -114,7 +114,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ "campaign.tabs.confirm_removal"|trans }}</h5>
+                        <h5 class="modal-title">{{ "campaign.tabs.delete_campaign_confirmation_1"|trans }}</h5>
                         <button class="close" type="button" data-bs-dismiss="modal" aria-label="Fermer"
                                 data-original-title="Fermer" data-bs-original-title="Fermer" title="">
                             <svg class="ibexa-icon ibexa-icon--small-medium" aria-hidden="true">
@@ -126,7 +126,7 @@
                         <p>{{ "campaign.tabs.delete_campaign_confirmation_1"|trans }}</p>
                         <p>{{ "campaign.tabs.delete_campaign_confirmation_2"|trans }}</p>
                         <ul>
-                            <li>{{ "campaign.tabs.one_campaign"|trans }}1 Campaign</li>
+                            <li>{{ "campaign.tabs.one_campaign"|trans }}</li>
                             <li>{{ item.mailings|length }} {{ "campaign.tabs.mailings_with_broadcast"|trans }}</li>
                         </ul>
 
@@ -136,7 +136,7 @@
                         <a href="{{ path('ibexamailing_campaign_remove', {campaign: item.id}) }}" type="button"
                            class="btn ibexa-btn ibexa-btn--primary">{{ "campaign.tabs.confirm"|trans }}</a>
                         <button type="button" class="btn ibexa-btn ibexa-btn--secondary"
-                                data-bs-dismiss="modal">{{ "campaign.tabs.cancel"|trans }}Cancel
+                                data-bs-dismiss="modal">{{ "campaign.tabs.cancel"|trans }}
                         </button>
                     </div>
                 </div>
