@@ -16,6 +16,7 @@ namespace Novactive\Bundle\eZMailingBundle\Core\Provider;
 
 use Carbon\Carbon;
 use DateTime;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Novactive\Bundle\eZMailingBundle\Entity\Broadcast as BroadcastEntity;
 use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
@@ -43,6 +44,18 @@ class Broadcast
         $this->store($broadcast);
 
         return $broadcast;
+    }
+
+    public function increment(int $broadcastId, int $increment = 1): void
+    {
+        $this->entityManager->createQueryBuilder()
+            ->update(BroadcastEntity::class, 'b')
+            ->set('b.emailSentCount', 'b.emailSentCount + :increment')
+            ->where('b.id = :id')
+            ->setParameter('id', $broadcastId)
+            ->setParameter('increment', $increment, ParameterType::INTEGER)
+            ->getQuery()
+            ->execute();
     }
 
     public function end(BroadcastEntity $broadcast): void

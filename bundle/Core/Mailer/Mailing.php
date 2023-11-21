@@ -35,7 +35,8 @@ class Mailing
         private readonly Broadcast              $broadcastProvider,
         private readonly EntityManagerInterface $entityManager,
         private readonly MailerInterface        $mailer,
-        private readonly string                 $mailing
+        private readonly string                 $mailing,
+        private readonly MailingProcess $mailingProcess
     )
     {
     }
@@ -60,17 +61,8 @@ class Mailing
             $recipientCounts = 0;
             $userRepo = $this->entityManager->getRepository(User::class);
             $recipients = $userRepo->findValidRecipients($campaign->getMailingLists());
-            foreach ($recipients as $user) {
-                /** @var User $user */
-                $contentMessage = $this->contentProvider->getContentMailing($mailing, $user, $broadcast);
-                $this->sendMessage($contentMessage);
-                ++$recipientCounts;
 
-                if (0 === $recipientCounts % 10) {
-                    $broadcast->setEmailSentCount($recipientCounts);
-                    $this->broadcastProvider->store($broadcast);
-                }
-            }
+            $this->mailingProcess->runParallelProcess($broadcast->getId(), $this->fetchIterationFromUserList($recipients, 10));
 
             //send copy of email
             $fakeUser = new User();
@@ -87,9 +79,32 @@ class Mailing
         $this->broadcastProvider->end($broadcast);
     }
 
-    private function sendMessage(Message $message): void
+    public function sendMessage(Message $message): void
     {
         $message->getHeaders()->addTextHeader('X-Transport', $this->mailing);
         $this->mailer->send($message);
+    }
+
+    /**
+     * @param array<User> $users
+     */
+    private function fetchIterationFromUserList(array $users, int $iterationCount): \Generator
+    {
+        do {
+            $usersId = [];
+
+            foreach ($users as $user) {
+                $usersId[] = $user->getId();
+                if (\count($usersId) === $iterationCount) {
+                    $data = $usersId;
+                    $usersId = [];
+                    yield $data;
+                }
+            }
+
+            if (!empty($usersId)) {
+                yield $usersId;
+            }
+        } while (!empty($users));
     }
 }
