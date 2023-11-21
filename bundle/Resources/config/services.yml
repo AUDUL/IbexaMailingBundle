@@ -100,3 +100,10 @@ services:
 
     CodeRhapsodie\IbexaMailingBundle\Core\IOService:
         arguments: [ '@ibexa.core.io.service' ]
+
+    Novactive\Bundle\eZMailingBundle\Core\Mailer\MailingProcess:
+        autowire: true
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            $env: '%kernel.environment%'
+

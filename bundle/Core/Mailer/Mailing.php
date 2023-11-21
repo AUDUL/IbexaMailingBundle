@@ -25,7 +25,8 @@ class Mailing
         private readonly Broadcast $broadcastProvider,
         private readonly MailerInterface $mailer,
         private readonly string $mailing,
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
+        private readonly MailingProcess $mailingProcess
     ) {
     }
 
@@ -50,16 +51,8 @@ class Mailing
             $this->logger->notice("MailingRepository Mailer starts to send MailingRepository {$mailing->getName()}");
             $recipientCounts = 0;
             $recipients = $this->userRepository->findValidRecipients($campaign->getMailingLists());
-            foreach ($recipients as $user) {
-                $contentMessage = $this->contentProvider->getContentMailing($mailing, $user, $broadcast, $html);
-                $this->sendMessage($contentMessage);
-                ++$recipientCounts;
 
-                if ($recipientCounts % 10 === 0) {
-                    $broadcast->setEmailSentCount($recipientCounts);
-                    $this->broadcastProvider->store($broadcast);
-                }
-            }
+            $this->mailingProcess->runParallelProcess($broadcast->getId(), $this->fetchIterationFromUserList($recipients, 10));
 
             // send copy of email
             $fakeUser = new User();
@@ -70,15 +63,38 @@ class Mailing
             $this->sendMessage($contentMessage);
 
             $this->broadcastProvider->store($broadcast);
-            $this->logger->notice("MailingRepository {$mailing->getName()} induced {$recipientCounts} emails sent.");
+            $this->logger->notice("Mailing {$mailing->getName()} induced {$recipientCounts} emails sent.");
         }
         $this->simpleMailer->sendStopSendingMailingMessage($mailing);
         $this->broadcastProvider->end($broadcast);
     }
 
-    private function sendMessage(Message $message): void
+    public function sendMessage(Message $message): void
     {
         $message->getHeaders()->addTextHeader('X-Transport', $this->mailing);
         $this->mailer->send($message);
+    }
+
+    /**
+     * @param array<User> $users
+     */
+    private function fetchIterationFromUserList(array $users, int $iterationCount): \Generator
+    {
+        do {
+            $usersId = [];
+
+            foreach ($users as $user) {
+                $usersId[] = $user->getId();
+                if (\count($usersId) === $iterationCount) {
+                    $data = $usersId;
+                    $usersId = [];
+                    yield $data;
+                }
+            }
+
+            if (!empty($usersId)) {
+                yield $usersId;
+            }
+        } while (!empty($users));
     }
 }
