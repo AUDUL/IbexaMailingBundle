@@ -46,20 +46,25 @@ jQuery(function () {
             const scrollableWrapper = div.closest('.toggle-wrapper').querySelector('.m-tree__scrollable-wrapper');
             const treeContainer = div.closest('.m-tree');
 
-            if (scrollableWrapper && treeContainer) {
-                scrollableWrapper.classList.toggle('nav-arbo');
-
-                // Appliquer le style à la div toggle-button-menu si nav-arbo est active
-                if (scrollableWrapper.classList.contains('nav-arbo')) {
-                    div.style.width = 'fit-content';
-                    treeContainer.style.width = '70px';
-                } else {
-                    div.style.width = '320px'; // Réinitialiser la largeur si nav-arbo n'est pas active
-                    treeContainer.style.width = ''; // Réinitialiser la largeur si nav-arbo n'est pas active
-                }
+            if (!scrollableWrapper || !treeContainer) {
+                return; // Arrêter l'exécution si les éléments nécessaires ne sont pas présents
             }
+
+            scrollableWrapper.classList.toggle('d-none');
+
+            // Appliquer le style à la div toggle-button-menu si d-none est active
+            if (scrollableWrapper.classList.contains('d-none')) {
+                div.style.width = 'fit-content';
+                treeContainer.style.width = '70px';
+                return; // Sortir de la fonction si d-none est active
+            }
+
+            // Réinitialiser la largeur si d-none n'est pas active
+            div.style.width = '320px';
+            treeContainer.style.width = '';
         });
     });
+
 
 
 });
