@@ -3,11 +3,11 @@
 {% form_theme form with ['@ibexadesign/ui/form_fields.html.twig', _self ] %}
 
 {% block _mailing_names_entry_label %}
-    <label class="form-control-label">{{"mailing.edit.name"|trans}} {{ name }}</label>
+    <label class="form-control-label ibexa-label">{{"mailing.edit.name"|trans}} {{ name }}</label>
 {% endblock %}
 
 {% block _mailing_locationId_row %}
-    <label class="form-control-label">{{"mailing.edit.location"|trans}}</label>
+    <label class="form-control-label ibexa-label">{{"mailing.edit.location"|trans}}</label>
     {{ form_widget(form) }}
     <p id="{{ id }}_name">
         {% if value > 0 and form.parent.vars.value.content is not null %}
@@ -41,7 +41,8 @@
 {% block ibexamailing_subtitle %}Edition{% endblock %}
 {% block content %}
     {{ form_start(form, {attr: {class:'col-11', ibexamailing:'mainform'}}) }}
-    {{ form(form) }}
+    {{ form_row(form.names) }}
+    {{ form_row(form.subject, {attr: {class:'label-subject'}}) }}
     {{ form_end(form) }}
 {% endblock %}
 {% block rightbar %}
