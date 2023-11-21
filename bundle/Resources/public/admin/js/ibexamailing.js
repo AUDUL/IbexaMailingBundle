@@ -40,4 +40,31 @@ jQuery(function () {
             li.classList.toggle('c-list-item--is-expanded');
         });
     });
+
+    document.querySelectorAll(".toggle-button-menu").forEach((div) => {
+        div.addEventListener('click', () => {
+            const scrollableWrapper = div.closest('.toggle-wrapper').querySelector('.m-tree__scrollable-wrapper');
+            const treeContainer = div.closest('.m-tree');
+
+            if (!scrollableWrapper || !treeContainer) {
+                return; // Arrêter l'exécution si les éléments nécessaires ne sont pas présents
+            }
+
+            scrollableWrapper.classList.toggle('d-none');
+
+            // Appliquer le style à la div toggle-button-menu si d-none est active
+            if (scrollableWrapper.classList.contains('d-none')) {
+                div.style.width = 'fit-content';
+                treeContainer.style.width = '70px';
+                return; // Sortir de la fonction si d-none est active
+            }
+
+            // Réinitialiser la largeur si d-none n'est pas active
+            div.style.width = '320px';
+            treeContainer.style.width = '';
+        });
+    });
+
+
+
 });
