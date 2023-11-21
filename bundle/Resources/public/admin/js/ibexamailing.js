@@ -40,4 +40,26 @@ jQuery(function () {
             li.classList.toggle('c-list-item--is-expanded');
         });
     });
+
+    document.querySelectorAll(".toggle-button-menu").forEach((div) => {
+        div.addEventListener('click', () => {
+            const scrollableWrapper = div.closest('.toggle-wrapper').querySelector('.m-tree__scrollable-wrapper');
+            const treeContainer = div.closest('.m-tree');
+
+            if (scrollableWrapper && treeContainer) {
+                scrollableWrapper.classList.toggle('nav-arbo');
+
+                // Appliquer le style à la div toggle-button-menu si nav-arbo est active
+                if (scrollableWrapper.classList.contains('nav-arbo')) {
+                    div.style.width = 'fit-content';
+                    treeContainer.style.width = '70px';
+                } else {
+                    div.style.width = '320px'; // Réinitialiser la largeur si nav-arbo n'est pas active
+                    treeContainer.style.width = ''; // Réinitialiser la largeur si nav-arbo n'est pas active
+                }
+            }
+        });
+    });
+
+
 });
