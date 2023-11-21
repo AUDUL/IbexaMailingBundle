@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Listener;
@@ -52,7 +50,7 @@ class LocationViewGroupTab
     public function onTabGroupPreRender(TabGroupEvent $event): void
     {
         $tabGroup = $event->getData();
-        if ('location-view' !== $tabGroup->getIdentifier()) {
+        if ($tabGroup->getIdentifier() !== 'location-view') {
             return;
         }
 

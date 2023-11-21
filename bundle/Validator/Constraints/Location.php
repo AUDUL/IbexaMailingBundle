@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Validator\Constraints;
@@ -13,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class Location extends Constraint
 {
-    public $message = 'The Content should be selected.';
+    public string $message = 'The Content should be selected.';
 
     public function validatedBy(): string
     {

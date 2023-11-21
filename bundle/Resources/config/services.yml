@@ -55,7 +55,6 @@ services:
     ibexamailing.menu.campaigns:
         class: Knp\Menu\MenuItem
         factory: [ '@CodeRhapsodie\IbexaMailingBundle\Menu\Builder','createCampaignMenu' ]
-        arguments: ["@request_stack"]
         tags:
             - { name: knp_menu.menu, alias: ibexamailing.menu.campaigns }
 

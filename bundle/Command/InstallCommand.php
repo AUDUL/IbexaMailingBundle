@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeRhapsodie\IbexaMailingBundle\Command;
 
 use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast;
@@ -22,7 +24,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'ibexamailing:install', description: 'Add IbexaMailing tables to database')]
 class InstallCommand extends Command
 {
-
     public function __construct(private readonly EntityManagerInterface $entityManager)
     {
         parent::__construct();

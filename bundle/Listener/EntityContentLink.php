@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Listener;
@@ -23,10 +21,14 @@ class EntityContentLink
     {
     }
 
-    /** @PostLoad */
+    /**
+     * @PostLoad
+     *
+     *  @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function postLoadHandler(ContentInterface $entity, PostLoadEventArgs $event): void
     {
-        if (null !== $entity->getLocationId()) {
+        if ($entity->getLocationId() !== null) {
             try {
                 $this->repository->sudo(function () use ($entity) {
                     $location = $this->locationService->loadLocation($entity->getLocationId());

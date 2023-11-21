@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Core\Mailer;
@@ -17,12 +15,12 @@ use Symfony\Component\Mime\Message;
 
 class Simple
 {
-    public function __construct(private readonly MessageContent  $messageProvider,
-                                private readonly LoggerInterface $logger,
-                                private readonly MailerInterface $mailer,
-                                private readonly string          $simpleMailer
-    )
-    {
+    public function __construct(
+        private readonly MessageContent $messageProvider,
+        private readonly LoggerInterface $logger,
+        private readonly MailerInterface $mailer,
+        private readonly string $simpleMailer
+    ) {
     }
 
     public function sendStartSendingMailingMessage(MailingEntity $mailing): void
@@ -51,7 +49,7 @@ class Simple
 
     private function sendMessage(Message $message): void
     {
-        $this->logger->debug("Simple Mailer sends {$message->getSubject()}.");
+        $this->logger->debug("Simple Mailer sends {$message->getHeaders()->get('subject')->getBody()}.");
         $message->getHeaders()->addTextHeader('X-Transport', $this->simpleMailer);
 
         $this->mailer->send($message);

@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle;
 
-use LogicException;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class IbexaMailingBundle extends Bundle
 {
+    /**
+     * @SuppressWarnings(PHPMD.ElseExpression)
+     */
     public function getContainerExtension(): ?ExtensionInterface
     {
-        if (null === $this->extension) {
+        if ($this->extension === null) {
             $extension = $this->createContainerExtension();
-            if (null !== $extension) {
+            if ($extension !== null) {
                 if (!$extension instanceof ExtensionInterface) {
-                    throw new LogicException(
-                        sprintf('Extension %s must implement '.ExtensionInterface::class.'.', \get_class($extension))
-                    );
+                    throw new \LogicException(sprintf('Extension %s must implement '.ExtensionInterface::class.'.', $extension::class));
                 }
                 $this->extension = $extension;
             } else {

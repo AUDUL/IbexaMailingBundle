@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Twig;
@@ -19,7 +17,7 @@ class Extension extends TwigExtension implements GlobalsInterface
             new TwigFilter(
                 'country_name',
                 function ($value) {
-                    if (null !== $value) {
+                    if ($value !== null) {
                         return Countries::getName($value);
                     }
 

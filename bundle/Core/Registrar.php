@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Core;
@@ -14,13 +12,14 @@ use CodeRhapsodie\IbexaMailingBundle\Entity\ConfirmationToken;
 use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Registration as RegistrationEntity;
 use CodeRhapsodie\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Repository\ConfirmationTokenRepository;
+use CodeRhapsodie\IbexaMailingBundle\Repository\MailingListRepository;
+use CodeRhapsodie\IbexaMailingBundle\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use RuntimeException;
 
 class Registrar
 {
@@ -29,47 +28,25 @@ class Registrar
      */
     public const TOKEN_EXPIRATION_HOURS = 5;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var SiteAccess
-     */
-    private $siteAccess;
-
-    /**
-     * @var SimpleMailer
-     */
-    private $mailer;
-
-    /**
-     * @var ConfigResolver
-     */
-    protected $configResolver;
-
     public function __construct(
-        EntityManagerInterface     $entityManager,
-        SiteAccess                 $siteAccess,
-        SimpleMailer               $mailer,
-        ConfigResolverInterface    $configResolver,
-    )
-    {
-        $this->entityManager = $entityManager;
-        $this->siteAccess = $siteAccess;
-        $this->mailer = $mailer;
-        $this->configResolver = $configResolver;
+        private readonly EntityManagerInterface $entityManager,
+        private readonly SiteAccess $siteAccess,
+        private readonly SimpleMailer $mailer,
+        protected readonly ConfigResolverInterface $configResolver,
+        private readonly UserRepository $userRepository,
+        private readonly MailingListRepository $mailingListRepository,
+        private readonly ConfirmationTokenRepository $confirmationTokenRepository
+    ) {
     }
 
     public function askForConfirmation(Registration $registration): void
     {
         $user = $registration->getUser();
-        if (null === $user) {
-            throw new RuntimeException('User cannot be empty.');
+        if ($user === null) {
+            throw new \RuntimeException('UserRepository cannot be empty.');
         }
-        $userRepo = $this->entityManager->getRepository(User::class);
-        $fetchUser = $userRepo->findOneByEmail($user->getEmail());
+
+        $fetchUser = $this->userRepository->findOneBy(['email' => $user->getEmail()]);
 
         if (!$fetchUser instanceof User) {
             $user->setStatus(User::PENDING);
@@ -90,11 +67,10 @@ class Registrar
     public function askForUnregisterConfirmation(Unregistration $unregistration): bool
     {
         $user = $unregistration->getUser();
-        if (null === $user) {
-            throw new RuntimeException('User cannot be empty.');
+        if ($user === null) {
+            throw new \RuntimeException('UserRepository cannot be empty.');
         }
-        $userRepo = $this->entityManager->getRepository(User::class);
-        $fetchUser = $userRepo->findOneByEmail($user->getEmail());
+        $fetchUser = $this->userRepository->findOneBy(['email' => $user->getEmail()]);
 
         if (!$fetchUser instanceof User) {
             return false;
@@ -112,18 +88,88 @@ class Registrar
     }
 
     /**
-     * @param array|ArrayCollection $mailingLists
+     * @SuppressWarnings(PHPMD.ElseExpression)
+     */
+    public function confirm(ConfirmationToken $token): bool
+    {
+        $created = Carbon::instance($token->getCreated());
+        $expired = Carbon::now()->subHours(static::TOKEN_EXPIRATION_HOURS);
+        if ($created->lessThan($expired)) {
+            return false;
+        }
+
+        ['action' => $action, 'userId' => $userId, 'mailingListIds' => $mailingListIds] = $token->getPayload();
+        if (!\in_array($action, [ConfirmationToken::REGISTER, ConfirmationToken::UNREGISTER])) {
+            return false;
+        }
+        $user = $this->userRepository->find($userId);
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        $this->addMailingLists($mailingListIds, $action, $user);
+
+        // in any case we can confirm the email here
+        if ($user->isPending()) {
+            $user->setStatus(User::CONFIRMED);
+        }
+
+        // if no more registration then we remove the user
+        if (empty($user->getRegistrations())) {
+            if ($this->configResolver->getParameter('delete_user', 'ibexamailing')) {
+                $this->entityManager->remove($user);
+            } else {
+                $user->setStatus(User::REMOVED);
+            }
+        }
+
+        $this->entityManager->remove($token);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    /**
+     * Clean the ConfirmationTokenRepository expired records.
+     */
+    public function cleanup(): void
+    {
+        $criteria = new Criteria();
+        $criteria->where(Criteria::expr()->lt('created', Carbon::now()->subHours(static::TOKEN_EXPIRATION_HOURS)));
+        $results = $this->confirmationTokenRepository->matching($criteria);
+
+        foreach ($results as $result) {
+            $this->entityManager->remove($result);
+        }
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @return ArrayCollection<int, MailingList|null>
+     */
+    public function getDefaultMailingList(): ArrayCollection
+    {
+        $mailingListId = null;
+        if ($this->configResolver->hasParameter('default_mailinglist_id', 'ibexamailing')) {
+            $mailingListId = $this->configResolver->getParameter('default_mailinglist_id', 'ibexamailing');
+        }
+        $mailingList = $this->mailingListRepository->find($mailingListId);
+
+        return new ArrayCollection([$mailingList]);
+    }
+
+    /**
+     * @param array<MailingList>|ArrayCollection<int, MailingList> $mailingLists
      */
     private function createConfirmationToken(
         string $action,
-        User   $user,
-        mixed  $mailingLists
-    ): ConfirmationToken
-    {
+        User $user,
+        mixed $mailingLists
+    ): ConfirmationToken {
         if ($mailingLists instanceof ArrayCollection) {
             $mailingLists = $mailingLists->toArray();
         }
-        /** @var ArrayCollection $mailingListIds */
+        /** @var array<MailingList> $mailingListIds */
         $mailingListIds = array_map(function (MailingList $mailingList) {
             return $mailingList->getId();
         }, $mailingLists);
@@ -143,42 +189,24 @@ class Registrar
     }
 
     /**
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     * @SuppressWarnings(PHPMD.UndefinedVariable)
+     * @param array<mixed> $mailingListIds
      */
-    public function confirm(ConfirmationToken $token): bool
+    private function addMailingLists(array $mailingListIds, string $action, User $user): void
     {
-        $created = Carbon::instance($token->getCreated());
-        $expired = Carbon::now()->subHours(static::TOKEN_EXPIRATION_HOURS);
-        if ($created->lessThan($expired)) {
-            return false;
-        }
-
-        ['action' => $action, 'userId' => $userId, 'mailingListIds' => $mailingListIds] = $token->getPayload();
-        if (!\in_array($action, [ConfirmationToken::REGISTER, ConfirmationToken::UNREGISTER])) {
-            return false;
-        }
-        $mailingListRepo = $this->entityManager->getRepository(MailingList::class);
-        $userRepo = $this->entityManager->getRepository(User::class);
-        $user = $userRepo->findOneById($userId);
-        if (!$user instanceof User) {
-            return false;
-        }
-
         foreach ($mailingListIds as $id) {
-            $mailingList = $mailingListRepo->findOneById($id);
+            $mailingList = $this->mailingListRepository->find($id);
             if (!$mailingList instanceof MailingList) {
                 continue;
             }
 
-            if (ConfirmationToken::REGISTER == $action) {
+            if ($action == ConfirmationToken::REGISTER) {
                 $registration = new RegistrationEntity();
                 $registration->setApproved(!$mailingList->isWithApproval());
                 $registration->setMailingList($mailingList);
                 $user->addRegistration($registration);
             }
 
-            if (ConfirmationToken::UNREGISTER == $action) {
+            if ($action == ConfirmationToken::UNREGISTER) {
                 $currentRegistrations = $user->getRegistrations();
                 foreach ($currentRegistrations as $registration) {
                     if ($registration->getMailingList()->getId() === $id) {
@@ -187,53 +215,5 @@ class Registrar
                 }
             }
         }
-
-        // in any case we can confirm the email here
-        if ($user->isPending()) {
-            $user->setStatus(User::CONFIRMED);
-        }
-
-        // if no more registration then we remove the user
-        if (0 == $user->getRegistrations()->count()) {
-            if ($this->configResolver->getParameter('delete_user', 'ibexamailing')) {
-                $this->entityManager->remove($user);
-            } else {
-                $user->setStatus(User::REMOVED);
-            }
-        }
-
-        $this->entityManager->remove($token);
-        $this->entityManager->flush();
-
-        return true;
-    }
-
-    /**
-     * Clean the ConfirmationToken expired records.
-     */
-    public function cleanup(): void
-    {
-        $repo = $this->entityManager->getRepository(ConfirmationToken::class);
-        $criteria = new Criteria();
-        $criteria->where(Criteria::expr()->lt('created', Carbon::now()->subHours(static::TOKEN_EXPIRATION_HOURS)));
-        $results = $repo->matching($criteria);
-
-        foreach ($results as $result) {
-            $this->entityManager->remove($result);
-        }
-        $this->entityManager->flush();
-    }
-
-    public function getDefaultMailingList(): ArrayCollection
-    {
-        $mailingListId = null;
-        if ($this->configResolver->hasParameter('default_mailinglist_id', 'ibexamailing')) {
-            $mailingListId = $this->configResolver->getParameter('default_mailinglist_id', 'ibexamailing');
-        }
-        $mailingList = $this->entityManager->getRepository(MailingList::class)->findOneBy(
-            ['id' => $mailingListId]
-        );
-
-        return new ArrayCollection([$mailingList]);
     }
 }

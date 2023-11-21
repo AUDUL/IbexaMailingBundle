@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Security\Voter;
@@ -39,9 +37,11 @@ class Mailing extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    /**
+     * @param MailingEntity $subject
+     */
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        /* @var MailingEntity $subject */
         return $this->decisionManager->decide($token, [$attribute], $subject->getCampaign());
     }
 }

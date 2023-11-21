@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Core\Modifier;
@@ -14,14 +12,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class Tracking implements ModifierInterface
 {
-    /**
-     * @var
-     */
-    private $router;
-
-    public function __construct(RouterInterface $router)
+    public function __construct(private readonly RouterInterface $router)
     {
-        $this->router = $router;
     }
 
     public function modify(Mailing $mailing, User $user, string $html, array $options = []): string
@@ -50,7 +42,7 @@ class Tracking implements ModifierInterface
                     [
                         'salt' => str_replace('.', '', $uniqId),
                         'broadcastId' => $broadcast->getId(),
-                        'url' => str_replace(['+', '/'], ['-', '_'], base64_encode('http' . trim($aInput[1]) . trim($aInput[2]) . trim($aInput[3]))),
+                        'url' => str_replace(['+', '/'], ['-', '_'], base64_encode('http'.trim($aInput[1]).trim($aInput[2]).trim($aInput[3]))),
                         'siteaccess' => $mailing->getSiteAccess(),
                     ],
                     UrlGeneratorInterface::ABSOLUTE_URL

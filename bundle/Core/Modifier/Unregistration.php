@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Core\Modifier;
@@ -11,16 +9,10 @@ use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class Unregistration
+class Unregistration implements ModifierInterface
 {
-    /**
-     * @var
-     */
-    private $router;
-
-    public function __construct(RouterInterface $router)
+    public function __construct(private readonly RouterInterface $router)
     {
-        $this->router = $router;
     }
 
     public function modify(Mailing $mailing, User $user, string $html, array $options = []): string

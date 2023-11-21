@@ -1,15 +1,12 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Controller;
 
 use CodeRhapsodie\IbexaMailingBundle\Core\Utils\Browser;
-use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast;
 use CodeRhapsodie\IbexaMailingBundle\Entity\StatHit;
-use DateTime;
+use CodeRhapsodie\IbexaMailingBundle\Repository\BroadcastRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,15 +25,15 @@ class TrackController
      * @Route("/continue/{salt}/{broadcastId}/{url}", name="ibexamailing_t_continue")
      */
     public function continueAction(
-        string                 $salt,
-        int                    $broadcastId,
-        string                 $url,
+        string $salt,
+        int $broadcastId,
+        string $url,
         EntityManagerInterface $entityManager,
-        Request                $request
-    ): RedirectResponse
-    {
-        $broadcast = $entityManager->getRepository(Broadcast::class)->findOneByid($broadcastId);
-        $browser = new Browser($request->headers->get('User-Agent'));
+        BroadcastRepository $broadcastRepository,
+        Request $request
+    ): RedirectResponse {
+        $broadcast = $broadcastRepository->find($broadcastId);
+        $browser = new Browser($request->headers->get('UserRepository-Agent'));
         $stat = new StatHit();
         $decodedUrl = base64_decode(str_replace(['-', '_'], ['+', '/'], $url));
         $stat
@@ -45,7 +42,7 @@ class TrackController
             ->setUserKey($salt)
             ->setUrl($decodedUrl)
             ->setBroadcast($broadcast)
-            ->setUpdated(new DateTime());
+            ->setUpdated(new \DateTime());
         $entityManager->persist($stat);
         $entityManager->flush();
 
@@ -56,14 +53,14 @@ class TrackController
      * @Route("/read/{salt}/{broadcastId}", name="ibexamailing_t_read")
      */
     public function readAction(
-        string                 $salt,
-        int                    $broadcastId,
+        string $salt,
+        int $broadcastId,
         EntityManagerInterface $entityManager,
-        Request                $request
-    ): Response
-    {
-        $broadcast = $entityManager->getRepository(Broadcast::class)->findOneByid($broadcastId);
-        $browser = new Browser($request->headers->get('User-Agent'));
+        Request $request,
+        BroadcastRepository $broadcastRepository
+    ): Response {
+        $broadcast = $broadcastRepository->find($broadcastId);
+        $browser = new Browser($request->headers->get('UserRepository-Agent'));
         $stat = new StatHit();
         $stat
             ->setOsName($browser->getPlatform())
@@ -71,7 +68,7 @@ class TrackController
             ->setUserKey($salt)
             ->setUrl('-')
             ->setBroadcast($broadcast)
-            ->setUpdated(new DateTime());
+            ->setUpdated(new \DateTime());
         $entityManager->persist($stat);
         $entityManager->flush();
 

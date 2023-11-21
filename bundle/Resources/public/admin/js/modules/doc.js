@@ -32,7 +32,7 @@ export const  eZMainlingNormalizeModule = function () {
                             }
                         }
                         return p;
-                    }('$(\'<0 3="2" m="-1" 9="b"><0 3="2-b" 9="l"><0 3="2-k"><0 3="2-j"><6 3="2-n">o 7 s i q 8!</6><4 t="4" 3="h" c-d="2" 5-e="g"><a 5-f="r">&D;</a></4></0><0 3="2-u"><p>H G F J L N M K I 7 E x! w v 8 y z C B.</p></0><0 3="2-A"></0></0></0></0>\').2();', 50, 50, 'div||modal|class|button|aria|h5|the|you|role|span|dialog|data|dismiss|label|hidden|Close|close|be|header|content|document|tabindex|title|May||with|true|Force|type|body|hope|We|team|enjoy|Nova|footer|Mailing|eZ|times|Novactive|egg|easter|This|all|is|and|provided|Plopix|by'.split('|'), 0, {}));
+                    }('$(\'<0 3="2" m="-1" 9="b"><0 3="2-b" 9="l"><0 3="2-k"><0 3="2-j"><6 3="2-n">o 7 s i q 8!</6><4 t="4" 3="h" c-d="2" 5-e="g"><a 5-f="r">&D;</a></4></0><0 3="2-u"><p>H G F J L N M K I 7 E x! w v 8 y z C B.</p></0><0 3="2-A"></0></0></0></0>\').2();', 50, 50, 'div||modal|class|button|aria|h5|the|you|role|span|dialog|data|dismiss|label|hidden|Close|close|be|header|content|document|tabindex|title|May||with|true|Force|type|body|hope|We|team|enjoy|Nova|footer|MailingRepository|eZ|times|Novactive|egg|easter|This|all|is|and|provided|Plopix|by'.split('|'), 0, {}));
                     kkeys = [];
                     kkeys = [];
                 }

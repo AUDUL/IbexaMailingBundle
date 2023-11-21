@@ -1,12 +1,13 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
-class Campaign extends EntityRepository
+/**
+ * @extends EntityRepository<\CodeRhapsodie\IbexaMailingBundle\Entity\Campaign>
+ */
+class CampaignRepository extends EntityRepository
 {
     protected function getAlias(): string
     {

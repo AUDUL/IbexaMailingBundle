@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
@@ -9,7 +7,6 @@ namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
 use Carbon\Carbon;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Broadcast
@@ -31,7 +28,7 @@ class Broadcast
             ->setMailing($mailing)
             ->setStarted(Carbon::now())
             ->setHtml($html)
-            ->setUpdated(new DateTime());
+            ->setUpdated(new \DateTime());
         $this->store($broadcast);
 
         return $broadcast;

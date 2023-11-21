@@ -29,7 +29,10 @@
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "fakerphp/faker": "^1.9",
         "phpunit/phpunit": "^10.4",
-        "doctrine/doctrine-migrations-bundle": "^3.0"
+        "doctrine/doctrine-migrations-bundle": "^3.0",
+        "ekino/phpstan-banned-code": "^1.0",
+        "friendsofphp/php-cs-fixer": "^3.38",
+        "phpmd/phpmd": "^2.14"
     },
     "autoload": {
         "psr-4": {

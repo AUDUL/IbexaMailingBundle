@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Form;
@@ -31,6 +29,9 @@ class CampaignType extends AbstractType
         $this->siteAccessResolver = $siteAccessResolver;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $siteaccesses = array_combine(

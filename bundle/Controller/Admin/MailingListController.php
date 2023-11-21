@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
@@ -13,82 +11,75 @@ use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
 use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
 use CodeRhapsodie\IbexaMailingBundle\Form\ImportType;
 use CodeRhapsodie\IbexaMailingBundle\Form\MailingListType;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Core\Helper\TranslationHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/mailinglist")
  */
-class MailingListController
+class MailingListController extends AbstractController
 {
     /**
      * @Route("/show/{mailingList}/{status}/{page}/{limit}", name="ibexamailing_mailinglist_show",
      *                                              defaults={"page":1, "limit":10, "status":"all"})
+     *
      * @Security("is_granted('view', mailingList)")
-     * @Template()
      */
     public function showAction(
-        MailingList  $mailingList,
+        MailingList $mailingList,
         UserProvider $provider,
-        string       $status = 'all',
-        int          $page = 1,
-        int          $limit = 10
-    ): array
-    {
+        string $status = 'all',
+        int $page = 1,
+        int $limit = 10
+    ): Response {
         $filers = [
             'mailingLists' => [$mailingList],
-            'status' => 'all' === $status ? null : $status,
+            'status' => $status === 'all' ? null : $status,
         ];
 
-        return [
+        return $this->render('@IbexaMailing/admin/mailing_list/show.html.twig', [
             'pager' => $provider->getPagerFilters($filers, $page, $limit),
             'item' => $mailingList,
             'statuses' => $provider->getStatusesData($filers),
             'currentStatus' => $status,
-        ];
+        ]);
     }
 
     /**
      * @Route("", name="ibexamailing_mailinglist_index")
-     * @Template()
      */
-    public function indexAction(EntityManagerInterface $entityManager): array
+    public function indexAction(EntityManagerInterface $entityManager): Response
     {
         $repo = $entityManager->getRepository(MailingList::class);
 
-        return ['items' => $repo->findAll()];
+        return $this->render('@IbexaMailing/admin/mailing_list/index.html.twig', ['items' => $repo->findAll()]);
     }
 
     /**
      * @Route("/edit/{mailinglist}", name="ibexamailing_mailinglist_edit")
      * @Route("/create", name="ibexamailing_mailinglist_create")
-     * @Security("is_granted('edit', mailinglist)")
-     * @Template()
      *
-     * @return array|RedirectResponse
+     * @Security("is_granted('edit', mailinglist)")
      */
     public function editAction(
-        ?MailingList           $mailinglist,
-        Request                $request,
-        RouterInterface        $router,
-        FormFactoryInterface   $formFactory,
+        ?MailingList $mailinglist,
+        Request $request,
+        FormFactoryInterface $formFactory,
         EntityManagerInterface $entityManager,
-        TranslationHelper      $translationHelper
-    )
-    {
-        if (null === $mailinglist) {
+        TranslationHelper $translationHelper
+    ): Response {
+        if ($mailinglist === null) {
             $mailinglist = new MailingList();
             $languages = array_filter($translationHelper->getAvailableLanguages());
-            $mailinglist->setNames(array_combine($languages, array_pad([], count($languages), '')));
+            $mailinglist->setNames(array_combine($languages, array_pad([], \count($languages), '')));
         }
 
         $form = $formFactory->create(MailingListType::class, $mailinglist);
@@ -96,50 +87,46 @@ class MailingListController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $mailinglist
-                ->setUpdated(new DateTime());
+                ->setUpdated(new \DateTime());
             $entityManager->persist($mailinglist);
             $entityManager->flush();
 
-            return new RedirectResponse(
-                $router->generate('ibexamailing_mailinglist_show', ['mailingList' => $mailinglist->getId()])
-            );
+            return $this->redirectToRoute('ibexamailing_mailinglist_show', ['mailingList' => $mailinglist->getId()]);
         }
 
-        return [
+        return $this->render('@IbexaMailing/admin/mailing_list/edit.html.twig', [
             'item' => $mailinglist,
             'form' => $form->createView(),
-        ];
+        ]);
     }
 
     /**
      * @Route("/delete/{mailinglist}", name="ibexamailing_mailinglist_remove")
+     *
      * @Security("is_granted('edit', mailinglist)")
      */
     public function deleteAction(
-        MailingList            $mailinglist,
+        MailingList $mailinglist,
         EntityManagerInterface $entityManager,
-        RouterInterface        $router
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $entityManager->remove($mailinglist);
         $entityManager->flush();
 
-        return new RedirectResponse($router->generate('ibexamailing_mailinglist_index'));
+        return $this->redirectToRoute('ibexamailing_mailinglist_index');
     }
 
     /**
      * @Route("/import/{mailinglist}", name="ibexamailing_mailinglist_import")
+     *
      * @Security("is_granted('edit', mailinglist)")
-     * @Template()
      */
     public function importAction(
-        MailingList          $mailinglist,
+        MailingList $mailinglist,
         FormFactoryInterface $formFactory,
-        Request              $request,
-        User                 $importer,
-        ValidatorInterface   $validator
-    ): array
-    {
+        Request $request,
+        User $importer,
+        ValidatorInterface $validator
+    ): Response {
         $userImport = new UserImport();
         $form = $formFactory->create(ImportType::class, $userImport);
         $form->handleRequest($request);
@@ -150,9 +137,9 @@ class MailingListController
                 try {
                     $user = $importer->hydrateUser($row);
                     $user
-                        ->setUpdated(new DateTime());
+                        ->setUpdated(new \DateTime());
                     $errors = $validator->validate($user);
-                    if (count($errors) > 0) {
+                    if (\count($errors) > 0) {
                         $errorList["Line {$index}"] = $errors;
                         continue;
                     }
@@ -167,11 +154,11 @@ class MailingListController
             }
         }
 
-        return [
+        return $this->render('@IbexaMailing/admin/mailing_list/import.html.twig', [
             'count' => $count,
             'error_list' => $errorList,
             'item' => $mailinglist,
             'form' => $form->createView(),
-        ];
+        ]);
     }
 }

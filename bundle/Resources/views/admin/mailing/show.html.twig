@@ -3,7 +3,7 @@
 
 {% block ibexamailing_breadcrumb %}
     {% set items = [
-        {'url':path("ibexamailing_dashboard_index"), 'value': 'Ibexa Mailing' },
+        {'url':path("ibexamailing_dashboard_index"), 'value': 'Ibexa MailingRepository' },
         {'value': "campaign.breadcrumb.campaigns"|trans },
         {'url': path('ibexamailing_campaign_subscriptions', {campaign: item.campaign.id}), 'value':  item.campaign.name },
         {'value': item.name },

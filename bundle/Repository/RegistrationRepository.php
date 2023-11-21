@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
@@ -10,13 +8,14 @@ use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
-class Registration extends EntityRepository
+/**
+ * @extends EntityRepository<\CodeRhapsodie\IbexaMailingBundle\Entity\Registration>
+ */
+class RegistrationRepository extends EntityRepository
 {
-    protected function getAlias(): string
-    {
-        return 'reg';
-    }
-
+    /**
+     * @param array<string, mixed> $filters
+     */
     public function createQueryBuilderForFilters(array $filters = []): QueryBuilder
     {
         $qb = parent::createQueryBuilderForFilters($filters);
@@ -33,7 +32,7 @@ class Registration extends EntityRepository
         if (isset($filters['mailingLists'])) {
             $mailingLists = $filters['mailingLists'];
         }
-        if (null !== $mailingLists) {
+        if ($mailingLists !== null) {
             $qb->andWhere($qb->expr()->in('reg.mailingList', ':mailinglists'))->setParameter(
                 'mailinglists',
                 $mailingLists
@@ -47,5 +46,10 @@ class Registration extends EntityRepository
         }
 
         return $qb;
+    }
+
+    protected function getAlias(): string
+    {
+        return 'reg';
     }
 }

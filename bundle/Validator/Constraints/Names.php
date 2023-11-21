@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Validator\Constraints;
@@ -13,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class Names extends Constraint
 {
-    public $message = 'The Name should be NOT empty.';
+    public string $message = 'The Name should be NOT empty.';
 
     public function validatedBy(): string
     {

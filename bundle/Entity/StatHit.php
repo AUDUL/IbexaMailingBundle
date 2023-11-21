@@ -1,18 +1,15 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="mailing_stats_hit")
  *
- * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\StatHit")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\StatHitRepository")
  */
 class StatHit
 {
@@ -22,7 +19,9 @@ class StatHit
      * @var int
      *
      * @ORM\Column(name="STHIT_id", type="bigint", nullable=false)
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -57,14 +56,16 @@ class StatHit
 
     /**
      * @var Broadcast
-     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast", inversedBy="statHits")
+     *
+     * @ORM\ManyToOne(targetEntity="BroadcastRepository", inversedBy="statHits")
+     *
      * @ORM\JoinColumn(name="BDCST_id", referencedColumnName="BDCST_id")
      */
     private $broadcast;
 
     public function __construct()
     {
-        $this->created = new DateTime();
+        $this->created = new \DateTime();
     }
 
     public function getId(): int

@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Form;
@@ -34,13 +32,16 @@ class MailingType extends AbstractType
         $this->siteAccessResolver = $siteAccessResolver;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $fromArray = function ($array) {
             return implode(',', $array);
         };
         $fromString = function ($string) {
-            return array_unique(null !== $string ? explode(',', $string) : []);
+            return array_unique($string !== null ? explode(',', $string) : []);
         };
 
         $siteaccesses = array_combine(
@@ -116,7 +117,7 @@ class MailingType extends AbstractType
                     ChoiceType::class,
                     [
                         'label' => 'mailing.buildform.which_siteaccess',
-                        'choices' => count($siteaccessLimit) > 0 ? $siteaccessLimit : $siteaccesses,
+                        'choices' => \count($siteaccessLimit) > 0 ? $siteaccessLimit : $siteaccesses,
                         'expanded' => true,
                         'multiple' => false,
                         'required' => true,

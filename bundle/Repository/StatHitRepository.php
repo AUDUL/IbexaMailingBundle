@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
@@ -9,20 +7,24 @@ namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
 use Doctrine\ORM\QueryBuilder;
 
-class StatHit extends EntityRepository
+/**
+ * @extends EntityRepository<\CodeRhapsodie\IbexaMailingBundle\Entity\StatHit>
+ */
+class StatHitRepository extends EntityRepository
 {
-    protected function getAlias(): string
-    {
-        return 'stathit';
-    }
-
+    /**
+     * @param array<string, mixed> $filters
+     */
     public function createQueryBuilderForFilters(array $filters = []): QueryBuilder
     {
         $qb = parent::createQueryBuilderForFilters($filters);
+        $broadcasts = null;
+
         if (isset($filters['broadcasts'])) {
             $broadcasts = $filters['broadcasts'];
         }
-        if (null !== $broadcasts) {
+
+        if ($broadcasts !== null) {
             $qb->andWhere($qb->expr()->in('stathit.broadcast', ':broadcasts'))->setParameter(
                 'broadcasts',
                 $broadcasts
@@ -34,8 +36,10 @@ class StatHit extends EntityRepository
 
     /**
      * @param BroadcastEntity[] $broadcasts
+     *
+     * @return array<string, int>
      */
-    public function getBrowserMapCount($broadcasts): array
+    public function getBrowserMapCount(array $broadcasts): array
     {
         $qb = $this->createQueryBuilderForFilters(['broadcasts' => $broadcasts]);
         $qb->select($qb->expr()->count($this->getAlias().'.id').' as nb', $this->getAlias().'.browserName');
@@ -52,8 +56,10 @@ class StatHit extends EntityRepository
 
     /**
      * @param BroadcastEntity[] $broadcasts
+     *
+     * @return array<string, int>
      */
-    public function getOSMapCount($broadcasts): array
+    public function getOSMapCount(array $broadcasts): array
     {
         $qb = $this->createQueryBuilderForFilters(['broadcasts' => $broadcasts]);
         $qb->select($qb->expr()->count($this->getAlias().'.id').' as nb', $this->getAlias().'.osName');
@@ -70,8 +76,10 @@ class StatHit extends EntityRepository
 
     /**
      * @param BroadcastEntity[] $broadcasts
+     *
+     * @return array<string, int>
      */
-    public function getURLMapCount($broadcasts): array
+    public function getURLMapCount(array $broadcasts): array
     {
         $qb = $this->createQueryBuilderForFilters(['broadcasts' => $broadcasts]);
         $qb->select($qb->expr()->count($this->getAlias().'.id').' as nb', $this->getAlias().'.url');
@@ -90,7 +98,7 @@ class StatHit extends EntityRepository
     /**
      * @param BroadcastEntity[] $broadcasts
      */
-    public function getOpenedCount($broadcasts): int
+    public function getOpenedCount(array $broadcasts): int
     {
         $qb = $this->createQueryBuilderForFilters(['broadcasts' => $broadcasts]);
         $qb->select($qb->expr()->countDistinct($this->getAlias().'.userKey').' as nb');
@@ -101,8 +109,10 @@ class StatHit extends EntityRepository
 
     /**
      * @param BroadcastEntity[] $broadcasts
+     *
+     * @return array<string, int>
      */
-    public function getOpenedCountPerDay($broadcasts): array
+    public function getOpenedCountPerDay(array $broadcasts): array
     {
         $qb = $this->createQueryBuilderForFilters(['broadcasts' => $broadcasts]);
         $qb->select(
@@ -120,5 +130,10 @@ class StatHit extends EntityRepository
         }
 
         return $mappedResults;
+    }
+
+    protected function getAlias(): string
+    {
+        return 'stathit';
     }
 }

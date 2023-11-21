@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Entity;
@@ -10,14 +8,14 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * A Broadcast is a record of a Mailing "sending" at a certain point in time
+ * A BroadcastRepository is a record of a MailingRepository "sending" at a certain point in time
  * to a certain number of approved registrations
  * with a certain html contents (we will backup here)
- * It's really a record of a Mailing broadcast.
+ * It's really a record of a MailingRepository broadcast.
  *
  * @ORM\Table(name="mailing_broadcast")
  *
- * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\Broadcast")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\BroadcastRepository")
  */
 class Broadcast
 {
@@ -25,46 +23,56 @@ class Broadcast
 
     /**
      * @var int
+     *
      * @ORM\Column(name="BDCST_id", type="bigint", nullable=false)
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var DateTime
+     * @var \DateTime
+     *
      * @ORM\Column(name="BDCST_started", type="datetime", nullable=false)
      */
     private $started;
 
     /**
-     * @var DateTime
+     * @var \DateTime
+     *
      * @ORM\Column(name="BDCST_ended", type="datetime", nullable=true)
      */
     private $ended;
 
     /**
      * @var int
+     *
      * @ORM\Column(name="BDCST_email_sent_count", type="integer", nullable=false)
      */
     private $emailSentCount;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="BDCST_html", type="text", nullable=false)
      */
     private $html;
 
     /**
      * @var Mailing
-     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Mailing", inversedBy="broadcasts")
+     *
+     * @ORM\ManyToOne(targetEntity="MailingRepository", inversedBy="broadcasts")
+     *
      * @ORM\JoinColumn(name="MAIL_id", referencedColumnName="MAIL_id")
      */
     private $mailing;
 
     /**
      * @var StatHit[]
-     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\StatHit", mappedBy="broadcast",
+     *
+     * @ORM\OneToMany(targetEntity="StatHitRepository", mappedBy="broadcast",
      *                                                                                cascade={"persist","remove"},
      *                                                                                fetch="EXTRA_LAZY")
      */
@@ -73,7 +81,7 @@ class Broadcast
     public function __construct()
     {
         $this->emailSentCount = 0;
-        $this->created = new DateTime();
+        $this->created = new \DateTime();
     }
 
     public function getId(): int
@@ -88,24 +96,24 @@ class Broadcast
         return $this;
     }
 
-    public function getStarted(): DateTime
+    public function getStarted(): \DateTime
     {
         return $this->started;
     }
 
-    public function setStarted(DateTime $started): self
+    public function setStarted(\DateTime $started): self
     {
         $this->started = $started;
 
         return $this;
     }
 
-    public function getEnded(): ?DateTime
+    public function getEnded(): ?\DateTime
     {
         return $this->ended;
     }
 
-    public function setEnded(DateTime $ended): self
+    public function setEnded(\DateTime $ended): self
     {
         $this->ended = $ended;
 

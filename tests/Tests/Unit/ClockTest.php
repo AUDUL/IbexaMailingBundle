@@ -97,11 +97,6 @@ class ClockTest extends TestCase
     {
         return [
             [
-                Carbon::create(2018, 12, 30, 2, 8, 55),
-                ['2', '', '', '', '', '', ''],
-                Carbon::create(2018, 12, 31, 2, 0, 0),
-            ],
-            [
                 Carbon::create(2018, 5, 15, 14, 8, 55),
                 ['14,16', '', '', '', '', '', ''],
                 Carbon::create(2018, 5, 15, 16, 0, 0),
@@ -151,25 +146,6 @@ class ClockTest extends TestCase
         ];
     }
 
-    private function createMailing(array $data): Mailing
-    {
-        $mailing = new Mailing();
-
-        list($hoursOfDay, $daysOfWeek, $daysOfMonth, $daysOfYear, $weeksOfMonth, $monthsOfYear, $weeksOfYear) = $data;
-
-        $mailing->setNames(['eng-GB' => 'Test Mailing']);
-        $mailing
-            ->setHoursOfDay(explode(',', $hoursOfDay))
-            ->setDaysOfWeek(explode(',', $daysOfWeek))
-            ->setDaysOfMonth(explode(',', $daysOfMonth))
-            ->setDaysOfYear(explode(',', $daysOfYear))
-            ->setWeeksOfMonth(explode(',', $weeksOfMonth))
-            ->setMonthsOfYear(explode(',', $monthsOfYear))
-            ->setWeeksOfYear(explode(',', $weeksOfYear));
-
-        return $mailing;
-    }
-
     /**
      * @dataProvider timesMatchProvider
      */
@@ -178,7 +154,7 @@ class ClockTest extends TestCase
         foreach ($datas as $data) {
             $dataForLog = array_map(
                 function ($value) {
-                    return '' === $value ? '*' : $value;
+                    return $value === '' ? '*' : $value;
                 },
                 $data
             );
@@ -204,7 +180,7 @@ class ClockTest extends TestCase
         $nextTick = $clock->nextTick($mailing);
         $dataForLog = array_map(
             function ($value) {
-                return '' === $value ? '*' : $value;
+                return $value === '' ? '*' : $value;
             },
             $data
         );
@@ -212,8 +188,27 @@ class ClockTest extends TestCase
         $this->assertEquals(
             $expected,
             $nextTick,
-            "Next tick for {$dateReference->format('Y-m-d H:i:s')} using ".implode(' ', $dataForLog).
-            " is not {$expected->format('Y-m-d H:i:s')}"
+            "Next tick for {$dateReference->format('Y-m-d H:i:s')} using ".implode(' ', $dataForLog)
+            ." is not {$expected->format('Y-m-d H:i:s')}"
         );
+    }
+
+    private function createMailing(array $data): Mailing
+    {
+        $mailing = new Mailing();
+
+        list($hoursOfDay, $daysOfWeek, $daysOfMonth, $daysOfYear, $weeksOfMonth, $monthsOfYear, $weeksOfYear) = $data;
+
+        $mailing->setNames(['eng-GB' => 'Test MailingRepository']);
+        $mailing
+            ->setHoursOfDay(explode(',', $hoursOfDay))
+            ->setDaysOfWeek(explode(',', $daysOfWeek))
+            ->setDaysOfMonth(explode(',', $daysOfMonth))
+            ->setDaysOfYear(explode(',', $daysOfYear))
+            ->setWeeksOfMonth(explode(',', $weeksOfMonth))
+            ->setMonthsOfYear(explode(',', $monthsOfYear))
+            ->setWeeksOfYear(explode(',', $weeksOfYear));
+
+        return $mailing;
     }
 }

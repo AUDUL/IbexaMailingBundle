@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
@@ -9,9 +7,8 @@ namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 use CodeRhapsodie\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface as TestMailing;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
-use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use CodeRhapsodie\IbexaMailingBundle\Form\MailingType;
-use DateTime;
+use CodeRhapsodie\IbexaMailingBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\AdminUi\Form\Factory\FormFactory;
 use Ibexa\AdminUi\Tab\LocationView\ContentTab;
@@ -21,30 +18,30 @@ use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Workflow\Registry;
 
 /**
  * @Route("/mailing")
  */
-class MailingController
+class MailingController extends AbstractController
 {
     /**
      * @Route("/show/{mailing}", name="ibexamailing_mailing_show")
-     * @Template()
+     *
      * @IsGranted("view", subject="mailing")
      */
     public function showAction(
         Mailing $mailing,
         ContentViewParameterSupplier $contentViewParameterSupplier,
         FormFactory $formFactory
-    ): array {
+    ): Response {
         $contentView = new ContentView();
         $contentView->setLocation($mailing->getLocation());
         $contentView->setContent($mailing->getContent());
@@ -55,23 +52,22 @@ class MailingController
             'form_subitems_content_edit'
         );
 
-        return [
+        return $this->render('@IbexaMailing/admin/mailing/show.html.twig', [
             'item' => $mailing,
             'form_subitems_content_edit' => $subitemsContentEdit->createView(),
             'subitems_module' => $contentView->getParameter('subitems_module'),
-        ];
+        ]);
     }
 
     /**
-     * @Template()
      * @IsGranted("view", subject="mailing")
      */
     public function mailingTabsAction(
         Mailing $mailing,
         Repository $repository,
         ContentTab $contentTab,
-        EntityManagerInterface $entityManager
-    ): array {
+        UserRepository $userRepository
+    ): Response {
         $content = $mailing->getContent();
         $contentType = $repository->getContentTypeService()->loadContentType(
             $content->contentInfo->contentTypeId
@@ -84,42 +80,43 @@ class MailingController
             ]
         );
 
-        return [
+        return $this->render('@IbexaMailing/admin/mailing/mailing_tabs.html.twig', [
             'item' => $mailing,
-            'totalRecipients' => $entityManager->getRepository(User::class)->countValidRecipients(
+            'totalRecipients' => $userRepository->countValidRecipients(
                 $mailing->getCampaign()->getMailingLists()
             ),
             'preview' => $preview,
-        ];
+        ]);
     }
 
     /**
      * @Route("/edit/{mailing}", name="ibexamailing_mailing_edit")
-     * @ParamConverter("mailing", class="CodeRhapsodie\IbexaMailingBundle\Entity\Mailing", options={"id"="mailing"})
-     * @Route("/create/{campaign}", name="ibexamailing_mailing_create")
-     * @ParamConverter("campaign", class="CodeRhapsodie\IbexaMailingBundle\Entity\Campaign", options={"id"="campaign"})
-     * @Template()
      *
-     * @return array|RedirectResponse
+     * @ParamConverter("mailing", class="CodeRhapsodie\IbexaMailingBundle\Entity\Mailing", options={"id"="mailing"})
+     *
+     * @Route("/create/{campaign}", name="ibexamailing_mailing_create")
+     *
+     * @ParamConverter("campaign", class="CodeRhapsodie\IbexaMailingBundle\Entity\Campaign", options={"id"="campaign"})
+     *
+     * @return Response
      */
     public function editAction(
         ?Mailing $mailing,
         ?Campaign $campaign,
         Request $request,
-        RouterInterface $router,
         FormFactoryInterface $formFactory,
         EntityManagerInterface $entityManager,
         Registry $workflows,
         TranslationHelper $translationHelper,
         Repository $repository
     ) {
-        if (null === $mailing) {
+        if ($mailing === null) {
             $mailing = new Mailing();
             $mailing
                 ->setStatus(Mailing::DRAFT)
                 ->setCampaign($campaign);
             $languages = array_filter($translationHelper->getAvailableLanguages());
-            $mailing->setNames(array_combine($languages, array_pad([], count($languages), '')));
+            $mailing->setNames(array_combine($languages, array_pad([], \count($languages), '')));
         }
 
         $machine = $workflows->get($mailing);
@@ -132,38 +129,36 @@ class MailingController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $machine->apply($mailing, 'edit');
-            $mailing->setUpdated(new DateTime());
+            $mailing->setUpdated(new \DateTime());
             $entityManager->persist($mailing);
             $entityManager->flush();
 
-            return new RedirectResponse(
-                $router->generate('ibexamailing_mailing_show', ['mailing' => $mailing->getId()])
-            );
+            return $this->redirectToRoute('ibexamailing_mailing_show', ['mailing' => $mailing->getId()]);
         }
 
-        if (null !== $mailing->getLocationId()) {
+        if ($mailing->getLocationId() !== null) {
             $location = $repository->getLocationService()->loadLocation($mailing->getLocationId());
             $content = $repository->getContentService()->loadContentByContentInfo($location->contentInfo);
             $mailing->setLocation($location);
             $mailing->setContent($content);
         }
 
-        return [
+        return $this->render('@IbexaMailing/admin/mailing/edit.html.twig', [
             'item' => $mailing,
             'form' => $form->createView(),
-        ];
+        ]);
     }
 
     /**
      * @Route("/confirm/{mailing}", name="ibexamailing_mailing_confirm")
      * @Route("/archive/{mailing}", name="ibexamailing_mailing_archive")
      * @Route("/abort/{mailing}",   name="ibexamailing_mailing_cancel")
+     *
      * @IsGranted("view", subject="mailing")
      */
     public function statusAction(
         Request $request,
         Mailing $mailing,
-        RouterInterface $router,
         EntityManagerInterface $entityManager,
         Registry $workflows
     ): RedirectResponse {
@@ -172,31 +167,31 @@ class MailingController
         $machine->apply($mailing, $action);
         $entityManager->flush();
 
-        return new RedirectResponse($router->generate('ibexamailing_mailing_show', ['mailing' => $mailing->getId()]));
+        return $this->redirectToRoute('ibexamailing_mailing_show', ['mailing' => $mailing->getId()]);
     }
 
     /**
      * @Route("/test/{mailing}", name="ibexamailing_mailing_test", methods={"POST"})
+     *
      * @IsGranted("view", subject="mailing")
      */
     public function testAction(
         Request $request,
         Mailing $mailing,
         TestMailing $processor,
-        RouterInterface $router,
         EntityManagerInterface $entityManager,
         Registry $workflows
     ): RedirectResponse {
         $machine = $workflows->get($mailing);
         if ($machine->can($mailing, 'test')) {
             $ccEmail = $request->request->get('cc');
-            if (\strlen($ccEmail) > 0) {
+            if ($ccEmail !== '') {
                 $processor->execute($mailing, $ccEmail);
                 $machine->apply($mailing, 'test');
                 $entityManager->flush();
             }
         }
 
-        return new RedirectResponse($router->generate('ibexamailing_mailing_show', ['mailing' => $mailing->getId()]));
+        return $this->redirectToRoute('ibexamailing_mailing_show', ['mailing' => $mailing->getId()]);
     }
 }

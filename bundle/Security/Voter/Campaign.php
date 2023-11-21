@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Security\Voter;
@@ -9,7 +7,6 @@ namespace CodeRhapsodie\IbexaMailingBundle\Security\Voter;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -40,38 +37,40 @@ class Campaign extends Voter
             return false;
         }
 
-        if (null !== $subject && !$subject instanceof CampaignEntity) {
+        if ($subject !== null && !$subject instanceof CampaignEntity) {
             return false;
         }
 
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    /**
+     * {@inheritDoc}
+     *
+     * @param CampaignEntity|null $subject
+     */
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        $user = $token->getUser();
-        /* @var CampaignEntity $subject */
-
         // all create
-        if (null === $subject) {
+        if ($subject === null) {
             return true;
         }
 
         switch ($attribute) {
             case self::VIEW:
-                return $this->canView($subject, $user);
+                return $this->canView($subject);
             case self::EDIT:
-                return $this->canEdit($subject, $user);
+                return $this->canEdit($subject);
         }
 
-        throw new LogicException('This code should not be reached!');
+        throw new \LogicException('This code should not be reached!');
     }
 
-    private function canView(CampaignEntity $subject, $user): bool
+    private function canView(CampaignEntity $subject): bool
     {
         $siteaccessLimist = $subject->getSiteaccessLimit();
         // if no limit then we vote OK
-        if (null === $siteaccessLimist || 0 === count($siteaccessLimist)) {
+        if ($siteaccessLimist === null || \count($siteaccessLimist) === 0) {
             return true;
         }
 
@@ -79,12 +78,12 @@ class Campaign extends Voter
             return true;
         }
 
-        //@improvment: maybe we should add a module/function for that specific purpose
+        // @improvment: maybe we should add a module/function for that specific purpose
         return $this->repository->getPermissionResolver()->hasAccess('setup', 'administrate');
     }
 
-    private function canEdit(CampaignEntity $subject, $user): bool
+    private function canEdit(CampaignEntity $subject): bool
     {
-        return $this->canView($subject, $user);
+        return $this->canView($subject);
     }
 }

@@ -1,12 +1,13 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
-class ConfirmationToken extends EntityRepository
+/**
+ * @extends EntityRepository<\CodeRhapsodie\IbexaMailingBundle\Entity\ConfirmationToken>
+ */
+class ConfirmationTokenRepository extends EntityRepository
 {
     protected function getAlias(): string
     {

@@ -117,7 +117,7 @@ common.registration_approbation_button.deny: Rejeter
 layout.header.search: Rechercher
 layout.pagelayout.campaigns: Campagnes
 layout.pagelayout.administration: Administration
-layout.footer.ibexamailing: Ibexa Mailing | Fait avec <3 et conçu par Code-Rhapsodie.
+layout.footer.ibexamailing: Ibexa MailingRepository | Fait avec <3 et conçu par Code-Rhapsodie.
 mailing.details.name: Nom
 mailing.details.status: Statut
 mailing.details.subject: Sujet

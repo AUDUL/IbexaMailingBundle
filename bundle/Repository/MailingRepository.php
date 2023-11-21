@@ -1,24 +1,23 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 
-class Mailing extends EntityRepository
+/**
+ * @extends EntityRepository<\CodeRhapsodie\IbexaMailingBundle\Entity\Mailing>
+ */
+class MailingRepository extends EntityRepository
 {
-    protected function getAlias(): string
-    {
-        return 'mail';
-    }
-
+    /**
+     * @param array<string, mixed> $filters
+     */
     public function createQueryBuilderForFilters(
         array $filters = [],
-        ?string $orderBy = null,
-        ?int $limit = null
+        string $orderBy = null,
+        int $limit = null
     ): QueryBuilder {
         $qb = parent::createQueryBuilderForFilters($filters);
         if (isset($filters['campaign'])) {
@@ -35,6 +34,9 @@ class Mailing extends EntityRepository
         return $qb;
     }
 
+    /**
+     * @return array<\CodeRhapsodie\IbexaMailingBundle\Entity\Mailing>
+     */
     public function findLastUpdated(int $limit = 10): array
     {
         $qb = $this->createQueryBuilderForFilters([]);
@@ -42,5 +44,10 @@ class Mailing extends EntityRepository
         $qb->orderBy("{$this->getAlias()}.updated", 'DESC');
 
         return $qb->getQuery()->getResult();
+    }
+
+    protected function getAlias(): string
+    {
+        return 'mail';
     }
 }
