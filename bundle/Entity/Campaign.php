@@ -84,7 +84,7 @@ class Campaign implements eZ\ContentInterface
     /**
      * @var MailingList[]
      *
-     * @ORM\ManyToMany(targetEntity="MailingListRepository", inversedBy="campaigns")
+     * @ORM\ManyToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\MailingList", inversedBy="campaigns")
      *
      * @ORM\JoinTable(name="mailing_campaign_mailinglists_destination",
      *      joinColumns={@ORM\JoinColumn(name="ML_id", referencedColumnName="CAMP_id")},
@@ -98,7 +98,7 @@ class Campaign implements eZ\ContentInterface
     /**
      * @var Mailing[]
      *
-     * @ORM\OneToMany(targetEntity="MailingRepository", mappedBy="campaign",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Mailing", mappedBy="campaign",
      *                                                                                cascade={"persist","remove"})
      */
     private $mailings;

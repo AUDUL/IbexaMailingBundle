@@ -57,7 +57,7 @@ class StatHit
     /**
      * @var Broadcast
      *
-     * @ORM\ManyToOne(targetEntity="BroadcastRepository", inversedBy="statHits")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast", inversedBy="statHits")
      *
      * @ORM\JoinColumn(name="BDCST_id", referencedColumnName="BDCST_id")
      */

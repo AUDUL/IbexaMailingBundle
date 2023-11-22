@@ -164,7 +164,7 @@ class Mailing implements eZ\ContentInterface
     /**
      * @var Campaign
      *
-     * @ORM\ManyToOne(targetEntity="CampaignRepository", inversedBy="mailings")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Campaign", inversedBy="mailings")
      *
      * @ORM\JoinColumn(name="CAMP_id", referencedColumnName="CAMP_id")
      */
@@ -173,7 +173,7 @@ class Mailing implements eZ\ContentInterface
     /**
      * @var Broadcast[]
      *
-     * @ORM\OneToMany(targetEntity="BroadcastRepository", mappedBy="mailing",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast", mappedBy="mailing",
      *                                                                                  cascade={"persist","remove"},
      *                                                                                  fetch="EXTRA_LAZY")
      */

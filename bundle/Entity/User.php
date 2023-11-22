@@ -214,7 +214,7 @@ class User
      *
      * @ORM\OrderBy({"created" = "ASC"})
      *
-     * @ORM\OneToMany(targetEntity="RegistrationRepository", mappedBy="user",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Registration", mappedBy="user",
      *                                                                                     cascade={"persist","remove"},
      *                                                                                     orphanRemoval=true
      * )

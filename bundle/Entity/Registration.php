@@ -35,7 +35,7 @@ class Registration
     /**
      * @var MailingList
      *
-     * @ORM\ManyToOne(targetEntity="MailingListRepository", inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\MailingList", inversedBy="registrations")
      *
      * @ORM\JoinColumn(name="ML_id", referencedColumnName="ML_id", nullable=false)
      */
@@ -44,7 +44,7 @@ class Registration
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="UserRepository", inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\User", inversedBy="registrations")
      *
      * @ORM\JoinColumn(name="USER_id", referencedColumnName="USER_id", nullable=false)
      */

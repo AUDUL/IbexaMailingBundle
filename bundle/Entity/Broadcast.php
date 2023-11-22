@@ -63,7 +63,7 @@ class Broadcast
     /**
      * @var Mailing
      *
-     * @ORM\ManyToOne(targetEntity="MailingRepository", inversedBy="broadcasts")
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Mailing", inversedBy="broadcasts")
      *
      * @ORM\JoinColumn(name="MAIL_id", referencedColumnName="MAIL_id")
      */
@@ -72,7 +72,7 @@ class Broadcast
     /**
      * @var StatHit[]
      *
-     * @ORM\OneToMany(targetEntity="StatHitRepository", mappedBy="broadcast",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\StatHit", mappedBy="broadcast",
      *                                                                                cascade={"persist","remove"},
      *                                                                                fetch="EXTRA_LAZY")
      */

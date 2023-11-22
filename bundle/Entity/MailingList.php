@@ -33,7 +33,7 @@ class MailingList
      *
      * @ORM\OrderBy({"created" = "ASC"})
      *
-     * @ORM\OneToMany(targetEntity="RegistrationRepository", mappedBy="mailingList",
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Registration", mappedBy="mailingList",
      *                                                                                      cascade={"persist","remove"},
      *                                                                                      orphanRemoval=true,
      *                                                                                      fetch="EXTRA_LAZY"
@@ -58,7 +58,7 @@ class MailingList
     /**
      * @var Campaign[]
      *
-     * @ORM\ManyToMany(targetEntity="CampaignRepository", mappedBy="mailingLists",
+     * @ORM\ManyToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Campaign", mappedBy="mailingLists",
      *                                                                                  cascade={"persist"},
      *                                                                                  orphanRemoval=true,
      *                                                                                  fetch="EXTRA_LAZY")
