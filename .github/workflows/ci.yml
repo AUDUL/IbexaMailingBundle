@@ -37,7 +37,6 @@ jobs:
     php-stan:
         runs-on: ubuntu-latest
         steps:
-            - run: "ls"
             -   name: PHPStan Static Analysis
                 uses: php-actions/phpstan@v3
                 with:
