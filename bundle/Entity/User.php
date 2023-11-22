@@ -94,15 +94,13 @@ class User
     ];
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="USER_id", type="bigint", nullable=false)
      *
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string

@@ -34,7 +34,7 @@ class Campaign implements eZ\ContentInterface
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
