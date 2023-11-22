@@ -13,7 +13,7 @@ class MailingProcess
 {
     private ?string $phpPath = null;
 
-    public function __construct(private readonly LoggerInterface $logger, private readonly string $env, private readonly string $projectDir)
+    public function __construct(private readonly LoggerInterface $logger, private readonly string $kernelEnv, private readonly string $projectDir)
     {
     }
 
@@ -76,7 +76,7 @@ class MailingProcess
             'novaezmailing:send:mailing-subprocess',
             '--broadcast-id='.$broadcastId,
             '--users-id='.implode(',', $usersId),
-            '--env='.$this->env,
+            '--env='.$this->kernelEnv,
         ];
 
         $process = new Process($subProcessArgs);

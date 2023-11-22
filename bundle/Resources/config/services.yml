@@ -105,5 +105,4 @@ services:
         autowire: true
         arguments:
             $projectDir: '%kernel.project_dir%'
-            $env: '%kernel.environment%'
 
