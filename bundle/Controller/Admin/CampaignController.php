@@ -7,7 +7,6 @@ namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 use CodeRhapsodie\IbexaMailingBundle\Core\Provider\User as UserProvider;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
 use CodeRhapsodie\IbexaMailingBundle\Form\CampaignType;
-use CodeRhapsodie\IbexaMailingBundle\Repository\MailingListRepository;
 use CodeRhapsodie\IbexaMailingBundle\Repository\MailingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\AdminUi\Tab\LocationView\ContentTab;

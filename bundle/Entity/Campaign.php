@@ -26,8 +26,6 @@ class Campaign implements eZ\ContentInterface
     use eZ\Content;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="CAMP_id", type="bigint", nullable=false)
      *
      * @ORM\Id

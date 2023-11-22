@@ -49,7 +49,7 @@ class Mailing
             $campaign = $mailing->getCampaign();
             $this->logger->notice("MailingRepository Mailer starts to send Mailing {$mailing->getName()}");
             $recipientCounts = 0;
-            $recipients = $this->userRepository->findValidRecipients($campaign->getMailingLists());
+            $recipients = $this->userRepository->findValidRecipients($campaign->getMailingLists()->toArray());
 
             $this->mailingProcess->runParallelProcess($broadcast->getId(), $this->fetchIterationFromUserList($recipients, 10));
 
