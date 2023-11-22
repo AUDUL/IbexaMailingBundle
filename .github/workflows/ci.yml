@@ -61,6 +61,8 @@ jobs:
 
             -   name: Composer install
                 uses: php-actions/composer@v6
+                with:
+                    php_version: 8.1
 
             -   name: PHP Mess Detector
                 uses: php-actions/phpmd@v1
