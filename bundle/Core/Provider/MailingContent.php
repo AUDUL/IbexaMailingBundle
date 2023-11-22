@@ -55,9 +55,10 @@ class MailingContent
     public function getContentMailing(
         Mailing $mailing,
         UserEntity $recipient,
-        BroadcastEntity $broadcast,
-        string $html
+        BroadcastEntity $broadcast
     ): Email {
+        $html = $this->getNativeContent($mailing);
+
         foreach ($this->modifiers as $modifier) {
             $html = $modifier->modify($mailing, $recipient, $html, ['broadcast' => $broadcast]);
         }

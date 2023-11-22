@@ -36,14 +36,13 @@ class Mailing
         $broadcast = $this->broadcastProvider->start($mailing, $nativeHtml);
 
         $this->simpleMailer->sendStartSendingMailingMessage($mailing);
-        $html = $this->contentProvider->getNativeContent($mailing);
 
         if ($forceRecipient) {
             $fakeUser = new User();
             $fakeUser->setEmail($forceRecipient);
             $fakeUser->setFirstName('XXXX');
             $fakeUser->setLastName('YYYY');
-            $contentMessage = $this->contentProvider->getContentMailing($mailing, $fakeUser, $broadcast, $html);
+            $contentMessage = $this->contentProvider->getContentMailing($mailing, $fakeUser, $broadcast);
             $this->logger->debug("MailingRepository Mailer starts to test {$contentMessage->getSubject()}.");
             $this->sendMessage($contentMessage);
         } elseif (!$forceRecipient) {
@@ -59,7 +58,7 @@ class Mailing
             $fakeUser->setEmail($mailing->getCampaign()->getReportEmail());
             $fakeUser->setFirstName('XXXX');
             $fakeUser->setLastName('YYYY');
-            $contentMessage = $this->contentProvider->getContentMailing($mailing, $fakeUser, $broadcast, $html);
+            $contentMessage = $this->contentProvider->getContentMailing($mailing, $fakeUser, $broadcast);
             $this->sendMessage($contentMessage);
 
             $this->broadcastProvider->store($broadcast);
