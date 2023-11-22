@@ -33,7 +33,7 @@ class CampaignController extends AbstractController
         Campaign $campaign,
         ContentTypeService $contentTypeService,
         ContentTab $contentTab,
-        MailingListRepository $mailingListRepository,
+        MailingRepository $mailingRepository,
         string $status = 'all',
     ): Response {
         $content = $campaign->getContent();
@@ -49,7 +49,7 @@ class CampaignController extends AbstractController
                 ]
             );
         }
-        $mailings = $mailingListRepository->findByFilters(
+        $mailings = $mailingRepository->findByFilters(
             [
                 'campaign' => $campaign,
                 'status' => $status === 'all' ? null : $status,
