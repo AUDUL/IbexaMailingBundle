@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -82,7 +84,7 @@ class Campaign implements eZ\ContentInterface
     private $siteaccessLimit;
 
     /**
-     * @var MailingList[]
+     * @var ArrayCollection<int, MailingList>
      *
      * @ORM\ManyToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\MailingList", inversedBy="campaigns")
      *
@@ -93,20 +95,20 @@ class Campaign implements eZ\ContentInterface
      *
      * @ORM\OrderBy({"created" = "ASC"})
      */
-    private $mailingLists;
+    private Collection $mailingLists;
 
     /**
-     * @var Mailing[]
+     * @var ArrayCollection<int, Mailing>
      *
      * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Mailing", mappedBy="campaign",
      *                                                                                cascade={"persist","remove"})
      */
-    private $mailings;
+    private Collection $mailings;
 
     public function __construct()
     {
-        $this->mailingLists = [];
-        $this->mailings = [];
+        $this->mailingLists = new ArrayCollection();
+        $this->mailings = new ArrayCollection();
         $this->created = new \DateTime();
         $this->siteaccessLimit = [];
     }
@@ -172,13 +174,16 @@ class Campaign implements eZ\ContentInterface
     }
 
     /**
-     * @return MailingList[]
+     * @return ArrayCollection<int, MailingList>
      */
-    public function getMailingLists()
+    public function getMailingLists(): Collection
     {
         return $this->mailingLists;
     }
 
+    /**
+     * @param array<MailingList> $mailingLists
+     */
     public function setMailingLists(array $mailingLists): self
     {
         foreach ($mailingLists as $mailingList) {
@@ -190,27 +195,26 @@ class Campaign implements eZ\ContentInterface
 
     public function addMailingList(MailingList $mailingList): self
     {
-        $contains = array_filter($this->mailingLists, function (MailingList $mailing) use ($mailingList) {
-            return $mailing->getId() === $mailingList->getId();
-        });
-
-        if (!empty($contains)) {
+        if ($this->mailingLists->contains($mailingList)) {
             return $this;
         }
 
-        $this->mailingLists[] = $mailingList;
+        $this->mailingLists->add($mailingList);
 
         return $this;
     }
 
     /**
-     * @return Mailing[]
+     * @return ArrayCollection<int, Mailing>
      */
-    public function getMailings(): array
+    public function getMailings(): Collection
     {
         return $this->mailings;
     }
 
+    /**
+     * @param array<Mailing> $mailings
+     */
     public function setMailings(array $mailings): self
     {
         foreach ($mailings as $mailing) {
@@ -222,16 +226,13 @@ class Campaign implements eZ\ContentInterface
 
     public function addMailing(Mailing $mailing): self
     {
-        $contains = array_filter($this->mailings, function (Mailing $mail) use ($mailing) {
-            return $mail->getId() === $mailing->getId();
-        });
-        if (!empty($contains)) {
+        if ($this->mailings->contains($mailing)) {
             return $this;
         }
 
-        $this->mailings[] = $mailing;
-
         $mailing->setCampaign($this);
+
+        $this->mailings->add($mailing);
 
         return $this;
     }

@@ -7,6 +7,8 @@ namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 use Carbon\Carbon;
 use CodeRhapsodie\IbexaMailingBundle\Core\Utils\Clock;
 use CodeRhapsodie\IbexaMailingBundle\Validator\Constraints as IbexaMailing;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -171,13 +173,13 @@ class Mailing implements eZ\ContentInterface
     private $campaign;
 
     /**
-     * @var Broadcast[]
+     * @var ArrayCollection<int, Broadcast>
      *
      * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast", mappedBy="mailing",
      *                                                                                  cascade={"persist","remove"},
      *                                                                                  fetch="EXTRA_LAZY")
      */
-    private $broadcasts;
+    private Collection $broadcasts;
 
     /**
      * @var string
@@ -200,8 +202,7 @@ class Mailing implements eZ\ContentInterface
     public function __construct()
     {
         $this->recurring = false;
-        $this->statHits = [];
-        $this->broadcasts = [];
+        $this->broadcasts = new ArrayCollection();
         $this->created = new \DateTime();
         $this->hoursOfDay = [];
         $this->daysOfWeek = [];
@@ -238,14 +239,14 @@ class Mailing implements eZ\ContentInterface
 
     public function getLastSent(): ?\DateTime
     {
-        if (empty($this->broadcasts)) {
+        if ($this->broadcasts->isEmpty()) {
             return null;
         }
-        if (\count($this->broadcasts) === 1 && $this->broadcasts[0]->getEmailSentCount() === 0) {
+        if ($this->broadcasts->count() === 1 && $this->broadcasts->first()->getEmailSentCount() === 0) {
             return null;
         }
 
-        $lastSent = $this->broadcasts[0]->getStarted();
+        $lastSent = $this->broadcasts->first()->getStarted();
         foreach ($this->broadcasts as $broadcast) {
             if ($broadcast->getEmailSentCount() === 0) {
                 // it was a test
@@ -420,7 +421,7 @@ class Mailing implements eZ\ContentInterface
         return $this->broadcasts;
     }
 
-    public function setBroadcasts(array $broadcasts): self
+    public function setBroadcasts(Collection $broadcasts): self
     {
         $this->broadcasts = $broadcasts;
 
@@ -429,17 +430,13 @@ class Mailing implements eZ\ContentInterface
 
     public function addBroadcast(Broadcast $broadcast): self
     {
-        $contains = array_filter($this->broadcasts, function (Broadcast $broad) use ($broadcast) {
-            return $broad->getId() === $broadcast->getId();
-        });
-
-        if (!empty($contains)) {
+        if ($this->broadcasts->contains($broadcast)) {
             return $this;
         }
 
         $broadcast->setMailing($this);
 
-        $this->broadcasts[] = $broadcast;
+        $this->broadcasts->add($broadcast);
 
         return $this;
     }

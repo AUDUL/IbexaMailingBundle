@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -210,7 +212,7 @@ class User
     private $restricted;
 
     /**
-     * @var Registration[]
+     * @var ArrayCollection<int, Registration>
      *
      * @ORM\OrderBy({"created" = "ASC"})
      *
@@ -219,11 +221,11 @@ class User
      *                                                                                     orphanRemoval=true
      * )
      */
-    private array $registrations;
+    private Collection $registrations;
 
     public function __construct()
     {
-        $this->registrations = [];
+        $this->registrations = new ArrayCollection();
         $this->created = new \DateTime();
         $this->restricted = false;
         $this->updated = new \DateTime();
@@ -427,24 +429,22 @@ class User
     }
 
     /**
-     * @return Registration[]
+     * @return Collection<int, Registration>
      */
-    public function getRegistrations(): array
+    public function getRegistrations(): Collection
     {
         return $this->registrations;
     }
 
     /**
-     * @return Registration[]
+     * @return Collection<int, Registration>
      */
-    public function getPendingRegistrations(): array
+    public function getPendingRegistrations(): Collection
     {
         $criteria = Criteria::create();
         $criteria->where(Criteria::expr()->eq('approved', true));
 
-        return array_filter($this->registrations, function (Registration $registration) {
-            return $registration->isApproved() === true;
-        });
+        return $this->registrations->matching($criteria);
     }
 
     /**
@@ -461,24 +461,28 @@ class User
 
     public function addRegistration(Registration $registration): self
     {
-        $contains = array_filter($this->registrations, function (Registration $r) use ($registration) {
-            return $registration->getId() === $r->getId() || $registration->getMailingList()->getId() === $r->getMailingList()->getId();
-        });
-        if (!empty($contains)) {
+        if ($this->registrations->contains($registration)) {
+            return $this;
+        }
+        if ($this->registrations->exists(
+            function ($key, Registration $element) use ($registration) {
+                // tricks phpmd
+                return $element->getMailingList()->getId() === $registration->getMailingList()->getId();
+            }
+        )
+        ) {
             return $this;
         }
 
         $registration->setUser($this);
-        $this->registrations[] = $registration;
+        $this->registrations->add($registration);
 
         return $this;
     }
 
     public function removeRegistration(Registration $registration): self
     {
-        $this->registrations = array_filter($this->registrations, function (Registration $r) use ($registration) {
-            return $r->getId() !== $registration->getId();
-        });
+        $this->registrations->removeElement($registration);
 
         return $this;
     }
