@@ -117,6 +117,6 @@ class Clock
             }
             $tick->addDay();
         }
-        throw new \LogicException("There is not next tick for MailingRepository {$mailing->getName()}");
+        throw new \LogicException("There is not next tick for Mailing {$mailing->getName()}");
     }
 }

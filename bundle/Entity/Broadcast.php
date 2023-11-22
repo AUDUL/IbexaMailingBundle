@@ -10,10 +10,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * A BroadcastRepository is a record of a MailingRepository "sending" at a certain point in time
+ * A BroadcastRepository is a record of a Mailing "sending" at a certain point in time
  * to a certain number of approved registrations
  * with a certain html contents (we will backup here)
- * It's really a record of a MailingRepository broadcast.
+ * It's really a record of a Mailing broadcast.
  *
  * @ORM\Table(name="mailing_broadcast")
  *

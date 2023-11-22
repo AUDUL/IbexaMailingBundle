@@ -41,7 +41,7 @@ class RegistrationController extends AbstractController
     {
         $params = [
             'pagelayout' => $this->getPagelayout(),
-            'title' => 'Register to MailingRepository Lists',
+            'title' => 'Register to Mailing Lists',
         ];
 
         $registration = new Registration();
@@ -69,7 +69,7 @@ class RegistrationController extends AbstractController
     {
         $params = [
             'pagelayout' => $this->getPagelayout(),
-            'title' => 'Register to Default MailingRepository List',
+            'title' => 'Register to Default Mailing List',
         ];
 
         $registration = new Registration();
@@ -99,7 +99,7 @@ class RegistrationController extends AbstractController
     {
         return $this->render('@IbexaMailing/registration/register_confirmation.html.twig', [
             'pagelayout' => $this->getPagelayout(),
-            'title' => 'Confirm registration to MailingRepository Lists',
+            'title' => 'Confirm registration to Mailing Lists',
             'isConfirmed' => $this->registrar->confirm($token),
         ]);
     }
@@ -111,7 +111,7 @@ class RegistrationController extends AbstractController
     {
         $params = [
             'pagelayout' => $this->getPagelayout(),
-            'title' => 'Unregister to MailingRepository Lists',
+            'title' => 'Unregister to Mailing Lists',
         ];
 
         $unregistration = new Unregistration();
@@ -153,7 +153,7 @@ class RegistrationController extends AbstractController
     {
         return $this->render('@IbexaMailing/registration/unregister_confirmation.html.twig', [
             'pagelayout' => $this->getPagelayout(),
-            'title' => 'Confirm unregistration to MailingRepository Lists',
+            'title' => 'Confirm unregistration to Mailing Lists',
             'isConfirmed' => $this->registrar->confirm($token),
         ]);
     }

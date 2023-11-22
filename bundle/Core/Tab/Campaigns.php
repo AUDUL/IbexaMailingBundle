@@ -21,7 +21,7 @@ class Campaigns extends AbstractTab
 
     public function getName(): string
     {
-        return /* @Desc("Ibexa MailingRepository - Campaigns Tab") */
+        return /* @Desc("Ibexa Mailing - Campaigns Tab") */
             $this->translator->trans('campaigns.tab.name', ['count' => \count($this->campaigns)], 'ibexamailing');
     }
 

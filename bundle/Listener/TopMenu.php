@@ -20,7 +20,7 @@ class TopMenu implements EventSubscriberInterface
         $ibexaMailingMenu = $menu->addChild(
             'ibexamailing',
             [
-                'label' => 'Ibexa MailingRepository',
+                'label' => 'Ibexa Mailing',
                 'extras' => [
                     'icon' => 'mail',
                     'routes' => array_filter(array_keys($this->router->getRouteCollection()->all()), function (string $key) {

@@ -21,7 +21,7 @@ class Mailings extends AbstractTab
 
     public function getName(): string
     {
-        return /* @Desc("Ibexa MailingRepository - Mailings Tab") */
+        return /* @Desc("Ibexa Mailing - Mailings Tab") */
             $this->translator->trans('mailings.tab.name', ['count' => \count($this->mailings)], 'ibexamailing');
     }
 

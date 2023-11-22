@@ -47,7 +47,7 @@ class Mailing
             $this->sendMessage($contentMessage);
         } elseif (!$forceRecipient) {
             $campaign = $mailing->getCampaign();
-            $this->logger->notice("MailingRepository Mailer starts to send MailingRepository {$mailing->getName()}");
+            $this->logger->notice("MailingRepository Mailer starts to send Mailing {$mailing->getName()}");
             $recipientCounts = 0;
             $recipients = $this->userRepository->findValidRecipients($campaign->getMailingLists());
 

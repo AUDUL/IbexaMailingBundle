@@ -50,7 +50,7 @@ class CampaignFixtures extends Fixture implements DependentFixtureInterface
                 $campaign->addMailingList($this->getReference("mailing-list-{$mailingListIndex}"));
             }
 
-            // create MailingRepository
+            // create Mailing
             $nbMailings = $faker->numberBetween(1, 10);
             for ($k = 0; $k < $nbMailings; ++$k) {
                 $mailing = new Mailing();

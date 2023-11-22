@@ -24,7 +24,7 @@ class SendTestMailingCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('mailingId', InputArgument::REQUIRED, 'The MailingRepository Id')
+            ->addArgument('mailingId', InputArgument::REQUIRED, 'The Mailing Id')
             ->addArgument('recipient', InputArgument::REQUIRED, "The recipient's email address");
     }
 
@@ -33,7 +33,7 @@ class SendTestMailingCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $mailingId = (int) $input->getArgument('mailingId');
         $recipientEmail = $input->getArgument('recipient');
-        $io->title('Sending a MailingRepository for test');
+        $io->title('Sending a Mailing for test');
         $io->writeln("MailingRepository ID: <comment>{$mailingId}</comment>");
         $io->writeln("To: <comment>{$recipientEmail}</comment>");
         $mailing = $this->mailingRepository->find($mailingId);
