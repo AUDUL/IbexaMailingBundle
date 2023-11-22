@@ -40,7 +40,7 @@ jobs:
             -   uses: actions/checkout@v4
             -   uses: php-actions/composer@v6
                 with:
-                    php_extensions: gd
+                    php_extensions: gd zip
             -   name: PHPStan Static Analysis
                 uses: php-actions/phpstan@v3
                 with:
@@ -64,7 +64,7 @@ jobs:
             -   name: Composer install
                 uses: php-actions/composer@v6
                 with:
-                    php_extensions: gd
+                    php_extensions: gd zip
 
             -   name: PHP Mess Detector
                 uses: php-actions/phpmd@v1
