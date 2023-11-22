@@ -5,14 +5,21 @@ declare(strict_types=1);
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
 use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Registration;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends EntityRepository<\CodeRhapsodie\IbexaMailingBundle\Entity\Registration>
+ * @extends EntityRepository<Registration>
  */
 class RegistrationRepository extends EntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Registration::class);
+    }
+
     /**
      * @param array<string, mixed> $filters
      */

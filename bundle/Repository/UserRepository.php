@@ -6,15 +6,22 @@ namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
 use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
 use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends EntityRepository<UserEntity>
  */
 class UserRepository extends EntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, User::class);
+    }
+
     /**
      * @param array<string, mixed> $filters
      */
@@ -119,10 +126,10 @@ class UserRepository extends EntityRepository
         $qb = $this->createQueryBuilder('u');
 
         return $qb->select('count(u.email)')
-            ->where($qb->expr()->eq('u.email', ':email'))
-            ->setParameter('email', $email)
-            ->getQuery()
-            ->getSingleScalarResult() > 0;
+                ->where($qb->expr()->eq('u.email', ':email'))
+                ->setParameter('email', $email)
+                ->getQuery()
+                ->getSingleScalarResult() > 0;
     }
 
     protected function getAlias(): string

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
-use Doctrine\ORM\EntityRepository as BaseEntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 /**
  * @template T of object
  *
- * @extends BaseEntityRepository<T>
+ * @extends ServiceEntityRepository<T>
  */
-abstract class EntityRepository extends BaseEntityRepository
+abstract class EntityRepository extends ServiceEntityRepository
 {
     /**
      * {@inheritDoc}

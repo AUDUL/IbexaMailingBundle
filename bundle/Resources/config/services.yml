@@ -38,6 +38,10 @@ services:
 
     CodeRhapsodie\IbexaMailingBundle\Core\Import\:
         resource: '../../Core/Import'
+    CodeRhapsodie\IbexaMailingBundle\Repository\:
+        autowire: true
+        autoconfigure: true
+        resource: '../../Repository'
 
     CodeRhapsodie\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface: '@CodeRhapsodie\IbexaMailingBundle\Core\Processor\TestMailing'
     CodeRhapsodie\IbexaMailingBundle\Core\Processor\SendMailingProcessorInterface: '@CodeRhapsodie\IbexaMailingBundle\Core\Processor\SendMailing'

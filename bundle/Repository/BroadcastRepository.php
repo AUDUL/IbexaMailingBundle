@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast;
+use Doctrine\Persistence\ManagerRegistry;
+
 /**
- * @extends EntityRepository<\CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast>
+ * @extends EntityRepository<Broadcast>
  */
 class BroadcastRepository extends EntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Broadcast::class);
+    }
+
     /**
-     * @return array<\CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast>
+     * @return array<Broadcast>
      */
     public function findLastBroadcasts(int $limit = 4): array
     {

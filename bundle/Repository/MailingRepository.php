@@ -4,13 +4,20 @@ declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends EntityRepository<\CodeRhapsodie\IbexaMailingBundle\Entity\Mailing>
+ * @extends EntityRepository<Mailing>
  */
 class MailingRepository extends EntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Mailing::class);
+    }
+
     /**
      * @param array<string, mixed> $filters
      */
@@ -35,7 +42,7 @@ class MailingRepository extends EntityRepository
     }
 
     /**
-     * @return array<\CodeRhapsodie\IbexaMailingBundle\Entity\Mailing>
+     * @return array<Mailing>
      */
     public function findLastUpdated(int $limit = 10): array
     {

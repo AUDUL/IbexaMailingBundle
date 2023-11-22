@@ -5,13 +5,20 @@ declare(strict_types=1);
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
 use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\StatHit;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends EntityRepository<\CodeRhapsodie\IbexaMailingBundle\Entity\StatHit>
+ * @extends EntityRepository<StatHit>
  */
 class StatHitRepository extends EntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, StatHit::class);
+    }
+
     /**
      * @param array<string, mixed> $filters
      */
