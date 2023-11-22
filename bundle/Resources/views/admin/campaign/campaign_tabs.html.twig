@@ -11,7 +11,7 @@
                     <a class="nav-link ibexa-tabs__link active" href="#ibexamailing-mailings-status-preview"
                        data-bs-toggle="tab"
                        role="tab">
-                        {{ statusKey|trans|capitalize ~ " " ~ "campaign.tabs.mailings"|trans }}
+                        {{ statusKey|trans|capitalize }}
                     </a>
                     <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +54,7 @@
             {% if item.mailings|length > 0 %}
                 <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item" role="presentation">
                     <a class="nav-link ibexa-tabs__link" href="#ibexamailing-mailings-preview" data-bs-toggle="tab"
-                       role="tab">{{ "common.list.users_filterer.all"|trans ~ " " ~ "campaign.tabs.mailings"|trans }}</a>
+                       role="tab">{{ "common.list.users_filterer.all"|trans }}</a>
                     <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path class="ibexa-svg-tab-corner-border"

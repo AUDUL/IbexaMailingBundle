@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeRhapsodie\IbexaMailingBundle\Command;
 
 use Doctrine\DBAL\Connection;
@@ -22,7 +24,7 @@ class MigrateNovaEzMailingCommand extends Command
         'novaezmailing_confirmation_token' => 'mailing_confirmation_token',
         'novaezmailing_broadcast' => 'mailing_broadcast',
         'novaezmailing_stats_hit' => 'mailing_stats_hit',
-        'novaezmailing_registrations' => 'mailing_registrations'
+        'novaezmailing_registrations' => 'mailing_registrations',
     ];
 
     public function __construct(private readonly Connection $connection)
@@ -43,12 +45,12 @@ class MigrateNovaEzMailingCommand extends Command
         $dumpSql = $input->getOption('dump-sql') === true;
         $removeTables = $input->getOption('remove tables') === true;
 
-
         foreach (self::TABLES as $oldTable => $newTable) {
             try {
                 $this->connection->executeQuery("SELECT * from $oldTable");
             } catch (\Exception) {
                 $io->error("Missing table : $oldTable");
+
                 return parent::FAILURE;
             }
 
@@ -56,6 +58,7 @@ class MigrateNovaEzMailingCommand extends Command
                 $this->connection->executeQuery("SELECT * from $newTable");
             } catch (\Exception) {
                 $io->error("Missing table : $newTable (please execute ibexamailing:install)");
+
                 return parent::FAILURE;
             }
 
@@ -69,7 +72,7 @@ class MigrateNovaEzMailingCommand extends Command
         }
 
         if ($removeTables) {
-            foreach (\array_reverse(self::TABLES) as $oldTable => $newTable) {
+            foreach (array_reverse(self::TABLES) as $oldTable => $newTable) {
                 $sql = "DROP TABLE $oldTable";
                 if ($dumpSql) {
                     $io->writeln($sql);

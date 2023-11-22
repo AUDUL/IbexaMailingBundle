@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -15,11 +15,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="mailing_user",
  *            uniqueConstraints={ @ORM\UniqueConstraint(name="unique_email",columns={"USER_email"})},
  *            indexes={
+ *
  *                @ORM\Index(name="search_idx_restricted", columns={"USER_restricted"}),
  *                @ORM\Index(name="search_idx_status", columns={"USER_status"})
  *            }
  * )
- * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\User")
+ *
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\UserRepository")
+ *
  * @UniqueEntity(
  *     fields={"email"},
  *     errorPath="email",
@@ -62,7 +65,7 @@ class User
     public const BLACKLISTED = 'blacklisted';
 
     /**
-     * Was removed
+     * Was removed.
      */
     public const REMOVED = 'removed';
 
@@ -90,126 +93,145 @@ class User
         self::BLACKLISTED => 'info',
     ];
 
-    public function __construct()
-    {
-        $this->registrations = new ArrayCollection();
-        $this->created = new DateTime();
-        $this->restricted = false;
-        $this->updated = new DateTime();
-    }
-
     /**
-     * @var int
      * @ORM\Column(name="USER_id", type="bigint", nullable=false)
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_email", type="string", length=255, nullable=false)
+     *
      * @Assert\NotBlank(message="Email is mandatory")
      */
     private $email;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_first_name", type="string", length=255, nullable=true)
      */
     private $firstName;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_last_name", type="string", length=255, nullable=true)
      */
     private $lastName;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_gender", type="string", length=255, nullable=true)
      */
     private $gender;
 
     /**
-     * @var DateTime
+     * @var \DateTime
+     *
      * @ORM\Column(name="USER_birth_date", type="date", nullable=true)
      */
     private $birthDate;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_phone", type="string", length=255, nullable=true)
      */
     private $phone;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_zipcode", type="string", length=255, nullable=true)
      */
     private $zipcode;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_city", type="string", length=255, nullable=true)
      */
     private $city;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_state", type="string", length=255, nullable=true)
      */
     private $state;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_country", type="string", length=255, nullable=true)
      */
     private $country;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_job_title", type="string", length=255, nullable=true)
      */
     private $jobTitle;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_company", type="string", length=255, nullable=true)
      */
     private $company;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_origin", type="string", length=255, nullable=false)
      */
     private $origin;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="USER_status", type="string", nullable=false)
      */
     private $status;
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="USER_restricted", type="boolean", nullable=false)
      */
     private $restricted;
 
     /**
-     * @var Registration[]
+     * @var ArrayCollection<int, Registration>
+     *
      * @ORM\OrderBy({"created" = "ASC"})
+     *
      * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Registration", mappedBy="user",
      *                                                                                     cascade={"persist","remove"},
      *                                                                                     orphanRemoval=true
      * )
      */
-    private $registrations;
+    private Collection $registrations;
+
+    public function __construct()
+    {
+        $this->registrations = new ArrayCollection();
+        $this->created = new \DateTime();
+        $this->restricted = false;
+        $this->updated = new \DateTime();
+    }
 
     public function getId(): int
     {
-        return (int)$this->id;
+        return $this->id;
     }
 
     public function setId(int $id): self
@@ -267,12 +289,12 @@ class User
         return $this;
     }
 
-    public function getBirthDate(): ?DateTime
+    public function getBirthDate(): ?\DateTime
     {
         return $this->birthDate;
     }
 
-    public function setBirthDate(?DateTime $birthDate): self
+    public function setBirthDate(?\DateTime $birthDate): self
     {
         $this->birthDate = $birthDate;
 
@@ -405,17 +427,17 @@ class User
     }
 
     /**
-     * @return ArrayCollection|Registration[]
+     * @return Collection<int, Registration>
      */
-    public function getRegistrations()
+    public function getRegistrations(): Collection
     {
         return $this->registrations;
     }
 
     /**
-     * @return ArrayCollection|Registration[]
+     * @return Collection<int, Registration>
      */
-    public function getPendingRegistrations()
+    public function getPendingRegistrations(): Collection
     {
         $criteria = Criteria::create();
         $criteria->where(Criteria::expr()->eq('approved', true));
@@ -425,8 +447,6 @@ class User
 
     /**
      * @param Registration[] $registrations
-     *
-     * @return MailingList
      */
     public function setRegistrations(array $registrations): self
     {
@@ -442,18 +462,16 @@ class User
         if ($this->registrations->contains($registration)) {
             return $this;
         }
-
-        if (
-            $this->registrations->exists(
-                function ($key, Registration $element) use ($registration) {
-                    //tricks phpmd
-
-                    return $element->getMailingList()->getId() === $registration->getMailingList()->getId();
-                }
-            )
+        if ($this->registrations->exists(
+            function ($key, Registration $element) use ($registration) {
+                // tricks phpmd
+                return $element->getMailingList()->getId() === $registration->getMailingList()->getId();
+            }
+        )
         ) {
             return $this;
         }
+
         $registration->setUser($this);
         $this->registrations->add($registration);
 
@@ -469,26 +487,26 @@ class User
 
     public function isConfirmed(): bool
     {
-        return self::CONFIRMED === $this->status;
+        return $this->status === self::CONFIRMED;
     }
 
     public function isPending(): bool
     {
-        return self::PENDING === $this->status;
+        return $this->status === self::PENDING;
     }
 
     public function isBlacklisted(): bool
     {
-        return self::BLACKLISTED === $this->status;
+        return $this->status === self::BLACKLISTED;
     }
 
     public function isSoftBounce(): bool
     {
-        return self::SOFT_BOUNCE === $this->status;
+        return $this->status === self::SOFT_BOUNCE;
     }
 
     public function isHardBounce(): bool
     {
-        return self::HARD_BOUNCE === $this->status;
+        return $this->status === self::HARD_BOUNCE;
     }
 }

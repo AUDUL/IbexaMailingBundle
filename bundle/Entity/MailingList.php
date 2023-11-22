@@ -1,72 +1,83 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use RuntimeException;
 
 /**
  * @ORM\Table(name="mailing_mailing_list")
  *
- * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\MailingList")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\MailingListRepository")
  */
 class MailingList
 {
-    use Compose\Remote;
     use Compose\Metadata;
     use Compose\Names;
+    use Compose\Remote;
 
     /**
      * @var int
+     *
      * @ORM\Column(name="ML_id", type="bigint", nullable=false)
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var Registration[]
+     * @var ArrayCollection<int, Registration>
+     *
      * @ORM\OrderBy({"created" = "ASC"})
-     * @ORM\OneToMany(targetEntity="\CodeRhapsodie\IbexaMailingBundle\Entity\Registration", mappedBy="mailingList",
+     *
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Registration", mappedBy="mailingList",
      *                                                                                      cascade={"persist","remove"},
      *                                                                                      orphanRemoval=true,
      *                                                                                      fetch="EXTRA_LAZY"
      * )
      */
-    private $registrations;
+    private Collection $registrations;
 
     /**
      * @var array
+     *
      * @ORM\Column(name="ML_siteaccess_limit", type="array", nullable=true)
      */
     private $siteaccessLimit;
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="ML_approbation", type="boolean", nullable=false)
      */
     private $withApproval;
 
     /**
-     * @var Campaign[]
-     * @ORM\ManyToMany(targetEntity="\CodeRhapsodie\IbexaMailingBundle\Entity\Campaign", mappedBy="mailingLists",
+     * @var ArrayCollection<int, Campaign>
+     *
+     * @ORM\ManyToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Campaign", mappedBy="mailingLists",
      *                                                                                  cascade={"persist"},
      *                                                                                  orphanRemoval=true,
      *                                                                                  fetch="EXTRA_LAZY")
      */
-    private $campaigns;
+    private Collection $campaigns;
 
     public function __construct()
     {
         $this->registrations = new ArrayCollection();
-        $this->created = new DateTime();
+        $this->campaigns = new ArrayCollection();
+        $this->created = new \DateTime();
         $this->withApproval = false;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName() ?? '';
     }
 
     public function getId(): int
@@ -82,18 +93,21 @@ class MailingList
     }
 
     /**
-     * @return ArrayCollection|Registration[]
+     * @return ArrayCollection<int, Registration>
      */
-    public function getRegistrations()
+    public function getRegistrations(): Collection
     {
         return $this->registrations;
     }
 
-    public function setRegistrations(array $registrations): self
+    /**
+     * @param Collection<int, Registration> $registrations
+     */
+    public function setRegistrations(Collection $registrations): self
     {
-        foreach ($registrations as $registration) {
+        foreach ($registrations->toArray() as $registration) {
             if (!$registration instanceof Registration) {
-                throw new RuntimeException(sprintf('Provided Registration is not a %s', Registration::class));
+                throw new \RuntimeException(sprintf('Provided RegistrationRepository is not a %s', Registration::class));
             }
         }
         $this->registrations = $registrations;
@@ -113,11 +127,17 @@ class MailingList
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getSiteaccessLimit(): ?array
     {
         return $this->siteaccessLimit;
     }
 
+    /**
+     * @param array<mixed> $siteaccessLimit
+     */
     public function setSiteaccessLimit(array $siteaccessLimit): self
     {
         $this->siteaccessLimit = $siteaccessLimit;
@@ -126,15 +146,10 @@ class MailingList
     }
 
     /**
-     * @return Campaign[]|ArrayCollection
+     * @return ArrayCollection<int, Campaign>
      */
-    public function getCampaigns()
+    public function getCampaigns(): Collection
     {
         return $this->campaigns;
-    }
-
-    public function __toString(): string
-    {
-        return $this->getName() ?? '';
     }
 }

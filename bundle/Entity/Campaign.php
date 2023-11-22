@@ -1,23 +1,22 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A Campaign contains generic information shared between the Mailings it contains.
+ * A CampaignRepository contains generic information shared between the Mailings it contains.
  * It owns also a Link to a eZ Content that is going to be injected in the template.
  *
  * @ORM\Table(name="mailing_campaign")
  *
- * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\Campaign")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\CampaignRepository")
+ *
  * @ORM\EntityListeners({"CodeRhapsodie\IbexaMailingBundle\Listener\EntityContentLink"})
  */
 class Campaign implements eZ\ContentInterface
@@ -27,78 +26,94 @@ class Campaign implements eZ\ContentInterface
     use eZ\Content;
 
     /**
-     * @var int
      * @ORM\Column(name="CAMP_id", type="bigint", nullable=false)
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="CAMP_sender_name", type="string", length=255, nullable=false)
      */
     private $senderName;
 
     /**
      * @var string
+     *
      * @Assert\NotBlank()
+     *
      * @Assert\Email()
+     *
      * @ORM\Column(name="CAMP_sender_email", type="string", length=255, nullable=false)
      */
     private $senderEmail;
 
     /**
      * @var string
+     *
      * @Assert\NotBlank()
+     *
      * @Assert\Email()
+     *
      * @ORM\Column(name="CAMP_report_email", type="string", length=255, nullable=false)
      */
     private $reportEmail;
 
     /**
      * @var string|null
+     *
      * @Assert\Email()
+     *
      * @ORM\Column(name="CAMP_return_path_email", type="string", length=255, nullable=true)
      */
     private $returnPathEmail;
 
     /**
      * @var array
+     *
      * @ORM\Column(name="CAMP_siteaccess_limit", type="array", nullable=true)
      */
     private $siteaccessLimit;
 
     /**
-     * @var MailingList[]
+     * @var ArrayCollection<int, MailingList>
+     *
      * @ORM\ManyToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\MailingList", inversedBy="campaigns")
+     *
      * @ORM\JoinTable(name="mailing_campaign_mailinglists_destination",
      *      joinColumns={@ORM\JoinColumn(name="ML_id", referencedColumnName="CAMP_id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="CAMP_id", referencedColumnName="ML_id")}
      *      )
+     *
      * @ORM\OrderBy({"created" = "ASC"})
      */
-    private $mailingLists;
+    private Collection $mailingLists;
 
     /**
-     * @var Mailing[]
+     * @var ArrayCollection<int, Mailing>
+     *
      * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Mailing", mappedBy="campaign",
      *                                                                                cascade={"persist","remove"})
      */
-    private $mailings;
+    private Collection $mailings;
 
     public function __construct()
     {
         $this->mailingLists = new ArrayCollection();
         $this->mailings = new ArrayCollection();
-        $this->created = new DateTime();
+        $this->created = new \DateTime();
         $this->siteaccessLimit = [];
     }
 
     public function getId(): int
     {
-        return (int) $this->id;
+        return $this->id;
     }
 
     public function setId(int $id): self
@@ -157,13 +172,16 @@ class Campaign implements eZ\ContentInterface
     }
 
     /**
-     * @return MailingList[]|ArrayCollection
+     * @return ArrayCollection<int, MailingList>
      */
-    public function getMailingLists()
+    public function getMailingLists(): Collection
     {
         return $this->mailingLists;
     }
 
+    /**
+     * @param array<MailingList> $mailingLists
+     */
     public function setMailingLists(array $mailingLists): self
     {
         foreach ($mailingLists as $mailingList) {
@@ -185,20 +203,21 @@ class Campaign implements eZ\ContentInterface
     }
 
     /**
-     * @return ArrayCollection|Mailing[]
+     * @return ArrayCollection<int, Mailing>
      */
-    public function getMailings()
+    public function getMailings(): Collection
     {
         return $this->mailings;
     }
 
+    /**
+     * @param array<Mailing> $mailings
+     */
     public function setMailings(array $mailings): self
     {
         foreach ($mailings as $mailing) {
             $this->addMailing($mailing);
         }
-
-        $this->mailings = $mailings;
 
         return $this;
     }
@@ -208,8 +227,10 @@ class Campaign implements eZ\ContentInterface
         if ($this->mailings->contains($mailing)) {
             return $this;
         }
-        $this->mailings->add($mailing);
+
         $mailing->setCampaign($this);
+
+        $this->mailings->add($mailing);
 
         return $this;
     }

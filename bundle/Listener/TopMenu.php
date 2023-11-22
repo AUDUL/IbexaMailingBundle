@@ -25,7 +25,7 @@ class TopMenu implements EventSubscriberInterface
                     'icon' => 'mail',
                     'routes' => array_filter(array_keys($this->router->getRouteCollection()->all()), function (string $key) {
                         return str_starts_with($key, 'ibexamailing');
-                    })
+                    }),
                 ],
             ]
         );
@@ -49,8 +49,8 @@ class TopMenu implements EventSubscriberInterface
                         'ibexamailing_mailinglist_index',
                         'ibexamailing_mailinglist_create',
                         'ibexamailing_mailinglist_remove',
-                        'ibexamailing_mailinglist_import'
-                    ]
+                        'ibexamailing_mailinglist_import',
+                    ],
                 ],
             ]
         );
@@ -63,7 +63,7 @@ class TopMenu implements EventSubscriberInterface
                     'routes' => [
                         'ibexamailing_user_remove',
                         'ibexamailing_user_show',
-                    ]
+                    ],
                 ],
             ]
         );

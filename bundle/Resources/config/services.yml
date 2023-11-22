@@ -38,6 +38,10 @@ services:
 
     CodeRhapsodie\IbexaMailingBundle\Core\Import\:
         resource: '../../Core/Import'
+    CodeRhapsodie\IbexaMailingBundle\Repository\:
+        autowire: true
+        autoconfigure: true
+        resource: '../../Repository'
 
     CodeRhapsodie\IbexaMailingBundle\Core\Processor\TestMailingProcessorInterface: '@CodeRhapsodie\IbexaMailingBundle\Core\Processor\TestMailing'
     CodeRhapsodie\IbexaMailingBundle\Core\Processor\SendMailingProcessorInterface: '@CodeRhapsodie\IbexaMailingBundle\Core\Processor\SendMailing'
@@ -55,7 +59,6 @@ services:
     ibexamailing.menu.campaigns:
         class: Knp\Menu\MenuItem
         factory: [ '@CodeRhapsodie\IbexaMailingBundle\Menu\Builder','createCampaignMenu' ]
-        arguments: ["@request_stack"]
         tags:
             - { name: knp_menu.menu, alias: ibexamailing.menu.campaigns }
 
@@ -101,3 +104,9 @@ services:
 
     CodeRhapsodie\IbexaMailingBundle\Core\IOService:
         arguments: [ '@ibexa.core.io.service' ]
+
+    CodeRhapsodie\IbexaMailingBundle\Core\Mailer\MailingProcess:
+        autowire: true
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+

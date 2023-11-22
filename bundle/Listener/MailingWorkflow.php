@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Listener;
@@ -25,7 +23,7 @@ class MailingWorkflow
     {
         $this->logger->notice(
             sprintf(
-                'Mailing %s (id: "%s") performed transaction "%s" from "%s" to "%s"',
+                'MailingRepository %s (id: "%s") performed transaction "%s" from "%s" to "%s"',
                 $event->getSubject()->getName(),
                 $event->getSubject()->getId(),
                 $event->getTransition()->getName(),

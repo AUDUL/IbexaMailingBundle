@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\DataFixtures;
@@ -34,7 +32,7 @@ class UsersRegistrationsFixtures extends Fixture implements DependentFixtureInte
                 ->setGender($faker->title)
                 ->setJobTitle($faker->jobTitle)
                 ->setPhone($faker->phoneNumber)
-                ->setState($faker->state)
+                ->setState($faker->text)
                 ->setZipcode($faker->postcode)
                 ->setStatus($faker->randomElement(User::STATUSES))
                 ->setOrigin($faker->randomElement(['site', 'import']));

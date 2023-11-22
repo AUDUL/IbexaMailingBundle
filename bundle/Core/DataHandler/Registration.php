@@ -1,35 +1,26 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Core\DataHandler;
 
 use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
 use CodeRhapsodie\IbexaMailingBundle\Entity\User;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class Registration
 {
-    /**
-     * @var User
-     */
-    private $user;
+    private ?User $user;
 
     /**
-     * @var MailingList[]
+     * @var array<MailingList>
      */
-    private $mailingLists;
+    private array $mailingLists;
 
     public function __construct()
     {
-        $this->mailingLists = new ArrayCollection();
+        $this->mailingLists = [];
     }
 
-    /**
-     * @return User
-     */
     public function getUser(): ?User
     {
         return $this->user;
@@ -46,19 +37,19 @@ class Registration
     }
 
     /**
-     * @return MailingList[]|ArrayCollection
+     * @return MailingList[]
      */
-    public function getMailingLists()
+    public function getMailingLists(): array
     {
         return $this->mailingLists;
     }
 
     /**
-     * @param MailingList[]|ArrayCollection $mailingLists
+     * @param MailingList[] $mailingLists
      *
      * @return $this
      */
-    public function setMailingLists($mailingLists): self
+    public function setMailingLists(array $mailingLists): self
     {
         $this->mailingLists = $mailingLists;
 

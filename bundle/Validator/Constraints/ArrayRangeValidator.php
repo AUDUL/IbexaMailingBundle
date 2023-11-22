@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Validator\Constraints;
@@ -11,6 +9,9 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class ArrayRangeValidator extends ConstraintValidator
 {
+    /**
+     * @param ArrayRange $constraint
+     */
     public function validate($value, Constraint $constraint): void
     {
         /* @var ArrayRange $constraint */

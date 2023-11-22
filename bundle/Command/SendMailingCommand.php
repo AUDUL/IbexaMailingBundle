@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Command;
@@ -47,7 +45,7 @@ class SendMailingCommand extends Command
         $overrideDatetime = null;
         if ($input->getOption('overrideDatetime')) {
             $overrideDatetime = Carbon::createFromFormat('Y-m-d H:i', $input->getOption('overrideDatetime'));
-            $io->comment('Using an override date: <comment>' . $overrideDatetime->format('Y-m-d H:i') . '</comment>');
+            $io->comment('Using an override date: <comment>'.$overrideDatetime->format('Y-m-d H:i').'</comment>');
         }
         $this->processor->execute($overrideDatetime);
         $io->success('Done.');

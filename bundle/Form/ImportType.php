@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeRhapsodie\IbexaMailingBundle\Form;
 
 use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\UserImport;
@@ -10,6 +12,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ImportType extends AbstractType
 {
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('file', FileType::class, [

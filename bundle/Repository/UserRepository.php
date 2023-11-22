@@ -1,23 +1,30 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
 use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
-class User extends EntityRepository
+/**
+ * @extends EntityRepository<UserEntity>
+ */
+class UserRepository extends EntityRepository
 {
-    protected function getAlias(): string
+    public function __construct(ManagerRegistry $registry)
     {
-        return 'u';
+        parent::__construct($registry, User::class);
     }
 
+    /**
+     * @param array<string, mixed> $filters
+     */
     public function createQueryBuilderForFilters(array $filters = []): QueryBuilder
     {
         $qb = parent::createQueryBuilderForFilters($filters);
@@ -32,7 +39,7 @@ class User extends EntityRepository
         if (isset($filters['mailingLists'])) {
             $mailingLists = $filters['mailingLists'];
         }
-        if (null !== $mailingLists) {
+        if ($mailingLists !== null) {
             $joinExpr = $qb->expr()->andX(
                 $qb->expr()->in('reg.mailingList', ':mailingLists')
             );
@@ -64,7 +71,7 @@ class User extends EntityRepository
                     $qb->expr()->like('u.firstName', ':query'),
                     $qb->expr()->like('u.lastName', ':query')
                 )
-            )->setParameter('query', '%' . $query . '%');
+            )->setParameter('query', '%'.$query.'%');
         }
 
         $qb->orderBy('u.created', 'DESC');
@@ -73,11 +80,11 @@ class User extends EntityRepository
     }
 
     /**
-     * @param $mailingLists
+     * @param MailingList[] $mailingLists
      *
-     * @return array|\Doctrine\Common\Collections\ArrayCollection
+     * @return array<UserEntity>
      */
-    public function findValidRecipients($mailingLists)
+    public function findValidRecipients(array $mailingLists): array
     {
         return $this->findByFilters(
             [
@@ -88,7 +95,10 @@ class User extends EntityRepository
         );
     }
 
-    public function countValidRecipients($mailingLists): int
+    /**
+     * @param MailingList[] $mailingLists
+     */
+    public function countValidRecipients(array $mailingLists): int
     {
         return $this->countByFilters(
             [
@@ -99,6 +109,9 @@ class User extends EntityRepository
         );
     }
 
+    /**
+     * @return array<UserEntity>
+     */
     public function findLastUpdated(int $limit = 10): array
     {
         $qb = $this->createQueryBuilderForFilters([]);
@@ -113,9 +126,14 @@ class User extends EntityRepository
         $qb = $this->createQueryBuilder('u');
 
         return $qb->select('count(u.email)')
-            ->where($qb->expr()->eq('u.email', ":email"))
-            ->setParameter('email', $email)
-            ->getQuery()
-            ->getSingleScalarResult() > 0;
+                ->where($qb->expr()->eq('u.email', ':email'))
+                ->setParameter('email', $email)
+                ->getQuery()
+                ->getSingleScalarResult() > 0;
+    }
+
+    protected function getAlias(): string
+    {
+        return 'u';
     }
 }

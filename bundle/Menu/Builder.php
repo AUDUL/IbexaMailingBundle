@@ -1,47 +1,32 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Menu;
 
 use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
-use CodeRhapsodie\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Repository\MailingRepository;
+use CodeRhapsodie\IbexaMailingBundle\Repository\UserRepository;
 use CodeRhapsodie\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Builder
 {
-    private $translator;
-
-    /**
-     * @var FactoryInterface
-     */
-    private $factory;
-
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-
     public function __construct(
-        FactoryInterface $factory,
-        AuthorizationCheckerInterface $authorizationChecker,
-        TranslatorInterface $translator
+        private readonly FactoryInterface $factory,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly TranslatorInterface $translator,
+        private readonly UserRepository $userRepository,
+        private readonly MailingRepository $mailingRepository
     ) {
-        $this->factory = $factory;
-        $this->authorizationChecker = $authorizationChecker;
-        $this->translator = $translator;
     }
 
-    public function createCampaignMenu(RequestStack $requestStack, EntityManagerInterface $entityManager): ItemInterface
+    public function createCampaignMenu(EntityManagerInterface $entityManager): ItemInterface
     {
         $menu = $this->factory->createItem('root');
         $repo = $entityManager->getRepository(Campaign::class);
@@ -49,8 +34,6 @@ class Builder
         $campaigns = $repo->findAll();
         $mailingStatuses = Mailing::STATUSES;
 
-        $userRepo = $entityManager->getRepository(User::class);
-        $mailingRepo = $entityManager->getRepository(Mailing::class);
         foreach ($campaigns as $campaign) {
             if (!$this->authorizationChecker->isGranted(CampaignVoter::VIEW, $campaign)) {
                 continue;
@@ -62,15 +45,15 @@ class Builder
                 ]
             );
 
-            $count = $userRepo->countByFilters(['campaign' => $campaign]);
+            $count = $this->userRepository->countByFilters(['campaign' => $campaign]);
 
             $child->addChild(
                 "camp_{$campaign->getId()}_subsciptions",
                 [
                     'route' => 'ibexamailing_campaign_subscriptions',
                     'routeParameters' => ['campaign' => $campaign->getId()],
-                    'label' => $this->translator->trans('menu.campaign_menu.subscriptions', [], 'ibexamailing') .
-                                         " ({$count})",
+                    'label' => $this->translator->trans('menu.campaign_menu.subscriptions', [], 'ibexamailing')
+                                         ." ({$count})",
                     'attributes' => [
                         'class' => 'leaf subscriptions',
                     ],
@@ -78,7 +61,7 @@ class Builder
             );
 
             foreach ($mailingStatuses as $status) {
-                $count = $mailingRepo->countByFilters(
+                $count = $this->mailingRepository->countByFilters(
                     [
                         'campaign' => $campaign,
                         'status' => $status,
@@ -95,7 +78,7 @@ class Builder
                         'label' => $this->translator->trans(
                             'generic.mailing_statuses.'.$status,
                             [],
-                                'ibexamailing'
+                            'ibexamailing'
                         )." ({$count})",
                         'attributes' => [
                             'class' => "leaf {$status}",

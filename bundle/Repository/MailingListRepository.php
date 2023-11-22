@@ -1,20 +1,26 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
-class MailingList extends EntityRepository
+/**
+ * @extends EntityRepository<MailingList>
+ */
+class MailingListRepository extends EntityRepository
 {
-    protected function getAlias(): string
+    public function __construct(ManagerRegistry $registry)
     {
-        return 'ml';
+        parent::__construct($registry, MailingList::class);
     }
 
+    /**
+     * @param array<string, mixed> $filters
+     */
     public function createQueryBuilderForFilters(array $filters = []): QueryBuilder
     {
         $qb = parent::createQueryBuilderForFilters($filters);
@@ -28,5 +34,10 @@ class MailingList extends EntityRepository
         }
 
         return $qb;
+    }
+
+    protected function getAlias(): string
+    {
+        return 'ml';
     }
 }

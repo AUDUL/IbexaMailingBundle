@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Entity\eZ;
@@ -14,6 +12,7 @@ trait Content
 {
     /**
      * @var int
+     *
      * @ORM\Column(name="EZ_locationId", type="integer", nullable=true)
      */
     private $locationId;

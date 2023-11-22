@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Form;
@@ -28,6 +26,9 @@ class MailingListType extends AbstractType
         $this->siteAccessResolver = $siteAccessResolver;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $siteaccess = array_combine(

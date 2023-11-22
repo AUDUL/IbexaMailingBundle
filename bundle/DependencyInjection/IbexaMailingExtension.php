@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\DependencyInjection;
@@ -22,6 +20,11 @@ class IbexaMailingExtension extends Extension implements PrependExtensionInterfa
         return 'ibexamailing';
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param array<mixed> $configs
+     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration($configs, $container);

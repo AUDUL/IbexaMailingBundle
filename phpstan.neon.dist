@@ -1,0 +1,9 @@
+includes:
+    - vendor/ekino/phpstan-banned-code/extension.neon
+parameters:
+    level: 6
+    paths:
+        - bundle
+    excludePaths:
+        - bundle/Entity/*
+        - bundle/DependencyInjection/Configuration.php

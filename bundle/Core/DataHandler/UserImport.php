@@ -11,7 +11,9 @@ class UserImport
 {
     /**
      * @var File
+     *
      * @Assert\NotBlank()
+     *
      * @Assert\File(
      *     mimeTypes={"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" , "text/csv" , "text/plain"},
      *     mimeTypesMessage="Please upload a valid file (xls, xlsx , csv)"

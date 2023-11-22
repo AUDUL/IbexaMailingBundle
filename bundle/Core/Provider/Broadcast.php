@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
@@ -9,7 +7,7 @@ namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
 use Carbon\Carbon;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
 use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
-use DateTime;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Broadcast
@@ -31,10 +29,22 @@ class Broadcast
             ->setMailing($mailing)
             ->setStarted(Carbon::now())
             ->setHtml($html)
-            ->setUpdated(new DateTime());
+            ->setUpdated(new \DateTime());
         $this->store($broadcast);
 
         return $broadcast;
+    }
+
+    public function increment(int $broadcastId, int $increment = 1): void
+    {
+        $this->entityManager->createQueryBuilder()
+            ->update(BroadcastEntity::class, 'b')
+            ->set('b.emailSentCount', 'b.emailSentCount + :increment')
+            ->where('b.id = :id')
+            ->setParameter('id', $broadcastId)
+            ->setParameter('increment', $increment, ParameterType::INTEGER)
+            ->getQuery()
+            ->execute();
     }
 
     public function end(BroadcastEntity $broadcast): void

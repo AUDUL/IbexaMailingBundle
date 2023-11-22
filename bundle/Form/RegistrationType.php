@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Form;
@@ -38,6 +36,9 @@ class RegistrationType extends AbstractType
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('user', UserType::class);

@@ -1,30 +1,24 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Core\DataHandler;
 
 use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
 use CodeRhapsodie\IbexaMailingBundle\Entity\User;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class Unregistration
 {
-    /**
-     * @var User
-     */
-    private $user;
+    private ?User $user;
 
     /**
-     * @var MailingList[]
+     * @var array<MailingList>
      */
-    private $mailingLists;
+    private array $mailingLists;
 
     public function __construct()
     {
-        $this->mailingLists = new ArrayCollection();
+        $this->mailingLists = [];
     }
 
     public function getUser(): ?User
@@ -40,9 +34,9 @@ class Unregistration
     }
 
     /**
-     * @return MailingList[]|mixed
+     * @return MailingList[]
      */
-    public function getMailingLists()
+    public function getMailingLists(): array
     {
         return $this->mailingLists;
     }

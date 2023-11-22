@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Entity\Compose;
@@ -12,20 +10,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait Names
 {
     /**
-     * @var array
+     * @var array<mixed>
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="OBJ_names", type="array", nullable=false)
      */
-    private $names;
+    private array $names;
 
     /**
-     * @return array
+     * @return array<mixed>|null
      */
     public function getNames(): ?array
     {
         return $this->names;
     }
 
+    /**
+     * @param array<mixed> $names
+     */
     public function setNames(array $names): self
     {
         $this->names = $names;
@@ -33,12 +36,9 @@ trait Names
         return $this;
     }
 
-    public function getName(?string $lang = null): ?string
+    public function getName(string $lang = null): ?string
     {
-        if (null === $this->names) {
-            return null;
-        }
-        if (null === $lang || !isset($this->names[$lang])) {
+        if ($lang === null || !isset($this->names[$lang])) {
             return array_values($this->names)[0];
         }
 

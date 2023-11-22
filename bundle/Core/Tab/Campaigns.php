@@ -1,7 +1,5 @@
 <?php
 
-
-
 declare(strict_types=1);
 
 namespace CodeRhapsodie\IbexaMailingBundle\Core\Tab;
@@ -24,9 +22,14 @@ class Campaigns extends AbstractTab
     public function getName(): string
     {
         return /* @Desc("Ibexa Mailing - Campaigns Tab") */
-            $this->translator->trans('campaigns.tab.name', ['count' => count($this->campaigns)], 'ibexamailing');
+            $this->translator->trans('campaigns.tab.name', ['count' => \count($this->campaigns)], 'ibexamailing');
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param array<mixed> $parameters
+     */
     public function renderView(array $parameters): string
     {
         return $this->twig->render(

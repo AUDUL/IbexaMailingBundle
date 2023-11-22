@@ -15,7 +15,7 @@ generic.users.table.email: Email
 generic.users.table.status: Status
 generic.users.table.country: Country
 generic.users.table.origin: Origin
-generic.users.table.mailing_list: Mailing List
+generic.users.table.mailing_list: MailingRepository List
 generic.users.table.approbation: Approbation
 generic.users.table.updated: Updated
 generic.users.table.created: Created
@@ -56,20 +56,20 @@ generic.no_status_mailings: There no Mailings with this Status yet
 dashboard.title: Dashboard
 dashboard.subtitle: Quick overview
 dashboard.quick_actions: Quick Actions
-dashboard.create_new_campaign: Create New Campaign
-dashboard.see_mailing_lists: See Mailing Lists
+dashboard.create_new_campaign: Create New CampaignRepository
+dashboard.see_mailing_lists: See MailingRepository Lists
 dashboard.see_users: See Users
 dashboard.last_user_updated: Last Users Updated
 dashboard.last_broadcast: Last Broadcasts
 dashboard.last_mailing_updated: Latest Mailings Modified
 dashboard.last_mailing_sent: Latest Mailings Sent
-campaign.tabs.campaign: Campaign
+campaign.tabs.campaign: CampaignRepository
 campaign.tabs.associated_content: Associated eZ Content
 campaign.tabs.mailings: Mailings
 campaign.tabs.create: Create
 campaign.tabs.edit: Edit
 campaign.tabs.delete: Delete
-campaign.tabs.delete_campaign_confirmation_1: Are you sure you want to delete this Campaign?
+campaign.tabs.delete_campaign_confirmation_1: Are you sure you want to delete this CampaignRepository?
 campaign.tabs.delete_campaign_confirmation_2: "It is going to remove:"
 campaign.tabs.one_campaign: 1 campaign
 campaign.tabs.mailings_with_broadcast: Mailings with their Broadcasts
@@ -100,9 +100,9 @@ campaign.breadcrumb.edit: Edit
 campaign.breadcrumb.users: Users
 campaign.edit.edit: Edit
 campaign.edit.edition: Edition
-campaign.mailings.campaign: Campaign
+campaign.mailings.campaign: CampaignRepository
 campaign.mailings.mailings: Mailings
-campaign.subscriptions.campaign: Campaign
+campaign.subscriptions.campaign: CampaignRepository
 common.list.broadcast_graph.broadcasted_on: Broadcasted on
 common.list.broadcast.recipient_count: Recipient counts
 common.list.broadcast.started: Started
@@ -133,7 +133,7 @@ mailing.edit.select_content: Select a Content
 mailing.edit.campaigns: Campaigns
 mailing.mailing_tabs.mailing: Mailing
 mailing.mailing_tabs.associated_content: Associated eZ Content
-mailing.mailing_tabs.campaign: Campaign
+mailing.mailing_tabs.campaign: CampaignRepository
 mailing.mailing_tabs.broadcasts: Broadcasts
 mailing.mailing_tabs.stats: Stats
 mailing.mailing_tabs.views: View
@@ -143,14 +143,14 @@ mailing.mailing_tabs.abort: Abort
 mailing.mailing_tabs.test: Test
 mailing.mailing_tabs.confirm: Confirm
 mailing.mailing_tabs.test_mailing: Test the Mailing
-mailing.mailing_tabs.report_mail1: Campaign defines
+mailing.mailing_tabs.report_mail1: CampaignRepository defines
 mailing.mailing_tabs.report_mail2: as report email
 mailing.mailing_tabs.add_cc: 'Would you like to <strong>cc</strong> someone?'
 mailing.mailing_tabs.email: email
 mailing.mailing_tabs.send_test: Send a test
 mailing.mailing_tabs.cancel: Cancel
 mailing.mailing_tabs.confirm_sending: Confirm the sending
-mailing.mailing_tabs.mailing_lists_count1: Campaign defines
+mailing.mailing_tabs.mailing_lists_count1: CampaignRepository defines
 mailing.mailing_tabs.mailing_lists_count2: Mailing Lists
 mailing.mailing_tabs.mailing_list_reach: The reach of this Mailing is
 mailing.mailing_tabs.create_content: Create Content
@@ -189,7 +189,7 @@ mailing_list.show.removal_details1: Are you sure you want to delete this Mailing
 mailing_list.show.removal_details2: It is going to remove
 mailing_list.show.removal_details3: 1 Mailing List
 mailing_list.show.registrations: Registrations
-mailing_list.show.assignation_to_campagin: assignations to Campaign
+mailing_list.show.assignation_to_campagin: assignations to CampaignRepository
 mailing_list.show.note: "Note: Users are not deleted."
 tabs.campaigns.part_of_count1: This content is part of
 tabs.campaigns.part_of_count2: "campaigns."
@@ -199,13 +199,13 @@ tabs.mailings.part_of_count2: "mailings."
 user.index.title: Users
 user.index.subtitle: entries
 user.show.information: Information
-user.show.delete_user_confirmation1: Are you sure you want to delete this User?
+user.show.delete_user_confirmation1: Are you sure you want to delete this UserRepository?
 user.show.delete_user_confirmation2: "It is going to remove:"
-user.show.delete_user_confirmation3: 1 User
+user.show.delete_user_confirmation3: 1 UserRepository
 user.show.registrations: Registrations
 layout.footer.unsubscribe: Unsubscribe
 registration.register.confirmation_email_message: You are going to receive an email to confirm your registration.
-register.register.confirmation: Registration confirmed.
+register.register.confirmation: RegistrationRepository confirmed.
 register.register.failed: This url is not valid anymore, your registration was not confirmed.
 register.unregister.confirmation_email_message: You are going to receive an email to confirm your unregistration.
 register.unregister_confirmation.confirmed: Unregistration confirmed.
@@ -234,7 +234,7 @@ ibexamailingfull.generic.test_tracking_link: Test Tracking Link - Code-Rhapsodie
 ibexamailingfull.generic.ez_test_tracking_link: Test Tracking Link - eZ No
 ibexamailingfull.generic.mailing: Mailing
 ibexamailingfull.generic.associated_content: Associated content
-ibexamailingfull.generic.campaign: Campaign
+ibexamailingfull.generic.campaign: CampaignRepository
 ibexamailingfull.generic.define_a_view1: Please define a "view" that works in your project
 ibexamailingfull.generic.define_a_view2: "Example for a folder: "
 menu.savecancel.save: Save
@@ -242,7 +242,7 @@ menu.savecancel.cancel: Cancel
 menu.admin_menu.users: Users
 menu.admin_menu.mailing_lists: Mailing Lists
 menu.campaign_menu.subscriptions: subscriptions
-mailing.buildform.recuring_mailing: "Is it a reccuring Mailing?"
+mailing.buildform.recuring_mailing: "Is it a reccuring Mailing ?"
 mailing.buildform.which_siteaccess: "On which siteaccess?"
 form.subject: Subject
 mailinglisttype.buildform.withapproval: "With approval?"
