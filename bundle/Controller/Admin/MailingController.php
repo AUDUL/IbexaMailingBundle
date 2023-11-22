@@ -83,7 +83,7 @@ class MailingController extends AbstractController
         return $this->render('@IbexaMailing/admin/mailing/mailing_tabs.html.twig', [
             'item' => $mailing,
             'totalRecipients' => $userRepository->countValidRecipients(
-                $mailing->getCampaign()->getMailingLists()
+                $mailing->getCampaign()->getMailingLists()->toArray()
             ),
             'preview' => $preview,
         ]);

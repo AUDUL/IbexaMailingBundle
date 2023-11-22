@@ -115,7 +115,7 @@ class Registrar
         }
 
         // if no more registration then we remove the user
-        if (empty($user->getRegistrations())) {
+        if ($user->getRegistrations()->isEmpty()) {
             if ($this->configResolver->getParameter('delete_user', 'ibexamailing')) {
                 $this->entityManager->remove($user);
             } else {
