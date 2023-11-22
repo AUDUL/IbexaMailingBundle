@@ -60,8 +60,8 @@ jQuery(function () {
             }
 
             // Réinitialiser la largeur si d-none n'est pas active
-            div.style.width = '320px';
-            treeContainer.style.width = '';
+            div.style.width = '';
+            treeContainer.style.width = '320px';
         });
     });
 
