@@ -34,3 +34,36 @@ jobs:
 
             -   name: Run test suite
                 run: composer run-script test
+    php-stan:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: PHPStan Static Analysis
+                uses: php-actions/phpstan@v3
+                with:
+                    configuration: phpstan.neon.dist
+                    memory_limit: 256M
+    php-cs-fixer:
+        name: PHP-CS-Fixer
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: PHP-CS-Fixer
+              uses: docker://oskarstark/php-cs-fixer-ga
+              with:
+                args: --config=.php-cs-fixer.dist.php --diff --dry-run
+    phpmd:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   name: Composer install
+                uses: php-actions/composer@v6
+
+            -   name: PHP Mess Detector
+                uses: php-actions/phpmd@v1
+                with:
+                    path: bundle/
+                    output: text
+                    ruleset: phpmd.xml
+                    exclude: '*/bundle/Entity/*'
