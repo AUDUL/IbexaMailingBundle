@@ -18,6 +18,22 @@ $eZLightBackground: #F5F5F5;
 .c-list-item__row {
   cursor: pointer;
 }
+.bage-status{
+  padding: 10px !important;
+  border-radius: 5px !important;
+}
+.text-bg-success {
+  color: white !important;
+  background-color: #56c356 !important;
+}
+.text-bg-warning {
+  color: white !important;
+  background-color: #f99275 !important;
+}
+.text-bg-info {
+  color: white !important;
+  background-color: #188090 !important;
+}
 
 .pagination {
   justify-content: center !important;
