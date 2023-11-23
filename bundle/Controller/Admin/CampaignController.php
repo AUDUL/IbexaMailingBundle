@@ -137,7 +137,7 @@ class CampaignController extends AbstractController
             $entityManager->persist($campaign);
             $entityManager->flush();
 
-            $this->redirectToRoute('ibexamailing_campaign_subscriptions', ['campaign' => $campaign->getId()]);
+            return $this->redirectToRoute('ibexamailing_campaign_subscriptions', ['campaign' => $campaign->getId()]);
         }
 
         return $this->render('@IbexaMailing/admin/campaign/edit.html.twig', [
