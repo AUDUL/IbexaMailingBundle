@@ -10,28 +10,33 @@
     <div class="ibexa-content-view ibexa-content-tree-container">
         <div class="ibexa-content-tree-container__root">
             <div class="m-tree" style="width: 320px; position: relative;">
-                <div class="toggle-wrapper">
+                div class="toggle-wrapper">
 
-                    <div class="c-header toggle-button-menu">
-                        <div class="c-header__name">
-                            <svg id="toggleSvg" class="ibexa-icon ibexa-icon--small">
-                                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#content-tree"></use>
-                            </svg>
-                            Ibexa Mailing
-                        </div>
+                <div class="c-header toggle-button-menu">
+                    <button class="ibexa-btn btn ibexa-btn--no-text ibexa-btn--tertiary c-header__toggle-btn">
+                        <svg class="ibexa-icon ibexa-icon--small">
+                            <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#caret-back"></use>
+                        </svg>
+                    </button>
+                    <div class="c-header__name titre-nav-toggle">
+                        <svg id="toggleSvg" class="ibexa-icon ibexa-icon--small">
+                            <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#content-tree"></use>
+                        </svg>
+                        Ibexa Mailing
                     </div>
-
-                    <div class="m-tree__scrollable-wrapper">
-                        <ul class="c-list">
-                            <li class="c-list-item c-list-item--has-sub-items c-list-item--is-expanded c-list-item--is-selected c-list-item--is-root-item">
-                                <h2 class="c-list-item__row">
-                                    &nbsp;{{ "layout.pagelayout.campaigns"|trans }}</h2>
-                                {{ knp_menu_render('ibexamailing.menu.campaigns', {template:"@IbexaMailing/admin/common/menu.html.twig"}) }}
-                            </li>
-                        </ul >
-                    </div>
-
                 </div>
+
+                <div class="m-tree__scrollable-wrapper">
+                    <ul class="c-list">
+                        <li class="c-list-item c-list-item--has-sub-items c-list-item--is-expanded c-list-item--is-selected c-list-item--is-root-item">
+                            <h2 class="c-list-item__row">
+                                &nbsp;{{ "layout.pagelayout.campaigns"|trans }}</h2>
+                            {{ knp_menu_render('ibexamailing.menu.campaigns', {template:"@IbexaMailing/admin/common/menu.html.twig"}) }}
+                        </li>
+                    </ul >
+                </div>
+
+            </div>
                 <div class="m-tree__resize-handler"></div>
             </div>
         </div>
