@@ -1,42 +1,44 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Repository;
+namespace CodeRhapsodie\IbexaMailingBundle\Repository;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityRepository as BaseEntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-abstract class EntityRepository extends BaseEntityRepository
+/**
+ * @template T of object
+ *
+ * @extends ServiceEntityRepository<T>
+ */
+abstract class EntityRepository extends ServiceEntityRepository
 {
-    abstract protected function getAlias(): string;
-
+    /**
+     * {@inheritDoc}
+     *
+     * @param array<string, mixed> $filters
+     */
     public function createQueryBuilderForFilters(array $filters = []): QueryBuilder
     {
         return $this->createQueryBuilder($this->getAlias())->select($this->getAlias())->distinct();
     }
 
     /**
-     * @return array|ArrayCollection
+     * @param array<string, mixed> $filters
+     *
+     * @return array<T>
      */
-    public function findByFilters(array $filters = [])
+    public function findByFilters(array $filters = []): array
     {
         $qb = $this->createQueryBuilderForFilters($filters);
 
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @param array<string, mixed> $filters
+     */
     public function countByFilters(array $filters = []): int
     {
         $qb = $this->createQueryBuilderForFilters($filters);
@@ -44,4 +46,6 @@ abstract class EntityRepository extends BaseEntityRepository
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
+    abstract protected function getAlias(): string;
 }

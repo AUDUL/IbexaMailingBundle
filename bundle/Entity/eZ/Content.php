@@ -1,18 +1,8 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity\eZ;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity\eZ;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as eZContent;
@@ -22,6 +12,7 @@ trait Content
 {
     /**
      * @var int
+     *
      * @ORM\Column(name="EZ_locationId", type="integer", nullable=true)
      */
     private $locationId;

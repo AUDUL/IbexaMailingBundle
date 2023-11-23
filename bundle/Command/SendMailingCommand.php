@@ -1,27 +1,19 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Command;
+namespace CodeRhapsodie\IbexaMailingBundle\Command;
 
 use Carbon\Carbon;
-use Novactive\Bundle\eZMailingBundle\Core\Processor\SendMailingProcessorInterface as SendMailing;
+use CodeRhapsodie\IbexaMailingBundle\Core\Processor\SendMailingProcessorInterface as SendMailing;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand('ibexamailing:send:mailing')]
 class SendMailingCommand extends Command
 {
     /**
@@ -38,7 +30,7 @@ class SendMailingCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('novaezmailing:send:mailing')
+            ->setName('ibexamailing:send:mailing')
             ->addOption(
                 'overrideDatetime',
                 'o',
@@ -55,7 +47,7 @@ class SendMailingCommand extends Command
         $overrideDatetime = null;
         if ($input->getOption('overrideDatetime')) {
             $overrideDatetime = Carbon::createFromFormat('Y-m-d H:i', $input->getOption('overrideDatetime'));
-            $io->comment('Using an override date: <comment>' . $overrideDatetime->format('Y-m-d H:i') . '</comment>');
+            $io->comment('Using an override date: <comment>'.$overrideDatetime->format('Y-m-d H:i').'</comment>');
         }
         $this->processor->execute($overrideDatetime);
         $io->success('Done.');

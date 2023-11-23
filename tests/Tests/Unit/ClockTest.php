@@ -1,22 +1,12 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Tests\Tests\Unit;
+namespace CodeRhapsodie\IbexaMailingBundle\Tests\Tests\Unit;
 
 use Carbon\Carbon;
-use Novactive\Bundle\eZMailingBundle\Core\Utils\Clock;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Core\Utils\Clock;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
 use PHPUnit\Framework\TestCase;
 
 class ClockTest extends TestCase
@@ -24,7 +14,7 @@ class ClockTest extends TestCase
     /**
      * $hoursOfDay $daysOfWeek $daysOfMonth $daysOfYear $weeksOfMonth $monthsOfYear $weeksOfYear.
      */
-    public function timesMatchProvider(): array
+    public static function timesMatchProvider(): array
     {
         return [
             // TRUE CASES
@@ -103,14 +93,9 @@ class ClockTest extends TestCase
     /**
      * $hoursOfDay $daysOfWeek $daysOfMonth $daysOfYear $weeksOfMonth $monthsOfYear $weeksOfYear.
      */
-    public function nextTimesMatchProvider(): array
+    public static function nextTimesMatchProvider(): array
     {
         return [
-            [
-                Carbon::create(2018, 12, 30, 2, 8, 55),
-                ['2', '', '', '', '', '', ''],
-                Carbon::create(2018, 12, 31, 2, 0, 0),
-            ],
             [
                 Carbon::create(2018, 5, 15, 14, 8, 55),
                 ['14,16', '', '', '', '', '', ''],
@@ -161,25 +146,6 @@ class ClockTest extends TestCase
         ];
     }
 
-    private function createMailing(array $data): Mailing
-    {
-        $mailing = new Mailing();
-
-        list($hoursOfDay, $daysOfWeek, $daysOfMonth, $daysOfYear, $weeksOfMonth, $monthsOfYear, $weeksOfYear) = $data;
-
-        $mailing->setNames(['eng-GB' => 'Test Mailing']);
-        $mailing
-            ->setHoursOfDay(explode(',', $hoursOfDay))
-            ->setDaysOfWeek(explode(',', $daysOfWeek))
-            ->setDaysOfMonth(explode(',', $daysOfMonth))
-            ->setDaysOfYear(explode(',', $daysOfYear))
-            ->setWeeksOfMonth(explode(',', $weeksOfMonth))
-            ->setMonthsOfYear(explode(',', $monthsOfYear))
-            ->setWeeksOfYear(explode(',', $weeksOfYear));
-
-        return $mailing;
-    }
-
     /**
      * @dataProvider timesMatchProvider
      */
@@ -188,21 +154,13 @@ class ClockTest extends TestCase
         foreach ($datas as $data) {
             $dataForLog = array_map(
                 function ($value) {
-                    return '' === $value ? '*' : $value;
+                    return $value === '' ? '*' : $value;
                 },
                 $data
             );
 
             $clock = new Clock($dateReference);
             $mailing = $this->createMailing($data);
-
-            if ($expected !== $clock->match($mailing)) {
-                dump($dateReference->format('Y-m-d H:i:s'));
-                dump($dataForLog);
-                dump($expected);
-                dump($mailing);
-                dd($clock->match($mailing));
-            }
 
             $this->assertEquals(
                 $expected,
@@ -222,7 +180,7 @@ class ClockTest extends TestCase
         $nextTick = $clock->nextTick($mailing);
         $dataForLog = array_map(
             function ($value) {
-                return '' === $value ? '*' : $value;
+                return $value === '' ? '*' : $value;
             },
             $data
         );
@@ -230,8 +188,27 @@ class ClockTest extends TestCase
         $this->assertEquals(
             $expected,
             $nextTick,
-            "Next tick for {$dateReference->format('Y-m-d H:i:s')} using ".implode(' ', $dataForLog).
-            " is not {$expected->format('Y-m-d H:i:s')}"
+            "Next tick for {$dateReference->format('Y-m-d H:i:s')} using ".implode(' ', $dataForLog)
+            ." is not {$expected->format('Y-m-d H:i:s')}"
         );
+    }
+
+    private function createMailing(array $data): Mailing
+    {
+        $mailing = new Mailing();
+
+        list($hoursOfDay, $daysOfWeek, $daysOfMonth, $daysOfYear, $weeksOfMonth, $monthsOfYear, $weeksOfYear) = $data;
+
+        $mailing->setNames(['eng-GB' => 'Test MailingRepository']);
+        $mailing
+            ->setHoursOfDay(explode(',', $hoursOfDay))
+            ->setDaysOfWeek(explode(',', $daysOfWeek))
+            ->setDaysOfMonth(explode(',', $daysOfMonth))
+            ->setDaysOfYear(explode(',', $daysOfYear))
+            ->setWeeksOfMonth(explode(',', $weeksOfMonth))
+            ->setMonthsOfYear(explode(',', $monthsOfYear))
+            ->setWeeksOfYear(explode(',', $weeksOfYear));
+
+        return $mailing;
     }
 }

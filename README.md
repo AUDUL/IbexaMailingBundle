@@ -1,19 +1,17 @@
-# Novactive eZ Mailing Bundle
+# Ibexa Mailing Bundle
 
 ----
+
+[![Quality Gate Status](https://sonar.code-rhapsodie.net/api/project_badges/measure?project=code-rhapsodie_IbexaMailingBundle_AYv8MwwoWE9sbcQmD12M&metric=alert_status&token=sqb_d492b0d522b202fb7514bf4977e2ba4027413d0f)](https://sonar.code-rhapsodie.net/dashboard?id=code-rhapsodie_IbexaMailingBundle_AYv8MwwoWE9sbcQmD12M)
+
+## History
+
+This repository is a fork of https://github.com/Novactive/NovaeZMailingBundle
 
 This repository is what we call a "subtree split": a read-only copy of one directory of the main repository. 
 It is used by Composer to allow developers to depend on specific bundles.
-
-If you want to report or contribute, you should instead open your issue on the main repository: https://github.com/Novactive/Nova-eZPlatform-Bundles
-
-Documentation is available in this repository via `.md` files but also packaged here: https://novactive.github.io/Nova-eZPlatform-Bundles/master/MailingBundle/README.md.html
-
 ----
 
-[![Downloads](https://img.shields.io/packagist/dt/novactive/ezmailingbundle.svg?style=flat-square)](https://packagist.org/packages/novactive/ezmailingbundle)
-[![Latest version](https://img.shields.io/github/release/Novactive/NovaeZMailingBundle.svg?style=flat-square)](https://github.com/Novactive/NovaeZMailingBundle/releases)
-[![License](https://img.shields.io/packagist/l/novactive/ezmailingbundle.svg?style=flat-square)](LICENSE)
 
 Send eZ Contents by email based on the Mailing + Campaign configuration to a group of users (Mailing Lists)
 
@@ -54,7 +52,7 @@ Wording
 Features
 --------
 
-Novactive eZ Mailing allows you to: **Send eZ Contents by email based on the Mailing + Campaign configuration to a group
+Ibexa Mailing allows you to: **Send eZ Contents by email based on the Mailing + Campaign configuration to a group
 of users (Mailing Lists)** 
 
 At a glance:

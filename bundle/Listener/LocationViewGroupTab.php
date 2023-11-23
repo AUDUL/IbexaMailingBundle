@@ -1,27 +1,17 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Listener;
+namespace CodeRhapsodie\IbexaMailingBundle\Listener;
 
+use CodeRhapsodie\IbexaMailingBundle\Core\Tab\Campaigns as CampaignsTab;
+use CodeRhapsodie\IbexaMailingBundle\Core\Tab\Mailings as MailingsTab;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\AdminUi\Tab\Event\TabGroupEvent;
 use Ibexa\AdminUi\Tab\TabRegistry;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
-use Novactive\Bundle\eZMailingBundle\Core\Tab\Campaigns as CampaignsTab;
-use Novactive\Bundle\eZMailingBundle\Core\Tab\Mailings as MailingsTab;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 
 class LocationViewGroupTab
 {
@@ -60,7 +50,7 @@ class LocationViewGroupTab
     public function onTabGroupPreRender(TabGroupEvent $event): void
     {
         $tabGroup = $event->getData();
-        if ('location-view' !== $tabGroup->getIdentifier()) {
+        if ($tabGroup->getIdentifier() !== 'location-view') {
             return;
         }
 

@@ -1,46 +1,33 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Utils;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Utils;
 
 class ChartDataBuilder
 {
-    /**
-     * @var string
-     */
-    private $title;
+    private string $title;
 
     /**
-     * @var array
+     * @var array<mixed>
      */
-    private $options;
+    private array $options;
 
     /**
-     * @var array
+     * @var array<mixed>
      */
-    private $dataSets;
+    private array $dataSets;
+
+    private string $type;
 
     /**
-     * @var string
+     * @var array<string>
      */
-    private $type;
+    private array $colorsSets;
 
     /**
-     * @var array
+     * @param array<mixed> $options
      */
-    private $colorsSets;
-
     public function __construct(string $title, string $type, array $options = [])
     {
         $this->title = $title;
@@ -54,28 +41,9 @@ class ChartDataBuilder
         ];
     }
 
-    public function addDataSet(array $data, array $labels, ?array $colors = null, ?string $type = null): self
-    {
-        if (null === $type) {
-            $this->dataSets[] = [
-                'data' => $data,
-                'labels' => $labels,
-                'colors' => $colors,
-            ];
-
-            return $this;
-        }
-
-        $this->dataSets[] = [
-            'data' => $data,
-            'labels' => $labels,
-            'colors' => $colors,
-            'type' => $type,
-        ];
-
-        return $this;
-    }
-
+    /**
+     * @return array<string, mixed>
+     */
     public function __invoke(): array
     {
         $datasets = [];
@@ -99,12 +67,11 @@ class ChartDataBuilder
         $options['title']['display'] = true;
         $options['title']['text'] = $this->title;
 
-        if ('bar' === $this->type) {
+        if ($this->type === 'bar') {
             $options['legend'] = false;
             $options['scales']['y']['ticks'] = [
                 'stepSize' => 1,
                 'beginAtZero' => true,
-
             ];
             $options['barThickness'] = 3;
         }
@@ -117,5 +84,32 @@ class ChartDataBuilder
                 'labels' => $labels,
             ],
         ];
+    }
+
+    /**
+     * @param array<mixed>      $data
+     * @param array<mixed>      $labels
+     * @param array<mixed>|null $colors
+     */
+    public function addDataSet(array $data, array $labels, array $colors = null, string $type = null): self
+    {
+        if ($type === null) {
+            $this->dataSets[] = [
+                'data' => $data,
+                'labels' => $labels,
+                'colors' => $colors,
+            ];
+
+            return $this;
+        }
+
+        $this->dataSets[] = [
+            'data' => $data,
+            'labels' => $labels,
+            'colors' => $colors,
+            'type' => $type,
+        ];
+
+        return $this;
     }
 }

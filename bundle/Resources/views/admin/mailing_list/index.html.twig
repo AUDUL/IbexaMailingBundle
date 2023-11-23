@@ -1,16 +1,17 @@
-{% extends "@NovaeZMailing/admin/layout/pagelayout.html.twig" %}
-{% trans_default_domain 'ezmailing' %}
+{% extends "@IbexaMailing/admin/layout/pagelayout.html.twig" %}
+{% trans_default_domain 'ibexamailing' %}
 
-{% block novezmailing_breadcrumb %}
+{% block ibexamailing_breadcrumb %}
     {% set items = [
-        {'url':path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
+        {'url':path("ibexamailing_dashboard_index"), 'value': 'Ibexa Mailing' },
         {'value': "campaign.breadcrumb.mailing_list"|trans },
     ] %}
 
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
-{% block novezmailing_title %}<img src="{{ asset("/bundles/novaezmailing/admin/images/32x32/mailinglist.png") }}" class="nova-icon" /> {{"mailing_list.index.title"|trans}}{% endblock %}
-{% block novezmailing_subtitle %}{{"mailing_list.index.subtitle"|trans}}{% endblock %}
+{% block ibexamailing_title %}<img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/mailinglist.svg") }}"
+                                   class="mailing-icon" /> {{ "mailing_list.index.title"|trans }}{% endblock %}
+{% block ibexamailing_subtitle %}{{ "mailing_list.index.subtitle"|trans }}{% endblock %}
 
 {% block content %}
     <table class="table ibexa-table c-table-view">
@@ -30,16 +31,17 @@
             {% if is_granted('view', item) %}
                 <tr class="ibexa-table__row c-table-view-item">
                     <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.id }}</td>
-                    <td class="ibexa-table__cell c-table-view-item__cell"><a href="{{ path('novaezmailing_mailinglist_show', {'mailingList':item.id}) }}">{{ item.name }}</a>
+                    <td class="ibexa-table__cell c-table-view-item__cell"><a
+                                href="{{ path('ibexamailing_mailinglist_show', {'mailingList':item.id}) }}">{{ item.name }}</a>
                     </td>
                     {% set yesText = 'mailing_list.index.yes'|trans() %}
                     {% set noText = 'mailing_list.index.no'|trans() %}
                     <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.withApproval ? yesText : noText }}</td>
-                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.created|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
-                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.updated|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}</td>
+                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.created|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
+                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.updated|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</td>
                     <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.registrations|length }}</td>
                     <td class="ibexa-table__cell c-table-view-item__cell text-center">
-                        <a href="{{ path("novaezmailing_mailinglist_edit", {'mailinglist': item.id} ) }}"
+                        <a href="{{ path("ibexamailing_mailinglist_edit", {'mailinglist': item.id} ) }}"
                            class="edit-button">
                             <svg class="ez-icon" width="30" height="30">
                                 <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#edit"></use>
@@ -51,11 +53,8 @@
         </tbody>
     </table>
 
-    <div class="novaezmailing-button-actions float-right">
-        <a class="btn btn-sm btn-secondary" href="{{ path('novaezmailing_mailinglist_create') }}">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
-            </svg>
+    <div class="ibexamailing-button-actions float-right">
+        <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path('ibexamailing_mailinglist_create') }}">
             <span>{{"mailing_list.index.create_mailing_list"|trans}}</span>
         </a>
     </div>

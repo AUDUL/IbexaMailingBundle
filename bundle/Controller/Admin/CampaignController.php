@@ -1,55 +1,43 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller\Admin;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller\Admin;
 
-use DateTime;
+use CodeRhapsodie\IbexaMailingBundle\Core\Provider\User as UserProvider;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Form\CampaignType;
+use CodeRhapsodie\IbexaMailingBundle\Repository\MailingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\AdminUi\Tab\LocationView\ContentTab;
-use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Core\Helper\TranslationHelper;
-use Novactive\Bundle\eZMailingBundle\Core\Provider\User as UserProvider;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Form\CampaignType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
 
 /**
  * @Route("/campaign")
  */
-class CampaignController
+class CampaignController extends AbstractController
 {
     /**
-     * @Template()
      * @Security("is_granted('view', campaign)")
      */
     public function campaignTabsAction(
         Campaign $campaign,
-        Repository $repository,
+        ContentTypeService $contentTypeService,
         ContentTab $contentTab,
-        EntityManagerInterface $entityManager,
-        string $status = 'all'
-    ): array {
+        MailingRepository $mailingRepository,
+        string $status = 'all',
+    ): Response {
         $content = $campaign->getContent();
-        if (null !== $content) {
-            $contentType = $repository->getContentTypeService()->loadContentType(
+        if ($content !== null) {
+            $contentType = $contentTypeService->loadContentType(
                 $content->contentInfo->contentTypeId
             );
             $preview = $contentTab->renderView(
@@ -60,26 +48,25 @@ class CampaignController
                 ]
             );
         }
-        $repo = $entityManager->getRepository(Mailing::class);
-        $mailings = $repo->findByFilters(
+        $mailings = $mailingRepository->findByFilters(
             [
                 'campaign' => $campaign,
-                'status' => 'all' === $status ? null : $status,
+                'status' => $status === 'all' ? null : $status,
             ]
         );
 
-        return [
+        return $this->render('@IbexaMailing/admin/campaign/campaign_tabs.html.twig', [
             'item' => $campaign,
             'status' => $status,
             'children' => $mailings,
             'preview' => $preview ?? null,
-        ];
+        ]);
     }
 
     /**
-     * @Route("/show/subscriptions/{campaign}/{status}/{page}/{limit}", name="novaezmailing_campaign_subscriptions",
+     * @Route("/show/subscriptions/{campaign}/{status}/{page}/{limit}", name="ibexamailing_campaign_subscriptions",
      *                                              defaults={"page":1, "limit":10, "status":"all"})
-     * @Template()
+     *
      * @Security("is_granted('view', campaign)")
      */
     public function subscriptionsAction(
@@ -88,95 +75,89 @@ class CampaignController
         string $status = 'all',
         int $page = 1,
         int $limit = 10
-    ): array {
+    ): Response {
         $filers = [
             'campaign' => $campaign,
-            'status' => 'all' === $status ? null : $status,
+            'status' => $status === 'all' ? null : $status,
         ];
 
-        return [
+        return $this->render('@IbexaMailing/admin/campaign/subscriptions.html.twig', [
             'pager' => $provider->getPagerFilters($filers, $page, $limit),
             'statuses' => $provider->getStatusesData($filers),
             'currentStatus' => $status,
             'item' => $campaign,
-        ];
+        ]);
     }
 
     /**
-     * @Route("/show/mailings/{campaign}/{status}", name="novaezmailing_campaign_mailings")
-     * @Template()
+     * @Route("/show/mailings/{campaign}/{status}", name="ibexamailing_campaign_mailings")
+     *
      * @Security("is_granted('view', campaign)")
      */
-    public function mailingsAction(Campaign $campaign, EntityManagerInterface $entityManager, string $status): array
+    public function mailingsAction(Campaign $campaign, MailingRepository $mailingRepository, string $status): Response
     {
-        $repo = $entityManager->getRepository(Mailing::class);
-        $results = $repo->findByFilters(
+        $results = $mailingRepository->findByFilters(
             [
                 'campaign' => $campaign,
                 'status' => $status,
             ]
         );
 
-        return [
+        return $this->render('@IbexaMailing/admin/campaign/mailings.html.twig', [
             'item' => $campaign,
             'status' => $status,
             'children' => $results,
-        ];
+        ]);
     }
 
     /**
-     * @Route("/edit/{campaign}", name="novaezmailing_campaign_edit")
-     * @Route("/create", name="novaezmailing_campaign_create")
-     * @Security("is_granted('edit', campaign)")
-     * @Template()
+     * @Route("/edit/{campaign}", name="ibexamailing_campaign_edit")
+     * @Route("/create", name="ibexamailing_campaign_create")
      *
-     * @return array|RedirectResponse
+     * @Security("is_granted('edit', campaign)")
      */
     public function editAction(
         ?Campaign $campaign,
         Request $request,
-        RouterInterface $router,
         EntityManagerInterface $entityManager,
         FormFactoryInterface $formFactory,
         TranslationHelper $translationHelper
-    ) {
-        if (null === $campaign) {
+    ): Response {
+        if ($campaign === null) {
             $campaign = new Campaign();
             $languages = array_filter($translationHelper->getAvailableLanguages());
-            $campaign->setNames(array_combine($languages, array_pad([], count($languages), '')));
+            $campaign->setNames(array_combine($languages, array_pad([], \count($languages), '')));
         }
 
         $form = $formFactory->create(CampaignType::class, $campaign);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $campaign->setUpdated(new DateTime());
+            $campaign->setUpdated(new \DateTime());
             $entityManager->persist($campaign);
             $entityManager->flush();
 
-            return new RedirectResponse(
-                $router->generate('novaezmailing_campaign_subscriptions', ['campaign' => $campaign->getId()])
-            );
+            return $this->redirectToRoute('ibexamailing_campaign_subscriptions', ['campaign' => $campaign->getId()]);
         }
 
-        return [
+        return $this->render('@IbexaMailing/admin/campaign/edit.html.twig', [
             'item' => $campaign,
             'form' => $form->createView(),
-        ];
+        ]);
     }
 
     /**
-     * @Route("/delete/{campaign}", name="novaezmailing_campaign_remove")
+     * @Route("/delete/{campaign}", name="ibexamailing_campaign_remove")
+     *
      * @Security("is_granted('edit', campaign)")
      */
     public function deleteAction(
         Campaign $campaign,
         EntityManagerInterface $entityManager,
-        RouterInterface $router
     ): RedirectResponse {
         $entityManager->remove($campaign);
         $entityManager->flush();
 
-        return new RedirectResponse($router->generate('novaezmailing_dashboard_index'));
+        return $this->redirectToRoute('ibexamailing_dashboard_index');
     }
 }

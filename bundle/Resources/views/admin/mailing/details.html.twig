@@ -1,88 +1,102 @@
-{% trans_default_domain 'ezmailing' %}
-<table class="table table-striped table-hover table-sm">
-    <tr>
-        <th>{{"mailing.details.name"|trans}}</th>
-        <td>{{ item.name }}</td>
-    </tr>
-    <tr>
-        <th>{{"mailing.details.status"|trans}}</th>
-        <td>
-            <img src="{{ asset("/bundles/novaezmailing/admin/images/32x32/"~item.status~".png") }}" class="nova-icon"/>
-            {{ item.status }}
-        </td>
-    </tr>
-    <tr>
-        <th>{{"mailing.details.subject"|trans}}</th>
-        <td>{{ item.subject }}</td>
-    </tr>
+{% trans_default_domain 'ibexamailing' %}
+<div class="ibexa-fieldgroup">
+    <div class="ibexa-content-field">
+        <div class="ibexa-content-field__name">{{ "mailing.details.name"|trans }}</div>
+        <div class="ibexa-content-field__value">
+            <span class="ezstring-field">{{ item.name }}</span>
+        </div>
+    </div>
+    <div class="ibexa-content-field">
+        <div class="ibexa-content-field__name">{{ "mailing.details.status"|trans }}</div>
+        <div class="ibexa-content-field__value">
+            <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/"~item.status~".svg") }}"
+                 class="mailing-icon"/>
+            <span class="ezstring-field">{{ item.status }}</span>
+        </div>
+    </div>
+    <div class="ibexa-content-field">
+        <div class="ibexa-content-field__name">{{ "mailing.details.subject"|trans }}</div>
+        <div class="ibexa-content-field__value">
+            <span class="ezstring-field">{{ item.subject }}</span>
+        </div>
+    </div>
     {% set nextTick = item.nextTick %}
-    {% if item.hasBeenSent %}
-        <tr>
-            <th>{{"mailing.details.last_sent_date"|trans}}</th>
-            <td>
-                {{ item.lastSent|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}
-            </td>
-        </tr>
+    {% if item.hasBeenSent and item.lastSent is not null %}
+        <div class="ibexa-content-field">
+            <div class="ibexa-content-field__name">{{ "mailing.details.last_sent_date"|trans }}</div>
+            <div class="ibexa-content-field__value">
+                <span class="ezstring-field">{{ item.lastSent|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}</span>
+            </div>
+        </div>
     {% endif %}
-    <tr>
-        <th>
+    <div class="ibexa-content-field">
+        <div class="ibexa-content-field__name">
             {% if item.recurring %}
-                {{"mailing.details.frequency"|trans}}
+                {{ "mailing.details.frequency"|trans }}
             {% else %}
-                {{"mailing.details.rules"|trans}}
+                {{ "mailing.details.rules"|trans }}
             {% endif %}
-        </th>
-        <td>
-            <table class="table table-striped table-hover table-sm">
-                <tr>
-                    <th class="text-center">{{"generic.details.hours_day"|trans}}</th>
-                    <th class="text-center">{{"generic.details.days_week"|trans}}</th>
-                    <th class="text-center">{{"generic.details.days_month"|trans}}</th>
-                    <th class="text-center">{{"generic.details.weeks_month"|trans}}</th>
-                    <th class="text-center">{{"generic.details.months_year"|trans}}</th>
-                    <th class="text-center">{{"generic.details.weeks_year"|trans}}</th>
+        </div>
+        <div class="ibexa-content-field__value">
+            <table class="table ibexa-table c-table-view">
+                <thead class="c-table-view__head">
+                <tr class="ibexa-table__head-row c-table-view__row">
+                    <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head c-table-view__cell--name text-center">{{ "generic.details.hours_day"|trans }}</th>
+                    <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head c-table-view__cell--name text-center">{{ "generic.details.days_week"|trans }}</th>
+                    <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head c-table-view__cell--name text-center">{{ "generic.details.days_month"|trans }}</th>
+                    <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head c-table-view__cell--name text-center">{{ "generic.details.weeks_month"|trans }}</th>
+                    <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head c-table-view__cell--name text-center">{{ "generic.details.months_year"|trans }}</th>
+                    <th class="ibexa-table__header-cell c-table-view__cell c-table-view__cell--head c-table-view__cell--name text-center">{{ "generic.details.weeks_year"|trans }}</th>
                 </tr>
-                <tr>
-                    <td class="text-center">{{ item.hoursOfDay|join(',')|default("*") }}</td>
-                    <td class="text-center">{{ item.daysOfWeek|join(',')|default("*") }}</td>
-                    <td class="text-center">{{ item.daysOfMonth|join(',')|default("*") }}</td>
-                    <td class="text-center">{{ item.weeksOfMonth|join(',')|default("*") }}</td>
-                    <td class="text-center">{{ item.monthsOfYear|join(',')|default("*") }}</td>
-                    <td class="text-center">{{ item.weeksOfYear|join(',')|default("*") }}</td>
+                </thead>
+                <tbody class="ibexa-table__body c-table-view__body">
+                <tr class="ibexa-table__row c-table-view-item">
+                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.hoursOfDay|join(',')|default("*") }}</td>
+                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.daysOfWeek|join(',')|default("*") }}</td>
+                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.daysOfMonth|join(',')|default("*") }}</td>
+                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.weeksOfMonth|join(',')|default("*") }}</td>
+                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.monthsOfYear|join(',')|default("*") }}</td>
+                    <td class="ibexa-table__cell c-table-view-item__cell text-center">{{ item.weeksOfYear|join(',')|default("*") }}</td>
                 </tr>
+                </tbody>
             </table>
-        </td>
-    </tr>
+        </div>
+    </div>
     {% if not (item.isAborted or item.isArchived or item.isProcessing) %}
         {% if item.recurring %}
-            <tr>
-                <th>{{"mailing.details.next_sending_date"|trans}}</th>
-                <td>
+            <div class="ibexa-content-field">
+                <div class="ibexa-content-field__name">{{ "mailing.details.next_sending_date"|trans }}</div>
+                <div class="ibexa-content-field__value">
+                    <span class="ezstring-field">
                     {% if nextTick is not null %}
-                        {{ nextTick|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}
+                        {{ nextTick|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}
                     {% else %}
                         n/a
                     {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <th>{{"mailing.details.sending_date"|trans}}</th>
-                <td>
-                    {% if nextTick is not null %}
-                        {{ nextTick|format_datetime(novaezmailing.dateformat.date, novaezmailing.dateformat.date) }}
-                    {% else %}
-                        n/a
-                    {% endif %}
-                </td>
-            </tr>
+                    </span>
+                </div>
+            </div>
+        {% elseif item.hasBeenSent == false and item.lastSent is null %}
+            <div class="ibexa-content-field">
+                <div class="ibexa-content-field__name">{{ "mailing.details.next_sending_date"|trans }}</div>
+                <div class="ibexa-content-field__value">
+                    <span class="ezstring-field">
+                        {% if nextTick is not null %}
+                            {{ nextTick|format_datetime(ibexamailing.dateformat.date, ibexamailing.dateformat.date) }}
+                        {% else %}
+                            n/a
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
         {% endif %}
     {% endif %}
     {% if item.isProcessing %}
-        <tr>
-            <th>{{"mailing.details.sending_date"|trans}}</th>
-            <td>{{"mailing.details.currently_progress"|trans}}</td>
-        </tr>
-
+        <div class="ibexa-content-field">
+            <div class="ibexa-content-field__name">{{ "mailing.details.sending_date"|trans }}</div>
+            <div class="ibexa-content-field__value">
+                <span class="ezstring-field">{{ "mailing.details.currently_progress"|trans }}</span>
+            </div>
+        </div>
     {% endif %}
-</table>
+</div>

@@ -1,13 +1,13 @@
-{% set styles = constant('Novactive\\Bundle\\eZMailingBundle\\Entity\\User::STATUSES_STYLE') %}
+{% set styles = constant('CodeRhapsodie\\IbexaMailingBundle\\Entity\\User::STATUSES_STYLE') %}
 {% set extraParams = extraParams|default({}) %}
-{% trans_default_domain 'ezmailing' %}
+{% trans_default_domain 'ibexamailing' %}
 
 <div class="ibexa-header mt-3">
     <div class="ibexa-tabs">
         <ul class="nav nav-tabs ibexa-tabs__list ibexa-adaptive-items" role="tablist">
             <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item{% if currentStatus == 'all' %} ibexa-tabs__tab--active{% endif %}"
                 role="presentation">
-                <a href="{{ path(route, {limit: limit}|merge(extraParams)) }}"
+                <a href="{{ path(route, extraParams) }}"
                    class="nav-link ibexa-tabs__link{% if currentStatus == 'all' %} active{% endif %}">{{ "common.list.users_filterer.all"|trans }}
                     <span class="position-absolute start-75 top-20 translate-middle badge rounded-pill text-bg-light">{{ statuses.count }}</span></a>
                 <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
@@ -22,7 +22,7 @@
             {% for statusId, statusCount in statuses.results %}
                 <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item {% if currentStatus == statusId %} ibexa-tabs__tab--active{% endif %}"
                     role="presentation">
-                    <a href="{{ path(route, {limit: limit, status:statusId}|merge(extraParams)) }}"
+                    <a href="{{ path(route, {status:statusId}|merge(extraParams)) }}"
                        class="nav-link ibexa-tabs__link{% if currentStatus == statusId %} active{% endif %}">{{ statusId }}
                         <span class="position-absolute start-75 top-20 overflow-visible translate-middle badge rounded-pill text-bg-{{ styles[statusId] }}">{{ statusCount }}</span></a>
                     <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
@@ -36,16 +36,5 @@
                 </li>
             {% endfor %}
         </ul>
-        <div class="p-2">
-            <div class="btn-group btn-group-sm">
-                <a href="{{ path(route, {limit:10, status: currentStatus}|merge(extraParams)) }}"
-                   class="btn {% if limit == 10 %}btn-primary{% else %}btn-secondary{% endif %}">10</a>
-                <a href="{{ path(route, {limit:25, status: currentStatus}|merge(extraParams)) }}"
-                   class="btn {% if limit == 25 %}btn-primary{% else %}btn-secondary{% endif %}">25</a>
-                <a href="{{ path(route, {limit:50, status: currentStatus}|merge(extraParams)) }}"
-                   class="btn {% if limit == 50 %}btn-primary{% else %}btn-secondary{% endif %}">50</a>
-            </div>
-        </div>
     </div>
-
 </div>

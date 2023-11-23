@@ -1,75 +1,71 @@
-{% extends '@NovaeZMailing/admin/layout/pagelayout.html.twig' %}
-{% trans_default_domain 'ezmailing' %}
+{% extends '@IbexaMailing/admin/layout/pagelayout.html.twig' %}
+{% trans_default_domain 'ibexamailing' %}
 
-{% block novezmailing_breadcrumb %}
+{% block ibexamailing_breadcrumb %}
     {% set items = [
-        {'url': path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
-        {'url': path("novaezmailing_mailinglist_index"), 'value': "campaign.breadcrumb.mailing_list"|trans },
+        {'url': path("ibexamailing_dashboard_index"), 'value': 'Ibexa Mailing' },
+        {'url': path("ibexamailing_mailinglist_index"), 'value': "campaign.breadcrumb.mailing_list"|trans },
         {'value': item.name },
     ] %}
 
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
-{% block novezmailing_title %}
-    <img src="{{ asset("/bundles/novaezmailing/admin/images/32x32/mailinglist.png") }}" class="nova-icon"/> {{ item.name }}
+{% block ibexamailing_title %}
+    <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/mailinglist.svg") }}"
+         class="mailing-icon"/> {{ item.name }}
 {% endblock %}
-{% block novezmailing_subtitle %}
+{% block ibexamailing_subtitle %}
     {{"mailing_list.show.subtitle"|trans}}
 {% endblock %}
 
 {% block content %}
     {% if pager.nbResults > 0 %}
 
-        {% include "@NovaeZMailing/admin/common/list/users_filterer.html.twig" with {
-            route: "novaezmailing_mailinglist_show",
+        {% include "@IbexaMailing/admin/common/list/users_filterer.html.twig" with {
+            route: "ibexamailing_mailinglist_show",
             limit: pager.maxPerPage,
             currentStatus: currentStatus,
             statuses: statuses,
             extraParams: {mailingList: item.id}
         } only %}
-        {% include "@NovaeZMailing/admin/common/list/users.html.twig" with {items:pager.currentPageResults,currentMailingList: item, withRegistrations: false} only %}
+        {% include "@IbexaMailing/admin/common/list/users.html.twig" with {items:pager.currentPageResults,currentMailingList: item, withRegistrations: false} only %}
         <div class="pagerfanta">
             {{ pagerfanta(pager, 'ibexa') }}
         </div>
     {% else %}
         <p>{{"mailing_list.show.mailing_list_empty"|trans}}</p>
     {% endif %}
-    <div class="novaezmailing-button-actions float-right">
-        <a class="btn btn-sm btn-secondary" href="{{ path("novaezmailing_mailinglist_edit", {mailinglist: item.id}) }}">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#edit"></use>
-            </svg>
+    <div class="ibexamailing-button-actions float-right mb-1">
+        <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path("ibexamailing_mailinglist_edit", {mailinglist: item.id}) }}">
             <span>{{"button.actions.edit"|trans}}</span>
         </a>
-        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                data-bs-target="#novaezmailingconfirmremovemailinglistmodal">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#trash"></use>
-            </svg>
+        <button type="button" class="btn btn-sm ibexa-btn ibexa-btn--secondary" data-bs-toggle="modal"
+                data-bs-target="#ibexamailingconfirmremovemailinglistmodal">
             <span>{{"button.actions.delete"|trans}}</span>
         </button>
     </div>
-    <div class="novaezmailing-button-actions float-left">
-        <a class="btn btn-sm btn-success" href="{{ path('novaezmailing_mailinglist_import', {mailinglist:item.id}) }}">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#catalog"></use>
-            </svg>
+    <div class="ibexamailing-button-actions float-left">
+        <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path('ibexamailing_mailinglist_import', {mailinglist:item.id}) }}">
             <span>{{"button.actions.import_users"|trans}}</span>
         </a>
 
-        <a class="btn btn-sm btn-success" href="{{ path('novaezmailing_mailinglist_export', {mailinglist:item.id}) }}" onclick="">
-            <svg class="ez-icon" width="30" height="30">
-                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#catalog"></use>
-            </svg>
+        <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path('ibexamailing_mailinglist_export', {mailinglist:item.id}) }}"
+           onclick="setTimeout(() => {body.classList.remove('ibexa-prevent-click')}, 1000)">
             <span>{{"button.actions.export_users"|trans}}</span>
         </a>
     </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="novaezmailingconfirmremovemailinglistmodal">
+    <div class="modal fade ibexa-modal ibexa-modal--no-header-border" tabindex="-1" role="dialog"
+         id="ibexamailingconfirmremovemailinglistmodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{"generic.confirm_removal"|trans}}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="close" type="button" data-bs-dismiss="modal" aria-label="Fermer"
+                            data-original-title="Fermer" data-bs-original-title="Fermer" title="">
+                        <svg class="ibexa-icon ibexa-icon--small-medium" aria-hidden="true">
+                            <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#discard"></use>
+                        </svg>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <p>{{"mailing_list.show.removal_details1"|trans}}</p>
@@ -83,9 +79,9 @@
                     <p>{{ "mailing_list.show.note"|trans }}</p>
                 </div>
                 <div class="modal-footer">
-                    <a href="{{ path('novaezmailing_mailinglist_remove', {mailinglist:item.id}) }}" type="button"
-                       class="btn btn-danger">{{ "button.confirm"|trans }}</a>
-                    <button type="button" class="btn btn-secondary"
+                    <a href="{{ path('ibexamailing_mailinglist_remove', {mailinglist:item.id}) }}" type="button"
+                       class="btn ibexa-btn ibexa-btn--primary">{{ "button.confirm"|trans }}</a>
+                    <button type="button" class="btn ibexa-btn ibexa-btn--secondary"
                             data-bs-dismiss="modal">{{ "button.cancel"|trans }}</button>
                 </div>
             </div>

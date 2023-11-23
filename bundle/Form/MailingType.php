@@ -1,23 +1,13 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Form;
+namespace CodeRhapsodie\IbexaMailingBundle\Form;
 
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Validator\Constraints\Location as LocationConstraint;
+use CodeRhapsodie\IbexaMailingBundle\Validator\Constraints\Names as NamesConstraint;
 use Ibexa\AdminUi\Siteaccess\SiteaccessResolver;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Validator\Constraints\Location as LocationConstraint;
-use Novactive\Bundle\eZMailingBundle\Validator\Constraints\Names as NamesConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -42,13 +32,16 @@ class MailingType extends AbstractType
         $this->siteAccessResolver = $siteAccessResolver;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $fromArray = function ($array) {
             return implode(',', $array);
         };
         $fromString = function ($string) {
-            return array_unique(null !== $string ? explode(',', $string) : []);
+            return array_unique($string !== null ? explode(',', $string) : []);
         };
 
         $siteaccesses = array_combine(
@@ -124,7 +117,7 @@ class MailingType extends AbstractType
                     ChoiceType::class,
                     [
                         'label' => 'mailing.buildform.which_siteaccess',
-                        'choices' => count($siteaccessLimit) > 0 ? $siteaccessLimit : $siteaccesses,
+                        'choices' => \count($siteaccessLimit) > 0 ? $siteaccessLimit : $siteaccesses,
                         'expanded' => true,
                         'multiple' => false,
                         'required' => true,
@@ -139,7 +132,7 @@ class MailingType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => Mailing::class,
-                'translation_domain' => 'ezmailing',
+                'translation_domain' => 'ibexamailing',
             ]
         );
     }

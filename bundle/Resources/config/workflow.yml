@@ -5,7 +5,7 @@ workflows:
             type: 'method'
             property: 'status'
         supports:
-            - Novactive\Bundle\eZMailingBundle\Entity\Mailing
+            - CodeRhapsodie\IbexaMailingBundle\Entity\Mailing
         places:
             - draft
             - tested

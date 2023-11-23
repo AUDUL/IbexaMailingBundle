@@ -1,21 +1,11 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Tab;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Tab;
 
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing as MailingEntity;
 use Ibexa\Contracts\AdminUi\Tab\AbstractTab;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing as MailingEntity;
 
 class Mailings extends AbstractTab
 {
@@ -26,19 +16,24 @@ class Mailings extends AbstractTab
 
     public function getIdentifier(): string
     {
-        return 'novaezmailing-mailings-tab';
+        return 'ibexamailing-mailings-tab';
     }
 
     public function getName(): string
     {
-        return /* @Desc("Nova eZ Mailing - Mailings Tab") */
-            $this->translator->trans('mailings.tab.name', ['count' => count($this->mailings)], 'ezmailing');
+        return /* @Desc("Ibexa Mailing - Mailings Tab") */
+            $this->translator->trans('mailings.tab.name', ['count' => \count($this->mailings)], 'ibexamailing');
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param array<mixed> $parameters
+     */
     public function renderView(array $parameters): string
     {
         return $this->twig->render(
-            '@NovaeZMailing/admin/tabs/mailings.html.twig',
+            '@IbexaMailing/admin/tabs/mailings.html.twig',
             [
                 'items' => $this->mailings,
             ]

@@ -1,4 +1,4 @@
-{% trans_default_domain 'ezmailing' %}
+{% trans_default_domain 'ibexamailing' %}
 
 {% set statusKey = "generic.mailing_statuses."~status %}
 
@@ -8,11 +8,10 @@
             {% if status != 'all' %}
                 <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item ibexa-tabs__tab--active"
                     role="presentation">
-                    <a class="nav-link ibexa-tabs__link active" href="#novaezmailing-mailings-status-preview"
+                    <a class="nav-link ibexa-tabs__link active" href="#ibexamailing-mailings-status-preview"
                        data-bs-toggle="tab"
                        role="tab">
-                        <img src="{{ asset("/bundles/novaezmailing/admin/images/16x16/"~status~".png") }}"
-                             class="nova-icon"/> {{ statusKey|trans|capitalize ~ " " ~ "campaign.tabs.mailings"|trans }}
+                        {{ statusKey|trans|capitalize }}
                     </a>
                     <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -27,7 +26,7 @@
             <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item{% if status == 'all' %} ibexa-tabs__tab--active{% endif %}"
                 role="presentation">
                 <a class="nav-link ibexa-tabs__link{% if status == 'all' %} active{% endif %}"
-                   href="#novaezmailing-campaign-preview"
+                   href="#ibexamailing-campaign-preview"
                    data-bs-toggle="tab" role="tab">{{ "campaign.tabs.campaign"|trans }}</a>
                 <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +39,7 @@
             </li>
             {% if item.locationId is not null %}
                 <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item" role="presentation">
-                    <a class="nav-link ibexa-tabs__link" href="#novaezmailing-content-preview" data-bs-toggle="tab"
+                    <a class="nav-link ibexa-tabs__link" href="#ibexamailing-content-preview" data-bs-toggle="tab"
                        role="tab">{{ "campaign.tabs.associated_content"|trans }}</a>
                     <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -54,8 +53,8 @@
             {% endif %}
             {% if item.mailings|length > 0 %}
                 <li class="nav-item ibexa-tabs__tab ibexa-adaptive-items__item" role="presentation">
-                    <a class="nav-link ibexa-tabs__link" href="#novaezmailing-mailings-preview" data-bs-toggle="tab"
-                       role="tab">{{ "common.list.users_filterer.all"|trans ~ " " ~ "campaign.tabs.mailings"|trans }}</a>
+                    <a class="nav-link ibexa-tabs__link" href="#ibexamailing-mailings-preview" data-bs-toggle="tab"
+                       role="tab">{{ "common.list.users_filterer.all"|trans }}</a>
                     <svg class="ibexa-tabs__tab-corner" width="44" height="50" viewBox="0 0 44 50" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path class="ibexa-svg-tab-corner-border"
@@ -70,98 +69,89 @@
     </div>
     <div class="tab-content ibexa-tab-content">
         {% if status != 'all' %}
-            <div class="novaezmailing-ez-mailings-view tab-pane active p-3" role="tabpanel"
-                 id="novaezmailing-mailings-status-preview">
+            <div class="ibexamailing-ez-mailings-view tab-pane active p-3" role="tabpanel"
+                 id="ibexamailing-mailings-status-preview">
                 {% if children|length > 0 %}
-                    {% include "@NovaeZMailing/admin/common/list/mailings.html.twig" with { items: children} only %}
+                    {% include "@IbexaMailing/admin/common/list/mailings.html.twig" with { items: children} only %}
                 {% else %}
                     <p>{{ "generic.no_status_mailings"|trans }}</p>
                 {% endif %}
             </div>
         {% endif %}
-        <div class="novaezmailing-ez-campaign-view tab-pane{% if status == 'all' %} active{% endif %} p-3"
+        <div class="ibexamailing-ez-campaign-view tab-pane{% if status == 'all' %} active{% endif %} p-3"
              role="tabpanel"
-             id="novaezmailing-campaign-preview">
-            {% include "@NovaeZMailing/admin/campaign/details.html.twig" with { item: item} only %}
+             id="ibexamailing-campaign-preview">
+            {% include "@IbexaMailing/admin/campaign/details.html.twig" with { item: item} only %}
         </div>
         {% if item.locationId is not null %}
-            <div class="novaezmailing-ez-content-view tab-pane p-3" role="tabpanel" id="novaezmailing-content-preview">
+            <div class="ibexamailing-ez-content-view tab-pane p-3" role="tabpanel" id="ibexamailing-content-preview">
                 {{ preview|raw }}
             </div>
         {% endif %}
         {% if item.mailings|length > 0 %}
-            <div class="novaezmailing-ez-mailings-view tab-pane p-3" role="tabpanel"
-                 id="novaezmailing-mailings-preview">
-                {% include "@NovaeZMailing/admin/common/list/mailings.html.twig" with { items: item.mailings} only %}
+            <div class="ibexamailing-ez-mailings-view tab-pane p-3" role="tabpanel"
+                 id="ibexamailing-mailings-preview">
+                {% include "@IbexaMailing/admin/common/list/mailings.html.twig" with { items: item.mailings} only %}
             </div>
         {% endif %}
     </div>
 
     {% if status == 'all' %}
-        <div class="novaezmailing-button-actions float-right">
-            <a class="btn btn-sm btn-secondary" href="{{ path('novaezmailing_mailing_create', {campaign: item.id}) }}">
-                <svg class="ez-icon" width="30" height="30">
-                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
-                </svg>
+        <div class="ibexamailing-button-actions float-right mb-4">
+            <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path('ibexamailing_mailing_create', {campaign: item.id}) }}">
                 <span>{{ "campaign.tabs.create"|trans }}</span>
             </a>
-            <a class="btn btn-sm btn-secondary" href="{{ path("novaezmailing_campaign_edit", {campaign: item.id}) }}">
-                <svg class="ez-icon" width="30" height="30">
-                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#edit"></use>
-                </svg>
+            <a class="btn btn-sm ibexa-btn ibexa-btn--secondary" href="{{ path("ibexamailing_campaign_edit", {campaign: item.id}) }}">
                 <span>{{ "campaign.tabs.edit"|trans }}</span>
             </a>
-            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#novaezmailingconfirmremovecampaignmodal">
-                <svg class="ez-icon" width="30" height="30">
-                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#trash"></use>
-                </svg>
+            <button type="button" class="btn btn-sm ibexa-btn ibexa-btn--secondary" data-bs-toggle="modal"
+                    data-bs-target="#ibexamailingconfirmremovecampaignmodal">
                 <span>{{ "campaign.tabs.delete"|trans }}</span>
             </button>
         </div>
-        <div class="modal fade" tabindex="-1" role="dialog" id="novaezmailingconfirmremovecampaignmodal">
+        <div class="modal fade ibexa-modal ibexa-modal--no-header-border" tabindex="-1" role="dialog"
+             id="ibexamailingconfirmremovecampaignmodal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ "campaign.tabs.confirm_removal"|trans }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title">{{ "campaign.tabs.delete_campaign_confirmation_1"|trans }}</h5>
+                        <button class="close" type="button" data-bs-dismiss="modal" aria-label="Fermer"
+                                data-original-title="Fermer" data-bs-original-title="Fermer" title="">
+                            <svg class="ibexa-icon ibexa-icon--small-medium" aria-hidden="true">
+                                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#discard"></use>
+                            </svg>
+                        </button>
                     </div>
                     <div class="modal-body">
                         <p>{{ "campaign.tabs.delete_campaign_confirmation_1"|trans }}</p>
                         <p>{{ "campaign.tabs.delete_campaign_confirmation_2"|trans }}</p>
                         <ul>
-                            <li>{{ "campaign.tabs.one_campaign"|trans }}1 Campaign</li>
+                            <li>{{ "campaign.tabs.one_campaign"|trans }}</li>
                             <li>{{ item.mailings|length }} {{ "campaign.tabs.mailings_with_broadcast"|trans }}</li>
                         </ul>
 
                         <p>{{ "campaign.tabs.delete_campaign_note"|trans }}</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="{{ path('novaezmailing_campaign_remove', {campaign: item.id}) }}" type="button"
-                           class="btn btn-danger">{{ "campaign.tabs.confirm"|trans }}</a>
-                        <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ "campaign.tabs.cancel"|trans }}Cancel
+                        <a href="{{ path('ibexamailing_campaign_remove', {campaign: item.id}) }}" type="button"
+                           class="btn ibexa-btn ibexa-btn--primary">{{ "campaign.tabs.confirm"|trans }}</a>
+                        <button type="button" class="btn ibexa-btn ibexa-btn--secondary"
+                                data-bs-dismiss="modal">{{ "campaign.tabs.cancel"|trans }}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     {% else %}
-        <div class="novaezmailing-button-actions float-right">
+        <div class="ibexamailing-button-actions float-right">
             {% if status == 'draft' %}
-                <a class="btn btn-sm btn-secondary"
-                   href="{{ path('novaezmailing_mailing_create', {campaign: item.id}) }}">
-                    <svg class="ez-icon" width="30" height="30">
-                        <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#create"></use>
-                    </svg>
+                <a class="btn btn-sm ibexa-btn ibexa-btn--secondary"
+                   href="{{ path('ibexamailing_mailing_create', {campaign: item.id}) }}">
                     <span>{{ "campaign.tabs.create"|trans }}</span>
                 </a>
             {% endif %}
-            <a href="{{ url('novaezmailing_campaign_subscriptions', { campaign: item.id }) }}"
-               class="btn btn-sm btn-info">
-                <svg class="ez-icon" width="30" height="30">
-                    <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>
-                </svg>
+            <a href="{{ url('ibexamailing_campaign_subscriptions', { campaign: item.id }) }}"
+               class="btn btn-sm ibexa-btn ibexa-btn--secondary">
                 <span>{{ "mailing.mailing_tabs.views"|trans ~ " " ~ "menu.campaign_menu.subscriptions"|trans|capitalize }}</span>
             </a>
         </div>

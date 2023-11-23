@@ -1,13 +1,13 @@
-_novaezmailing_bundle:
-    resource: "@NovaeZMailingBundle/Controller"
+_ibexamailing_bundle:
+    resource: "@IbexaMailingBundle/Controller"
     type:     annotation
-    prefix:   /novaezmailing
+    prefix: /ibexamailing
 
-_novaezmailing_ez_content_view:
-    path: /novamailing/view/{locationId}/{contentId}/{mailingId}
+_ibexamailing_ez_content_view:
+    path: /ibexamailing/view/{locationId}/{contentId}/{mailingId}
     defaults:
         _controller: ibexa_content:viewAction
-        viewType: novaezmailingfull
+        viewType: ibexamailingfull
         layout: true
         mailingId: null
     options:

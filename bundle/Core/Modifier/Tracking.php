@@ -1,44 +1,28 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Modifier;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Modifier;
 
-use Novactive\Bundle\eZMailingBundle\Entity\Broadcast;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class Tracking implements ModifierInterface
 {
-    /**
-     * @var
-     */
-    private $router;
-
-    public function __construct(RouterInterface $router)
+    public function __construct(private readonly RouterInterface $router)
     {
-        $this->router = $router;
     }
 
     public function modify(Mailing $mailing, User $user, string $html, array $options = []): string
     {
         /** @var Broadcast $broadcast */
         $broadcast = $options['broadcast'];
-        $uniqId = uniqid('novaezmailing-', true);
+        $uniqId = uniqid('ibexamailing-', true);
         $readUrl = $this->router->generate(
-            'novaezmailing_t_read',
+            'ibexamailing_t_read',
             [
                 'salt' => $uniqId,
                 'broadcastId' => $broadcast->getId(),
@@ -54,11 +38,11 @@ class Tracking implements ModifierInterface
             '/<a(.[^>]*)href="http(s)?(.[^"]*)"/uimx',
             function ($aInput) use ($uniqId, $broadcast, $mailing) {
                 $continueUrl = $this->router->generate(
-                    'novaezmailing_t_continue',
+                    'ibexamailing_t_continue',
                     [
                         'salt' => str_replace('.', '', $uniqId),
                         'broadcastId' => $broadcast->getId(),
-                        'url' => str_replace(['+', '/'], ['-', '_'], base64_encode('http' . trim($aInput[1]) . trim($aInput[2]) . trim($aInput[3]))),
+                        'url' => str_replace(['+', '/'], ['-', '_'], base64_encode('http'.trim($aInput[1]).trim($aInput[2]).trim($aInput[3]))),
                         'siteaccess' => $mailing->getSiteAccess(),
                     ],
                     UrlGeneratorInterface::ABSOLUTE_URL

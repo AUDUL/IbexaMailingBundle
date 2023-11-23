@@ -1,21 +1,11 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Tab;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Tab;
 
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign as CampaignEntity;
 use Ibexa\Contracts\AdminUi\Tab\AbstractTab;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign as CampaignEntity;
 
 class Campaigns extends AbstractTab
 {
@@ -26,19 +16,24 @@ class Campaigns extends AbstractTab
 
     public function getIdentifier(): string
     {
-        return 'novaezmailing-campaign-tab';
+        return 'ibexamailing-campaign-tab';
     }
 
     public function getName(): string
     {
-        return /* @Desc("Nova eZ Mailing - Campaigns Tab") */
-            $this->translator->trans('campaigns.tab.name', ['count' => count($this->campaigns)], 'ezmailing');
+        return /* @Desc("Ibexa Mailing - Campaigns Tab") */
+            $this->translator->trans('campaigns.tab.name', ['count' => \count($this->campaigns)], 'ibexamailing');
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param array<mixed> $parameters
+     */
     public function renderView(array $parameters): string
     {
         return $this->twig->render(
-            '@NovaeZMailing/admin/tabs/campaigns.html.twig',
+            '@IbexaMailing/admin/tabs/campaigns.html.twig',
             [
                 'items' => $this->campaigns,
             ]

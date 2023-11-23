@@ -1,34 +1,70 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Listener;
+namespace CodeRhapsodie\IbexaMailingBundle\Listener;
 
 use Ibexa\AdminUi\Menu\Event\ConfigureMenuEvent;
-use Ibexa\AdminUi\Menu\MainMenuBuilder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class TopMenu implements EventSubscriberInterface
 {
+    public function __construct(private readonly RouterInterface $router)
+    {
+    }
+
     public function onMainMenuConfigure(ConfigureMenuEvent $event): void
     {
         $menu = $event->getMenu();
-        $contentMenu = $menu->getChild(MainMenuBuilder::ITEM_CONTENT);
-        $contentMenu->addChild(
-            'eznovamailing',
+        $ibexaMailingMenu = $menu->addChild(
+            'ibexamailing',
             [
-                'route' => 'novaezmailing_dashboard_index',
-                'label' => 'Nova eZ Mailing',
+                'label' => 'Ibexa Mailing',
+                'extras' => [
+                    'icon' => 'mail',
+                    'routes' => array_filter(array_keys($this->router->getRouteCollection()->all()), function (string $key) {
+                        return str_starts_with($key, 'ibexamailing');
+                    }),
+                ],
+            ]
+        );
+
+        $ibexaMailingMenu->addChild(
+            'ibexamailing_dashboard',
+            [
+                'route' => 'ibexamailing_dashboard_index',
+                'label' => 'Dashboard',
+            ]
+        );
+
+        $ibexaMailingMenu->addChild(
+            'ibexamailing_mailing_list',
+            [
+                'route' => 'ibexamailing_mailinglist_index',
+                'label' => 'Liste de diffusion',
+                'extras' => [
+                    'routes' => [
+                        'ibexamailing_mailinglist_show',
+                        'ibexamailing_mailinglist_index',
+                        'ibexamailing_mailinglist_create',
+                        'ibexamailing_mailinglist_remove',
+                        'ibexamailing_mailinglist_import',
+                    ],
+                ],
+            ]
+        );
+        $ibexaMailingMenu->addChild(
+            'ibexamailing_user',
+            [
+                'route' => 'ibexamailing_user_index',
+                'label' => 'Utilisateurs',
+                'extras' => [
+                    'routes' => [
+                        'ibexamailing_user_remove',
+                        'ibexamailing_user_show',
+                    ],
+                ],
             ]
         );
     }
@@ -36,7 +72,7 @@ class TopMenu implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ConfigureMenuEvent::MAIN_MENU => ['onMainMenuConfigure', 0],
+            ConfigureMenuEvent::MAIN_MENU => ['onMainMenuConfigure', -100],
         ];
     }
 }

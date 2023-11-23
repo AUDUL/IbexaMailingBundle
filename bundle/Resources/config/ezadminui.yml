@@ -1,28 +1,28 @@
 services:
 
-    nova_ezmailing.ezadminui.component.stylesheets:
+    ibexamailing.ezadminui.component.stylesheets:
         parent: Ibexa\AdminUi\Component\TwigComponent
         public: false
         arguments:
-            $template: "@@NovaeZMailing/ezadminui/stylesheets.html.twig"
+            $template: "@@IbexaMailing/ezadminui/stylesheets.html.twig"
         tags:
             - { name: ibexa.admin_ui.component, group: 'stylesheet-head' }
 
-    nova_ezmailing.ezadminui.component.javascripts:
+    ibexamailing.ezadminui.component.javascripts:
         parent: Ibexa\AdminUi\Component\TwigComponent
         public: false
         arguments:
-            $template: "@@NovaeZMailing/ezadminui/javascripts.html.twig"
+            $template: "@@IbexaMailing/ezadminui/javascripts.html.twig"
         tags:
             - { name: ibexa.admin_ui.component, group: 'script-body' }
 
-    Novactive\Bundle\eZMailingBundle\Listener\LocationViewGroupTab:
+    CodeRhapsodie\IbexaMailingBundle\Listener\LocationViewGroupTab:
         autowire: true
         tags:
             - { name: kernel.event_listener, event: "ezplatform.tab.group.pre_render", method: "onTabGroupPreRender" }
 
-    Novactive\Bundle\eZMailingBundle\Core\Tab\Campaigns:
+    CodeRhapsodie\IbexaMailingBundle\Core\Tab\Campaigns:
         parent: Ibexa\Contracts\AdminUi\Tab\AbstractTab
 
-    Novactive\Bundle\eZMailingBundle\Core\Tab\Mailings:
+    CodeRhapsodie\IbexaMailingBundle\Core\Tab\Mailings:
         parent: Ibexa\Contracts\AdminUi\Tab\AbstractTab

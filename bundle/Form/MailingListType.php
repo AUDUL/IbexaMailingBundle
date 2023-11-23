@@ -1,21 +1,11 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Form;
+namespace CodeRhapsodie\IbexaMailingBundle\Form;
 
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
 use Ibexa\AdminUi\Siteaccess\SiteaccessResolver;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -36,6 +26,9 @@ class MailingListType extends AbstractType
         $this->siteAccessResolver = $siteAccessResolver;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $siteaccess = array_combine(
@@ -75,7 +68,7 @@ class MailingListType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => MailingList::class,
-                'translation_domain' => 'ezmailing',
+                'translation_domain' => 'ibexamailing',
             ]
         );
     }

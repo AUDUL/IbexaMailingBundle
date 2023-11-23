@@ -1,40 +1,24 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Modifier;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Modifier;
 
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class Unregistration
+class Unregistration implements ModifierInterface
 {
-    /**
-     * @var
-     */
-    private $router;
-
-    public function __construct(RouterInterface $router)
+    public function __construct(private readonly RouterInterface $router)
     {
-        $this->router = $router;
     }
 
     public function modify(Mailing $mailing, User $user, string $html, array $options = []): string
     {
         $url = $this->router->generate(
-            'novaezmailing_registration_remove',
+            'ibexamailing_registration_remove',
             [
                 'email' => $user->getEmail(),
                 'siteaccess' => $mailing->getSiteAccess(),

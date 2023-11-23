@@ -1,24 +1,13 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller;
 
-use DateTime;
+use CodeRhapsodie\IbexaMailingBundle\Core\Utils\Browser;
+use CodeRhapsodie\IbexaMailingBundle\Entity\StatHit;
+use CodeRhapsodie\IbexaMailingBundle\Repository\BroadcastRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Novactive\Bundle\eZMailingBundle\Core\Utils\Browser;
-use Novactive\Bundle\eZMailingBundle\Entity\Broadcast;
-use Novactive\Bundle\eZMailingBundle\Entity\StatHit;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,18 +22,18 @@ class TrackController
     public const PIXEL_CONTENT_TYPE = 'image/gif';
 
     /**
-     * @Route("/continue/{salt}/{broadcastId}/{url}", name="novaezmailing_t_continue")
+     * @Route("/continue/{salt}/{broadcastId}/{url}", name="ibexamailing_t_continue")
      */
     public function continueAction(
-        string                 $salt,
-        int                    $broadcastId,
-        string                 $url,
+        string $salt,
+        int $broadcastId,
+        string $url,
         EntityManagerInterface $entityManager,
-        Request                $request
-    ): RedirectResponse
-    {
-        $broadcast = $entityManager->getRepository(Broadcast::class)->findOneByid($broadcastId);
-        $browser = new Browser($request->headers->get('User-Agent'));
+        BroadcastRepository $broadcastRepository,
+        Request $request
+    ): RedirectResponse {
+        $broadcast = $broadcastRepository->find($broadcastId);
+        $browser = new Browser($request->headers->get('user-agent', 'Unknown'));
         $stat = new StatHit();
         $decodedUrl = base64_decode(str_replace(['-', '_'], ['+', '/'], $url));
         $stat
@@ -53,7 +42,7 @@ class TrackController
             ->setUserKey($salt)
             ->setUrl($decodedUrl)
             ->setBroadcast($broadcast)
-            ->setUpdated(new DateTime());
+            ->setUpdated(new \DateTime());
         $entityManager->persist($stat);
         $entityManager->flush();
 
@@ -61,17 +50,17 @@ class TrackController
     }
 
     /**
-     * @Route("/read/{salt}/{broadcastId}", name="novaezmailing_t_read")
+     * @Route("/read/{salt}/{broadcastId}", name="ibexamailing_t_read")
      */
     public function readAction(
-        string                 $salt,
-        int                    $broadcastId,
+        string $salt,
+        int $broadcastId,
         EntityManagerInterface $entityManager,
-        Request                $request
-    ): Response
-    {
-        $broadcast = $entityManager->getRepository(Broadcast::class)->findOneByid($broadcastId);
-        $browser = new Browser($request->headers->get('User-Agent'));
+        Request $request,
+        BroadcastRepository $broadcastRepository
+    ): Response {
+        $broadcast = $broadcastRepository->find($broadcastId);
+        $browser = new Browser($request->headers->get('user-agent', 'Unknown'));
         $stat = new StatHit();
         $stat
             ->setOsName($browser->getPlatform())
@@ -79,7 +68,7 @@ class TrackController
             ->setUserKey($salt)
             ->setUrl('-')
             ->setBroadcast($broadcast)
-            ->setUpdated(new DateTime());
+            ->setUpdated(new \DateTime());
         $entityManager->persist($stat);
         $entityManager->flush();
 

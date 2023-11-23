@@ -1,22 +1,12 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Form;
+namespace CodeRhapsodie\IbexaMailingBundle\Form;
 
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
 use Ibexa\AdminUi\Siteaccess\SiteaccessResolver;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -39,6 +29,9 @@ class CampaignType extends AbstractType
         $this->siteAccessResolver = $siteAccessResolver;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $siteaccesses = array_combine(
@@ -63,7 +56,7 @@ class CampaignType extends AbstractType
             ->add(
                 'returnPathEmail',
                 EmailType::class,
-                ['required' => true, 'label' => 'campaign.form.return_path_email']
+                ['required' => false, 'label' => 'campaign.form.return_path_email']
             )
             ->add('locationId', HiddenType::class)
             ->add(
@@ -94,7 +87,7 @@ class CampaignType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => Campaign::class,
-                'translation_domain' => 'ezmailing',
+                'translation_domain' => 'ibexamailing',
             ]
         );
     }

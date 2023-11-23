@@ -1,26 +1,15 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="novaezmailing_confirmation_token")
+ * @ORM\Table(name="mailing_confirmation_token")
  *
- * @ORM\Entity(repositoryClass="Novactive\Bundle\eZMailingBundle\Repository\ConfirmationToken")
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\ConfirmationTokenRepository")
  */
 class ConfirmationToken
 {
@@ -34,21 +23,24 @@ class ConfirmationToken
      * @var string
      *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="UUID")
+     *
      * @ORM\Column(name="CT_id", type="guid", unique=true)
      */
     private $id;
 
     /**
      * @var array
+     *
      * @ORM\Column(name="CT_payload", type="array", nullable=false)
      */
     private $payload;
 
     public function __construct()
     {
-        $this->created = new DateTime();
-        $this->updated = new DateTime();
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
     }
 
     public function getId(): ?string

@@ -1,31 +1,21 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <m.strukov@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Command;
+namespace CodeRhapsodie\IbexaMailingBundle\Command;
 
-use DateTime;
+use CodeRhapsodie\IbexaMailingBundle\Core\IOService;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
-use Novactive\Bundle\eZMailingBundle\Core\IOService;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Entity\Registration;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,49 +25,47 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @SuppressWarnings(PHPMD)
  */
+#[AsCommand(name: 'ibexamailing:migrate:cjwnl', description: 'Import database from the old one.')]
 class MigrateCjwnlCommand extends Command
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $io;
-
-
-    private array $lists = [];
-
-    private array $campaigns = [];
-
     public const DEFAULT_FALLBACK_CONTENT_ID = 1;
 
     public const DUMP_FOLDER = 'migrate/cjwnl';
+    private SymfonyStyle $io;
 
+    /**
+     * @var array<mixed>
+     */
+    private array $lists = [];
+
+    /**
+     * @var array<mixed>
+     */
+    private array $campaigns = [];
 
     public function __construct(
-        private readonly IOService                  $ioService,
-        private readonly EntityManagerInterface     $entityManager,
-        private readonly Repository                 $ezRepository,
+        private readonly IOService $ioService,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly Repository $ezRepository,
         private readonly SiteAccessServiceInterface $siteAccessAware,
-        private readonly Connection                 $connection
-    )
-    {
+        private readonly Connection $connection
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
         $this
-            ->setName('novaezmailing:migrate:cjwnl')
-            ->setDescription('Import database from the old one.')
             ->addOption('export', null, InputOption::VALUE_NONE, 'Export from old DB to json files')
             ->addOption('import', null, InputOption::VALUE_NONE, 'Import from json files to new DB')
             ->addOption('clean', null, InputOption::VALUE_NONE, 'Clean the existing data')
-            ->setHelp('Run novaezmailing:migrate:cjwnl --export|--import|--clean');
+            ->setHelp('Run ibexamailing:migrate:cjwnl --export|--import|--clean');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);
-        $this->io->title('Update the Database with Custom Novactive EzMailing Tables');
+        $this->io->title('Update the Database with Custom IbexaMailing Tables');
 
         if ($input->getOption('export')) {
             $this->export();
@@ -86,7 +74,7 @@ class MigrateCjwnlCommand extends Command
         } elseif ($input->getOption('clean')) {
             $this->clean();
         } else {
-            $this->io->error('No export or import option found. Run novaezmailing:migrate:cjwnl --export|--import');
+            $this->io->error('No export or import option found. Run ibexamailing:migrate:cjwnl --export|--import');
         }
 
         return Command::SUCCESS;
@@ -94,7 +82,7 @@ class MigrateCjwnlCommand extends Command
 
     private function export(): void
     {
-        // clean the 'ezmailing' dir
+        // clean the 'ibexamailing' dir
         $this->ioService->cleanDir(self::DUMP_FOLDER);
         $this->io->section('Cleaned the folder with json files.');
         $this->io->section('Exporting from old database to json files.');
@@ -140,12 +128,12 @@ class MigrateCjwnlCommand extends Command
                 $listNames = [];
                 foreach ($languages as $language) {
                     $title = $listContent->getName($language->languageCode);
-                    if (null !== $title) {
+                    if ($title !== null) {
                         $listNames[$language->languageCode] = $title;
                     }
                 }
                 $fileName = $this->ioService->saveFile(
-                    self::DUMP_FOLDER . "/list/list_{$list_row['contentobject_id']}.json",
+                    self::DUMP_FOLDER."/list/list_{$list_row['contentobject_id']}.json",
                     json_encode(
                         [
                             'names' => $listNames,
@@ -171,19 +159,26 @@ class MigrateCjwnlCommand extends Command
                         default => Mailing::DRAFT,
                     };
 
+                    $mailingContent = null;
+
                     try {
                         $mailingContent = $contentService->loadContent($mailing_row['edition_contentobject_id']);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         try {
                             $listContent = $contentService->loadContent(self::DEFAULT_FALLBACK_CONTENT_ID);
-                        } catch (\Exception $e) {
+                        } catch (\Exception) {
                             continue;
                         }
                     }
+
+                    if ($mailingContent === null) {
+                        continue;
+                    }
+
                     $mailingNames = [];
                     foreach ($languages as $language) {
                         $title = $mailingContent->getName($language->languageCode);
-                        if (null !== $title) {
+                        if ($title !== null) {
                             $mailingNames[$language->languageCode] = $title;
                         }
                     }
@@ -198,16 +193,16 @@ class MigrateCjwnlCommand extends Command
                         'status' => $status,
                         'siteAccess' => $siteAccess,
                         'locationId' => $mailingContent->contentInfo->mainLocationId,
-                        'hoursOfDay' => (int)date('H', (int)$mailing_row['mailqueue_process_finished']),
-                        'daysOfMonth' => (int)date('d', (int)$mailing_row['mailqueue_process_finished']),
-                        'monthsOfYear' => (int)date('m', (int)$mailing_row['mailqueue_process_finished']),
+                        'hoursOfDay' => (int) date('H', (int) $mailing_row['mailqueue_process_finished']),
+                        'daysOfMonth' => (int) date('d', (int) $mailing_row['mailqueue_process_finished']),
+                        'monthsOfYear' => (int) date('m', (int) $mailing_row['mailqueue_process_finished']),
                         'subject' => $mailingContent->getName($defaultLanguageCode) ?? array_shift($mailingNames),
                     ];
                     ++$mailingCounter;
                 }
 
                 $fileName = $this->ioService->saveFile(
-                    self::DUMP_FOLDER . "/campaign/campaign_{$list_row['contentobject_id']}.json",
+                    self::DUMP_FOLDER."/campaign/campaign_{$list_row['contentobject_id']}.json",
                     json_encode(
                         [
                             'names' => $listNames,
@@ -271,17 +266,17 @@ where cju.email is null";
                 default => User::PENDING,
             };
 
-            $birthdate = empty($user_row['birthday']) ? null : new DateTime('2018-12-11');
+            $birthdate = empty($user_row['birthday']) ? null : new \DateTime('2018-12-11');
 
             $userId = $user_row['id'];
             if ($userId === 0) {
-                $maxId++;
+                ++$maxId;
                 $userId = $maxId;
             }
 
             // Registrations
-            $sql = 'SELECT list_contentobject_id, approved, status FROM' .
-                ' cjwnl_subscription WHERE newsletter_user_id = ? and status not in (3, 4)';
+            $sql = 'SELECT list_contentobject_id, approved, status FROM'
+                .' cjwnl_subscription WHERE newsletter_user_id = ? and status not in (3, 4)';
             $subscription_rows = $this->runQuery($sql, [$user_row['id']]);
 
             $subscriptions = [];
@@ -291,7 +286,7 @@ where cju.email is null";
                 }
                 $subscriptions[] = [
                     'list_contentobject_id' => $subscription_row['list_contentobject_id'],
-                    'approved' => (bool)$subscription_row['approved'],
+                    'approved' => (bool) $subscription_row['approved'],
                 ];
                 ++$registrationCounter;
             }
@@ -302,9 +297,8 @@ where cju.email is null";
                 default => null
             };
 
-
             $fileName = $this->ioService->saveFile(
-                self::DUMP_FOLDER . "/user/user_{$userId}.json",
+                self::DUMP_FOLDER."/user/user_{$userId}.json",
                 json_encode(
                     [
                         'email' => $user_row['email'],
@@ -324,15 +318,15 @@ where cju.email is null";
         }
 
         $this->ioService->saveFile(
-            self::DUMP_FOLDER . '/manifest.json',
+            self::DUMP_FOLDER.'/manifest.json',
             json_encode(['lists' => $this->lists, 'campaigns' => $this->campaigns, 'users' => $users])
         );
 
         $this->io->progressFinish();
 
         $this->io->section(
-            'Total: ' . count($this->lists) . ' lists, ' . count($this->campaigns) . ' campaigns, ' . $mailingCounter . ' mailings, ' .
-            count($users) . ' users, ' . $registrationCounter . ' registrations.'
+            'Total: '.\count($this->lists).' lists, '.\count($this->campaigns).' campaigns, '.$mailingCounter.' mailings, '
+            .\count($users).' users, '.$registrationCounter.' registrations.'
         );
         $this->io->success('Export done.');
     }
@@ -343,12 +337,12 @@ where cju.email is null";
         $this->clean();
         $this->io->section('Importing from json files to new database.');
 
-        $manifest = $this->ioService->readFile(self::DUMP_FOLDER . '/manifest.json');
+        $manifest = $this->ioService->readFile(self::DUMP_FOLDER.'/manifest.json');
         $fileNames = json_decode($manifest);
 
         // Lists
         $this->io->writeln('Lists:');
-        $this->io->progressStart(count($fileNames->lists));
+        $this->io->progressStart(\count($fileNames->lists));
 
         $listCounter = $campaignCounter = $mailingCounter = $userCounter = $registrationCounter = 0;
         $listIds = [];
@@ -358,10 +352,10 @@ where cju.email is null";
 
         $n = 0;
         foreach ($fileNames->lists as $listFile) {
-            $listData = json_decode($this->ioService->readFile(self::DUMP_FOLDER . '/list/' . $listFile . '.json'));
+            $listData = json_decode($this->ioService->readFile(self::DUMP_FOLDER.'/list/'.$listFile.'.json'));
             $mailingList = new MailingList();
-            $mailingList->setNames((array)$listData->names);
-            $mailingList->setWithApproval((bool)$listData->withApproval);
+            $mailingList->setNames((array) $listData->names);
+            $mailingList->setWithApproval((bool) $listData->withApproval);
             $mailingList->setUpdated(new \DateTime());
 
             $this->entityManager->persist($mailingList);
@@ -369,7 +363,7 @@ where cju.email is null";
             $this->entityManager->flush();
             $listIds[explode('_', $listFile)[1]] = $mailingList->getId();
             ++$n;
-            if (0 === $n % 100) {
+            if ($n % 100 === 0) {
                 $this->entityManager->clear();
             }
             $this->io->progressAdvance();
@@ -378,15 +372,15 @@ where cju.email is null";
 
         // Campaigns with Mailings
         $this->io->writeln('Campaigns with Mailings:');
-        $this->io->progressStart(count($fileNames->campaigns));
+        $this->io->progressStart(\count($fileNames->campaigns));
 
         $n = 0;
         foreach ($fileNames->campaigns as $campaignFile) {
             $campaignData = json_decode(
-                $this->ioService->readFile(self::DUMP_FOLDER . '/campaign/' . $campaignFile . '.json')
+                $this->ioService->readFile(self::DUMP_FOLDER.'/campaign/'.$campaignFile.'.json')
             );
             $campaign = new Campaign();
-            $campaign->setNames((array)$campaignData->names);
+            $campaign->setNames((array) $campaignData->names);
             $campaign->setReportEmail($campaignData->reportEmail);
             $campaign->setSenderEmail($campaignData->senderEmail);
             $campaign->setReturnPathEmail('');
@@ -399,13 +393,13 @@ where cju.email is null";
                 $mailingList = $mailingListRepository->findOneBy(
                     ['id' => $listIds[$campaignContentId]]
                 );
-                if (null !== $mailingList) {
+                if ($mailingList !== null) {
                     $campaign->addMailingList($mailingList);
                 }
             }
             foreach ($campaignData->mailings as $mailingData) {
                 $mailing = new Mailing();
-                $mailing->setNames((array)$mailingData->names);
+                $mailing->setNames((array) $mailingData->names);
                 $mailing->setStatus($mailingData->status);
                 $mailing->setRecurring(false);
                 $mailing->setHoursOfDay([$mailingData->hoursOfDay]);
@@ -422,7 +416,7 @@ where cju.email is null";
             $this->entityManager->persist($campaign);
             ++$campaignCounter;
             ++$n;
-            if (0 === $n % 100) {
+            if ($n % 100 === 0) {
                 $this->entityManager->flush();
                 $this->entityManager->clear();
             }
@@ -433,14 +427,14 @@ where cju.email is null";
 
         // Users & Registrations
         $this->io->writeln('Users and Registrations:');
-        $this->io->progressStart(count($fileNames->users));
+        $this->io->progressStart(\count($fileNames->users));
 
         $n = 0;
         foreach ($fileNames->users as $userFile) {
-            $userData = json_decode($this->ioService->readFile(self::DUMP_FOLDER . '/user/' . $userFile . '.json'));
+            $userData = json_decode($this->ioService->readFile(self::DUMP_FOLDER.'/user/'.$userFile.'.json'));
 
             // check if email already exists
-            $existingUser = $userRepository->existByEmail($userData->email);
+            $existingUser = $userRepository->findOneBy(['email' => $userData->email]);
 
             if (!$existingUser) {
                 $user = new User();
@@ -464,7 +458,7 @@ where cju.email is null";
                         $mailingList = $mailingListRepository->findOneBy(
                             ['id' => $listIds[$subscription->list_contentobject_id]]
                         );
-                        if (null !== $mailingList) {
+                        if ($mailingList !== null) {
                             $registration->setMailingList($mailingList);
                         }
                         $registration->setApproved($subscription->approved);
@@ -475,7 +469,7 @@ where cju.email is null";
                 $this->entityManager->persist($user);
                 ++$userCounter;
                 ++$n;
-                if (0 === $n % 100) {
+                if ($n % 100 === 0) {
                     $this->entityManager->flush();
                     $this->entityManager->clear();
                 }
@@ -487,8 +481,8 @@ where cju.email is null";
         $this->io->progressFinish();
 
         $this->io->section(
-            'Total: ' . $listCounter . ' lists, ' . $campaignCounter . ' campaigns, ' . $mailingCounter . ' mailings, ' .
-            $userCounter . ' users, ' . $registrationCounter . ' registrations.'
+            'Total: '.$listCounter.' lists, '.$campaignCounter.' campaigns, '.$mailingCounter.' mailings, '
+            .$userCounter.' users, '.$registrationCounter.' registrations.'
         );
         $this->io->success('Import done.');
     }
@@ -496,29 +490,34 @@ where cju.email is null";
     private function clean(): void
     {
         // We don't run TRUNCATE command here because of foreign keys constraints
-        $this->connection->executeQuery('DELETE FROM novaezmailing_stats_hit');
-        $this->connection->executeQuery('ALTER TABLE novaezmailing_stats_hit AUTO_INCREMENT = 1');
-        $this->connection->executeQuery('DELETE FROM novaezmailing_broadcast');
-        $this->connection->executeQuery('ALTER TABLE novaezmailing_broadcast AUTO_INCREMENT = 1');
-        $this->connection->executeQuery('DELETE FROM novaezmailing_mailing');
-        $this->connection->executeQuery('ALTER TABLE novaezmailing_mailing AUTO_INCREMENT = 1');
-        $this->connection->executeQuery('DELETE FROM novaezmailing_campaign_mailinglists_destination');
-        $this->connection->executeQuery('DELETE FROM novaezmailing_campaign');
-        $this->connection->executeQuery('ALTER TABLE novaezmailing_campaign AUTO_INCREMENT = 1');
-        $this->connection->executeQuery('DELETE FROM novaezmailing_confirmation_token');
-        $this->connection->executeQuery('DELETE FROM novaezmailing_registrations');
-        $this->connection->executeQuery('ALTER TABLE novaezmailing_registrations AUTO_INCREMENT = 1');
-        $this->connection->executeQuery('DELETE FROM novaezmailing_mailing_list');
-        $this->connection->executeQuery('ALTER TABLE novaezmailing_mailing_list AUTO_INCREMENT = 1');
-        $this->connection->executeQuery('DELETE FROM novaezmailing_user');
-        $this->connection->executeQuery('ALTER TABLE novaezmailing_user AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_stats_hit');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_stats_hit AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_broadcast');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_broadcast AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_mailing');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_mailing AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_campaign_mailinglists_destination');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_campaign');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_campaign AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_confirmation_token');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_registrations');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_registrations AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_mailing_list');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_mailing_list AUTO_INCREMENT = 1');
+        $this->connection->executeQuery('DELETE FROM ibexamailing_user');
+        $this->connection->executeQuery('ALTER TABLE ibexamailing_user AUTO_INCREMENT = 1');
         $this->io->section('Current tables in the new database have been cleaned.');
     }
 
+    /**
+     * @param array<mixed> $parameters
+     *
+     * @return \ArrayIterator<int, mixed>
+     */
     private function runQuery(string $sql, array $parameters = []): \Traversable
     {
         $stmt = $this->connection->prepare($sql);
-        for ($i = 1, $iMax = count($parameters); $i <= $iMax; ++$i) {
+        for ($i = 1, $iMax = \count($parameters); $i <= $iMax; ++$i) {
             $stmt->bindValue($i, $parameters[$i - 1]);
         }
         $result = $stmt->executeQuery();

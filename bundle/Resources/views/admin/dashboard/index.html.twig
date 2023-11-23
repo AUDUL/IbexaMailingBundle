@@ -1,34 +1,34 @@
-{% extends "@NovaeZMailing/admin/layout/pagelayout.html.twig" %}
+{% extends "@IbexaMailing/admin/layout/pagelayout.html.twig" %}
 
-{% trans_default_domain 'ezmailing' %}
+{% trans_default_domain 'ibexamailing' %}
 
 
-{% block novezmailing_breadcrumb %}
+{% block ibexamailing_breadcrumb %}
     {% set items = [
-        {'value': 'Nova eZ Mailing' },
+        {'value': 'Ibexa Mailing' },
     ] %}
 
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
 
-{% block novezmailing_title %}{{ "dashboard.title"|trans }}{% endblock %}
-{% block novezmailing_subtitle %}{{ "dashboard.subtitle"|trans }}{% endblock %}
+{% block ibexamailing_title %}{{ "dashboard.title"|trans }}{% endblock %}
+{% block ibexamailing_subtitle %}{{ "dashboard.subtitle"|trans }}{% endblock %}
 
 {% block content %}
     {% if broadcasts|length > 0 %}
         <div class="ibexa-table-header__headline">{{ "dashboard.last_mailing_sent"|trans }}</div>
-        {% include "@NovaeZMailing/admin/common/list/broadcasts.html.twig" with { items: broadcasts} only %}
+        {% include "@IbexaMailing/admin/common/list/broadcasts.html.twig" with { items: broadcasts} only %}
     {% endif %}
 
     <div class="ibexa-table-header__headline">{{ "dashboard.last_mailing_updated"|trans }}</div>
-    <div class="novaezmailing-ez-mailings-view">
-        {% include "@NovaeZMailing/admin/common/list/mailings.html.twig" with {items:mailings} only %}
+    <div class="ibexamailing-ez-mailings-view">
+        {% include "@IbexaMailing/admin/common/list/mailings.html.twig" with {items:mailings} only %}
     </div>
 
     <div class="ibexa-table-header__headline">{{ "dashboard.last_user_updated"|trans }}</div>
-    {% include "@NovaeZMailing/admin/common/list/users.html.twig" with {items:users} only %}
+    {% include "@IbexaMailing/admin/common/list/users.html.twig" with {items:users} only %}
 
     {% if broadcasts|length > 0 %}
-        {% include "@NovaeZMailing/admin/common/list/broadcast_graphs.html.twig" with { items: broadcasts} only %}
+        {% include "@IbexaMailing/admin/common/list/broadcast_graphs.html.twig" with { items: broadcasts} only %}
     {% endif %}
 {% endblock %}

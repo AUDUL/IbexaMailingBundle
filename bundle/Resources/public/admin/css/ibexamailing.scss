@@ -1,0 +1,126 @@
+$eZDarkBackground: #555555;
+$eZMediumBackground: #E5E3E3;
+$eZLightBackground: #F5F5F5;
+
+.ibexamailing-ez-mailings-view {
+  .edit-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .edit-button.disabled svg {
+    fill: #ccc;
+  }
+}
+.edit-button {
+  text-decoration: none ;
+}
+.edit-button:hover {
+  text-decoration: none ;
+}
+.ibexa-btn--tertiary.ibexa-btn:focus {
+  border-color:none;
+}
+.toggle-button-menu {
+  justify-content: flex-start;
+}
+.ibexa-btn:focus {
+  box-shadow: none;
+}
+.c-list-item__row {
+  cursor: pointer;
+}
+.bage-status{
+  padding: 10px !important;
+  border-radius: 5px !important;
+}
+.text-bg-success {
+  color: white !important;
+  background-color: #56c356 !important;
+}
+.text-bg-warning {
+  color: white !important;
+  background-color: #f99275 !important;
+}
+.text-bg-info {
+  color: white !important;
+  background-color: #188090 !important;
+}
+
+.pagination {
+  justify-content: center !important;
+}
+
+.autocomplete-suggestions {
+  border: 1px solid #999;
+  background: #FFF;
+  overflow: auto;
+
+  .autocomplete-suggestion {
+    padding: 2px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .autocomplete-selected {
+    background: #F0F0F0;
+  }
+
+  .autocomplete-suggestions strong {
+    font-weight: normal;
+    color: #3399FF;
+  }
+
+  .autocomplete-group {
+    padding: 2px 5px;
+  }
+
+  .autocomplete-group strong {
+    display: block;
+    border-bottom: 1px solid #000;
+  }
+}
+.label-subject {
+  margin-bottom: 30px;
+}
+.leaf a {
+  align-items: center;
+  color: #131c26;
+  display: flex;
+  flex: 1;
+  font-size: .875rem;
+  line-height: 1.3125rem;
+  min-height: 1.3125rem;
+  overflow: hidden;
+  padding: 0.3125rem 0.875rem 0.3125rem 0;
+  position: relative;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.tab-pane {
+  .ibexamailing-broadcast-charts-group .graph-broadcast {
+    width: 600px;
+    height: 300px;
+    float: left;
+    margin: 20px 10px 10px 10px;
+  }
+}
+
+.campaigns > ul > li > label:hover {
+  font-weight: bold;
+}
+
+.text-bg-dark-blue {
+  color: white !important;
+  background-color: #00008B !important;
+}
+
+.start-75 {
+  left: 75% !important;
+}
+
+.top-20 {
+  top: 20% !important;
+}

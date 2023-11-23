@@ -1,35 +1,19 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Provider;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
 
 use Carbon\Carbon;
-use DateTime;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
-use Novactive\Bundle\eZMailingBundle\Entity\Broadcast as BroadcastEntity;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 
 class Broadcast
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function start(Mailing $mailing, string $html): BroadcastEntity
@@ -39,10 +23,22 @@ class Broadcast
             ->setMailing($mailing)
             ->setStarted(Carbon::now())
             ->setHtml($html)
-            ->setUpdated(new DateTime());
+            ->setUpdated(new \DateTime());
         $this->store($broadcast);
 
         return $broadcast;
+    }
+
+    public function increment(int $broadcastId, int $increment = 1): void
+    {
+        $this->entityManager->createQueryBuilder()
+            ->update(BroadcastEntity::class, 'b')
+            ->set('b.emailSentCount', 'b.emailSentCount + :increment')
+            ->where('b.id = :id')
+            ->setParameter('id', $broadcastId)
+            ->setParameter('increment', $increment, ParameterType::INTEGER)
+            ->getQuery()
+            ->execute();
     }
 
     public function end(BroadcastEntity $broadcast): void

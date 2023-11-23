@@ -1,58 +1,30 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Processor;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Processor;
 
 use Carbon\Carbon;
-use DateTime;
+use CodeRhapsodie\IbexaMailingBundle\Core\Mailer\Mailing as MailingMailer;
+use CodeRhapsodie\IbexaMailingBundle\Core\Utils\Clock;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Repository\MailingRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Novactive\Bundle\eZMailingBundle\Core\Mailer\Mailing as MailingMailer;
-use Novactive\Bundle\eZMailingBundle\Core\Utils\Clock;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
 use Symfony\Component\Workflow\Registry;
 
 class SendMailing extends Processor implements SendMailingProcessorInterface
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var MailingMailer
-     */
-    private $mailingMailer;
-
-    /**
-     * @var Registry
-     */
-    private $workflows;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        MailingMailer $mailingMailer,
-        Registry $workflows
+        private readonly EntityManagerInterface $entityManager,
+        private readonly MailingMailer $mailingMailer,
+        private readonly Registry $workflows,
+        private readonly MailingRepository $mailingRepository
     ) {
-        $this->entityManager = $entityManager;
-        $this->mailingMailer = $mailingMailer;
-        $this->workflows = $workflows;
     }
 
-    public function execute(?DateTime $overrideDatetime = null): void
+    public function execute(\DateTime $overrideDatetime = null): void
     {
-        $mailingRepository = $this->entityManager->getRepository(Mailing::class);
-        $pendingMailings = $mailingRepository->findByStatus(Mailing::PENDING);
+        $pendingMailings = $this->mailingRepository->findBy(['status' => Mailing::PENDING]);
         $clockDate = $overrideDatetime ?? Carbon::now();
         $clock = new Clock($clockDate);
         $matched = $sent = 0;
@@ -62,10 +34,10 @@ class SendMailing extends Processor implements SendMailingProcessorInterface
                 ++$matched;
                 $this->logger->notice("{$mailing->getName()} has been matched pending and ready to be send.");
                 if (
-                    null !== $mailing->getLastSent() &&
-                    $mailing->getLastSent()->format('Y-m-d-H') === $clockDate->format('Y-m-d-H')
+                    $mailing->getLastSent() !== null
+                    && $mailing->getLastSent()->format('Y-m-d-H') === $clockDate->format('Y-m-d-H')
                 ) {
-                    //Security here, if is has been sent during this current hour already, do nothing
+                    // Security here, if is has been sent during this current hour already, do nothing
                     $this->logger->debug(
                         "{$mailing->getName()} has been matched and IGNORED. It has been sent during this hour already."
                     );

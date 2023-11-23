@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" stopOnFailure="false" backupGlobals="false"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd" cacheDirectory=".phpunit.cache">
+    <coverage/>
+    <testsuites>
+        <testsuite name="IbexaMailingBundle">
+            <directory>tests/Tests/</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>bundle</directory>
+        </include>
+        <exclude>
+            <directory>tests/Tests</directory>
+        </exclude>
+    </source>
+</phpunit>

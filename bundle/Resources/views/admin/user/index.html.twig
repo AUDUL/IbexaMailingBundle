@@ -1,33 +1,32 @@
-{% extends "@NovaeZMailing/admin/layout/pagelayout.html.twig" %}
-{% trans_default_domain 'ezmailing' %}
+{% extends "@IbexaMailing/admin/layout/pagelayout.html.twig" %}
+{% trans_default_domain 'ibexamailing' %}
 
-{% block novezmailing_breadcrumb %}
+{% block ibexamailing_breadcrumb %}
     {% set items = [
-        {'url': path("novaezmailing_dashboard_index"), 'value': 'Nova eZ Mailing' },
+        {'url': path("ibexamailing_dashboard_index"), 'value': 'Ibexa Mailing' },
         {'value': "campaign.breadcrumb.users"|trans },
     ] %}
 
     {% include '@ibexadesign/ui/breadcrumbs.html.twig' with { items: items } %}
 {% endblock %}
-{% block novezmailing_title %}
-    <img src="{{ asset("/bundles/novaezmailing/admin/images/32x32/user.png") }}" class="nova-icon" /> {{ "user.index.title"|trans }}{% endblock %}
-{% block novezmailing_subtitle %}{{ pager.nbResults }} {{ "user.index.subtitle"|trans }}{% endblock %}
+{% block ibexamailing_title %}
+    <img src="{{ asset("/bundles/ibexamailing/admin/images/32x32/user.svg") }}"
+         class="mailing-icon"/> {{ "user.index.title"|trans }}{% endblock %}
+{% block ibexamailing_subtitle %}{{ pager.nbResults }} {{ "user.index.subtitle"|trans }}{% endblock %}
 
 {% block content %}
-    {% include "@NovaeZMailing/admin/common/list/users_filterer.html.twig" with {
-        route: "novaezmailing_user_index",
-        limit: pager.maxPerPage,
+    {% include "@IbexaMailing/admin/common/list/users_filterer.html.twig" with {
+        route: "ibexamailing_user_index",
         currentStatus: currentStatus,
         statuses: statuses
     } only %}
-    {% include "@NovaeZMailing/admin/common/list/users.html.twig" with {items:pager.currentPageResults} only %}
+    {% include "@IbexaMailing/admin/common/list/users.html.twig" with {items:pager.currentPageResults} only %}
     <div class="pagerfanta">
         {{ pagerfanta(pager, 'ibexa') }}
     </div>
-    <a class="btn btn-sm btn-success" href="{{ path('novaezmailing_users_export') }}">
-        <svg class="ez-icon" width="30" height="30">
-            <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#catalog"></use>
-        </svg>
-        <span>{{"button.actions.export_users"|trans}}</span>
+    <a class="btn btn-sm ibexa-btn ibexa-btn--secondary"
+       onclick="setTimeout(() => {body.classList.remove('ibexa-prevent-click')}, 1000)"
+       href="{{ path('ibexamailing_users_export') }}">
+        <span>{{ "button.actions.export_users"|trans }}</span>
     </a>
 {% endblock %}

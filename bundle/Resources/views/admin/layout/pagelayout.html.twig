@@ -1,40 +1,67 @@
-{% trans_default_domain 'ezmailing' %}
+{% extends '@ibexadesign/ui/layout.html.twig' %}
+{% trans_default_domain 'ibexamailing' %}
 {% set content = block('content') %}
-{% set novezmailing_title = block('novezmailing_title') %}
-{% set novezmailing_subtitle = block('novezmailing_subtitle') %}
-{% set novezmailing_breadcrumb = block('novezmailing_breadcrumb') %}
+{% set ibexamailing_title = block('ibexamailing_title') %}
+{% set ibexamailing_subtitle = block('ibexamailing_subtitle') %}
+{% set ibexamailing_breadcrumb = block('ibexamailing_breadcrumb') %}
 {% set rightbar = block('rightbar') ?? '' %}
 
-{% embed '@ibexadesign/ui/layout.html.twig' %}
-    {% block content %}
-        {% trans_default_domain 'ezmailing' %}
-        <div class="novaezmailing-app row" data-search-endpoint="{{ path('novaezmailing_dashboard_search_autocomplete') }}">
-            <div class="container-fluid">
-                {% include "@NovaeZMailing/admin/layout/header.html.twig" with { title: novezmailing_title, subTitle: novezmailing_subtitle, breadcrumb: novezmailing_breadcrumb } only %}
-                <div class="content row">
-                    <div class="col-2 sidebar">
-                        <h2>{{"layout.pagelayout.campaigns"|trans}}</h2>
-                        <div class="campaigns">
-                            {{ knp_menu_render('novaezmailing.menu.campaigns', {template:"@NovaeZMailing/admin/common/menu.html.twig"}) }}
+{% block content_tree %}
+    <div class="ibexa-content-view ibexa-content-tree-container">
+        <div class="ibexa-content-tree-container__root">
+            <div class="m-tree" style="width: 320px; position: relative;">
+                <div class="toggle-wrapper">
+                    <div class="c-header toggle-button-menu">
+                        <button class="ibexa-btn btn ibexa-btn--no-text ibexa-btn--tertiary c-header__toggle-btn">
+                            <svg class="ibexa-icon ibexa-icon--small">
+                                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#caret-back"></use>
+                            </svg>
+                        </button>
+                        <div class="c-header__name titre-nav-toggle">
+                            <svg id="toggleSvg" class="ibexa-icon ibexa-icon--small">
+                                <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#content-tree"></use>
+                            </svg>
+                            Ibexa Mailing
                         </div>
-                        <h2>{{"layout.pagelayout.administration"|trans}}</h2>
-                        {{ knp_menu_render('novaezmailing.menu.admin') }}
                     </div>
-                    {% if rightbar is empty %}
-                        <div class="col-10 innercontent">
-                            {{ content|raw }}
-                        </div>
-                    {% else %}
-                        <div class="col-8 innercontent">
-                            {{ content|raw }}
-                        </div>
-                        <div class="col-2 ez-context-menu">
-                            {{ rightbar|raw }}
-                        </div>
-                    {% endif %}
+
+                    <div class="m-tree__scrollable-wrapper">
+                        <ul class="c-list">
+                            <li class="c-list-item c-list-item--has-sub-items c-list-item--is-expanded c-list-item--is-selected c-list-item--is-root-item">
+                                <h2 class="c-list-item__row">
+                                    &nbsp;{{ "layout.pagelayout.campaigns"|trans }}</h2>
+                                {{ knp_menu_render('ibexamailing.menu.campaigns', {template:"@IbexaMailing/admin/common/menu.html.twig"}) }}
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
-                {% include "@NovaeZMailing/admin/layout/footer.html.twig" with {} only %}
+                <div class="m-tree__resize-handler"></div>
             </div>
         </div>
-    {% endblock %}
-{% endembed %}
+    </div>
+{% endblock %}
+
+{% block content_column %}
+    {% trans_default_domain 'ibexamailing' %}
+    <div class="ibexamailing-app ibexa-main-container__content-column ibexa-back-to-top-scroll-container"
+         data-search-endpoint="{{ path('ibexamailing_dashboard_search_autocomplete') }}">
+        <div class="container ibexa-back-to-top-anchor">
+            {% include "@IbexaMailing/admin/layout/header.html.twig" with { title: ibexamailing_title, subTitle: ibexamailing_subtitle, breadcrumb: ibexamailing_breadcrumb } only %}
+            <div class="content row">
+                {% if rightbar is empty %}
+                    <div class="innercontent">
+                        {{ content|raw }}
+                    </div>
+                {% else %}
+                    <div class="col-8">
+                        {{ content|raw }}
+                    </div>
+                    <div class="col-4">
+                        {{ rightbar|raw }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

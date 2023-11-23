@@ -1,8 +1,8 @@
 export const eZMailingApprobationModule = function () {
     function _init($, $app) {
-        $(".novaezmailing-registration-approbation button", $app).click(function () {
+        $(".ibexamailing-registration-approbation button", $app).click(function () {
                 var $button = $(this);
-                var $container = $button.parents('.novaezmailing-registration-approbation:first');
+            var $container = $button.parents('.ibexamailing-registration-approbation:first');
                 var denyEndpoint = $container.data('endpoint-deny');
                 var acceptEndpoint = $container.data('endpoint-accept');
                 var token = $container.data('token');

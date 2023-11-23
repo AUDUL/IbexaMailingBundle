@@ -1,89 +1,32 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Menu;
+namespace CodeRhapsodie\IbexaMailingBundle\Menu;
 
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Repository\MailingRepository;
+use CodeRhapsodie\IbexaMailingBundle\Repository\UserRepository;
+use CodeRhapsodie\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
-use Novactive\Bundle\eZMailingBundle\Security\Voter\Campaign as CampaignVoter;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Builder
 {
-    private $translator;
-
-    /**
-     * @var FactoryInterface
-     */
-    private $factory;
-
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-
     public function __construct(
-        FactoryInterface $factory,
-        AuthorizationCheckerInterface $authorizationChecker,
-        TranslatorInterface $translator
+        private readonly FactoryInterface $factory,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly TranslatorInterface $translator,
+        private readonly UserRepository $userRepository,
+        private readonly MailingRepository $mailingRepository
     ) {
-        $this->factory = $factory;
-        $this->authorizationChecker = $authorizationChecker;
-        $this->translator = $translator;
     }
 
-    public function createAdminMenu(RequestStack $requestStack): ItemInterface
-    {
-        $request = $requestStack->getMainRequest();
-        $route = $request?->attributes->get('_route');
-        $mailingRoute = 'novaezmailing_mailinglist';
-        $userRoute = 'novaezmailing_user';
-
-        $menu = $this->factory->createItem('root');
-        $child = $menu->addChild(
-            'mailinglists',
-            [
-                'route' => "{$mailingRoute}_index",
-                'label' => $this->translator->trans('menu.admin_menu.mailing_lists', [], 'ezmailing'),
-            ]
-        );
-
-        if (substr($route, 0, \strlen($mailingRoute)) === $mailingRoute) {
-            $child->setCurrent(true);
-        }
-
-        $child = $menu->addChild(
-            'users',
-            [
-                'route' => "{$userRoute}_index",
-                'label' => $this->translator->trans('menu.admin_menu.users', [], 'ezmailing'),
-            ]
-        );
-        if (substr($route, 0, \strlen($userRoute)) === $userRoute) {
-            $child->setCurrent(true);
-        }
-
-        return $menu;
-    }
-
-    public function createCampaignMenu(RequestStack $requestStack, EntityManagerInterface $entityManager): ItemInterface
+    public function createCampaignMenu(EntityManagerInterface $entityManager): ItemInterface
     {
         $menu = $this->factory->createItem('root');
         $repo = $entityManager->getRepository(Campaign::class);
@@ -91,8 +34,6 @@ class Builder
         $campaigns = $repo->findAll();
         $mailingStatuses = Mailing::STATUSES;
 
-        $userRepo = $entityManager->getRepository(User::class);
-        $mailingRepo = $entityManager->getRepository(Mailing::class);
         foreach ($campaigns as $campaign) {
             if (!$this->authorizationChecker->isGranted(CampaignVoter::VIEW, $campaign)) {
                 continue;
@@ -104,15 +45,15 @@ class Builder
                 ]
             );
 
-            $count = $userRepo->countByFilters(['campaign' => $campaign]);
+            $count = $this->userRepository->countByFilters(['campaign' => $campaign]);
 
             $child->addChild(
                 "camp_{$campaign->getId()}_subsciptions",
                 [
-                    'route' => 'novaezmailing_campaign_subscriptions',
+                    'route' => 'ibexamailing_campaign_subscriptions',
                     'routeParameters' => ['campaign' => $campaign->getId()],
-                    'label' => $this->translator->trans('menu.campaign_menu.subscriptions', [], 'ezmailing').
-                                         " ({$count})",
+                    'label' => $this->translator->trans('menu.campaign_menu.subscriptions', [], 'ibexamailing')
+                                         ." ({$count})",
                     'attributes' => [
                         'class' => 'leaf subscriptions',
                     ],
@@ -120,7 +61,7 @@ class Builder
             );
 
             foreach ($mailingStatuses as $status) {
-                $count = $mailingRepo->countByFilters(
+                $count = $this->mailingRepository->countByFilters(
                     [
                         'campaign' => $campaign,
                         'status' => $status,
@@ -129,7 +70,7 @@ class Builder
                 $child->addChild(
                     "mailing_status_{$status}",
                     [
-                        'route' => 'novaezmailing_campaign_mailings',
+                        'route' => 'ibexamailing_campaign_mailings',
                         'routeParameters' => [
                             'campaign' => $campaign->getId(),
                             'status' => $status,
@@ -137,7 +78,7 @@ class Builder
                         'label' => $this->translator->trans(
                             'generic.mailing_statuses.'.$status,
                             [],
-                            'ezmailing'
+                            'ibexamailing'
                         )." ({$count})",
                         'attributes' => [
                             'class' => "leaf {$status}",
@@ -154,9 +95,9 @@ class Builder
     {
         $menu = $this->factory->createItem('root');
         $menu->addChild(
-            'novaezmailing_save',
+            'ibexamailing_save',
             [
-                'label' => $this->translator->trans('menu.savecancel.save', [], 'ezmailing'),
+                'label' => $this->translator->trans('menu.savecancel.save', [], 'ibexamailing'),
                 'extras' => [
                     'icon' => 'save',
                 ],
@@ -164,9 +105,9 @@ class Builder
         );
 
         $menu->addChild(
-            'novaezmailing_cancel',
+            'ibexamailing_cancel',
             [
-                'label' => $this->translator->trans('menu.savecancel.cancel', [], 'ezmailing'),
+                'label' => $this->translator->trans('menu.savecancel.cancel', [], 'ibexamailing'),
                 'attributes' => ['class' => 'btn-danger'],
                 'extras' => [
                     'icon' => 'circle-close',

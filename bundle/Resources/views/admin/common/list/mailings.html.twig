@@ -1,6 +1,6 @@
 {% set withTitle = withTitle is defined ? withTitle : true %}
-{% trans_default_domain 'ezmailing' %}
-<div class="tab-content ibexa-tab-content">
+{% trans_default_domain 'ibexamailing' %}
+<div class="tab-content ibexa-tab-content p-2">
     <table class="table ibexa-table c-table-view">
         {% if withTitle %}
             <thead class="c-table-view__head">
@@ -15,19 +15,19 @@
         {% for item in items %}
             <tr class="ibexa-table__row c-table-view-item">
                 <td class="ibexa-table__cell c-table-view-item__cell">
-                    {% set showLink = path('novaezmailing_mailing_show', {mailing:item.id}) %}
+                    {% set showLink = path('ibexamailing_mailing_show', {mailing:item.id}) %}
                     {% if item.location is null %}
-                        {% set showLink = path('novaezmailing_mailing_edit', {mailing:item.id}) %}
+                        {% set showLink = path('ibexamailing_mailing_edit', {mailing:item.id}) %}
                     {% endif %}
                     <a href="{{ showLink }}">{{ item.name }}</a>
                 </td>
                 <td class="ibexa-table__cell c-table-view-item__cell">
-                    <img src="{{ asset("/bundles/novaezmailing/admin/images/16x16/"~item.status~".png") }}"
-                         class="nova-icon"/> {{ item.status }}
+                    <img src="{{ asset("/bundles/ibexamailing/admin/images/16x16/"~item.status~".svg") }}"
+                         class="mailing-icon"/> {{ item.status }}
                 </td>
                 <td class="ibexa-table__cell c-table-view-item__cell">
                     {% if workflow_can(item,'edit') %}
-                        <a href="{{ path('novaezmailing_mailing_edit', {mailing: item.id}) }}" class="edit-button">
+                        <a href="{{ path('ibexamailing_mailing_edit', {mailing: item.id}) }}" class="edit-button">
                             <svg class="ez-icon" width="30" height="30">
                                 <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#edit"></use>
                             </svg>
@@ -41,7 +41,7 @@
                     {% endif %}
                     {% if item.location is not null and item.content is not null %}
                         <a target="_blank"
-                           href="{{ path('_novaezmailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}"
+                           href="{{ path('_ibexamailing_ez_content_view', { locationId: item.location.id, contentId: item.content.id, mailingId: item.id, siteaccess: item.siteaccess }) }}"
                            class="edit-button">
                             <svg class="ez-icon" width="30" height="30">
                                 <use xlink:href="/bundles/ibexaadminui/img/ibexa-icons.svg#view"></use>

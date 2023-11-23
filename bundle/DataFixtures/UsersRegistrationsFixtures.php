@@ -1,26 +1,16 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\DataFixtures;
+namespace CodeRhapsodie\IbexaMailingBundle\DataFixtures;
 
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Entity\Registration;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
 
 class UsersRegistrationsFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -42,7 +32,7 @@ class UsersRegistrationsFixtures extends Fixture implements DependentFixtureInte
                 ->setGender($faker->title)
                 ->setJobTitle($faker->jobTitle)
                 ->setPhone($faker->phoneNumber)
-                ->setState($faker->state)
+                ->setState($faker->text)
                 ->setZipcode($faker->postcode)
                 ->setStatus($faker->randomElement(User::STATUSES))
                 ->setOrigin($faker->randomElement(['site', 'import']));

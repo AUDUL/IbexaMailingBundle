@@ -1,34 +1,29 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\DataFixtures;
+namespace CodeRhapsodie\IbexaMailingBundle\DataFixtures;
 
 use Carbon\Carbon;
-use DateTime;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\StatHit;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
-use Novactive\Bundle\eZMailingBundle\Entity\Broadcast;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Entity\StatHit;
 
+/**
+ * @SuppressWarnings(PHPMD)
+ */
 class CampaignFixtures extends Fixture implements DependentFixtureInterface
 {
     public const FIXTURE_COUNT_CAMPAIGN = 10;
 
+    /**
+     * {@inheritDoc}
+     */
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create();
@@ -46,7 +41,7 @@ class CampaignFixtures extends Fixture implements DependentFixtureInterface
                 ->setSenderEmail($faker->email)
                 ->setReturnPathEmail($faker->email)
                 ->setSenderName($faker->name)
-                ->setUpdated(new DateTime())
+                ->setUpdated(new \DateTime())
                 ->setLocationId(2);
             // create MailingLists
             $nbDestinations = $faker->numberBetween(0, MailingListFixtures::FIXTURE_COUNT_MAILINGLIST);
@@ -92,7 +87,7 @@ class CampaignFixtures extends Fixture implements DependentFixtureInterface
                         ->setStarted($faker->dateTimeThisYear)
                         ->setEnded($endDate)
                         ->setHtml("Fixture {$i}{$k}{$l}")
-                        ->setUpdated(new DateTime());
+                        ->setUpdated(new \DateTime());
                     $mailing->addBroadcast($broadcast);
 
                     // create Stats Hit
@@ -103,7 +98,7 @@ class CampaignFixtures extends Fixture implements DependentFixtureInterface
                         $hit->setUserKey($key);
                         $hit->setUrl('-');
                         $hit->setCreated($faker->dateTimeThisYear)
-                            ->setUpdated(new DateTime());
+                            ->setUpdated(new \DateTime());
                         $hit->setBrowserName(
                             $faker->randomElement(['Chrome', 'Firefox', 'Safari', 'Internet Explorer'])
                         );
@@ -114,14 +109,14 @@ class CampaignFixtures extends Fixture implements DependentFixtureInterface
                         for ($n = 0; $n < $nbSubHits; ++$n) {
                             $hit = new StatHit();
                             $hit->setUserKey($key)
-                                ->setUpdated(new DateTime());
+                                ->setUpdated(new \DateTime());
                             $hit->setBrowserName(
                                 $faker->randomElement(['Chrome', 'Firefox', 'Safari', 'Internet Explorer'])
                             );
                             $hit->setOsName($faker->randomElement(['Mac OS X', 'Windows', 'Linux']));
                             $hit->setUrl(
-                                'https://'.$faker->randomElement(['facebook', 'skype', 'google', 'lycos', 'caramail']).
-                                '.com'
+                                'https://'.$faker->randomElement(['facebook', 'skype', 'google', 'lycos', 'caramail'])
+                                .'.com'
                             );
                             $hit->setBroadcast($broadcast);
                             $manager->persist($hit);

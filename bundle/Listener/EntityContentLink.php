@@ -1,24 +1,15 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Listener;
+namespace CodeRhapsodie\IbexaMailingBundle\Listener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use CodeRhapsodie\IbexaMailingBundle\Entity\eZ\ContentInterface;
+use Doctrine\ORM\Event\PostLoadEventArgs;
 use Doctrine\ORM\Mapping\PostLoad;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
-use Novactive\Bundle\eZMailingBundle\Entity\eZ\ContentInterface;
 
 /**
  * Class ContentLink
@@ -26,26 +17,23 @@ use Novactive\Bundle\eZMailingBundle\Entity\eZ\ContentInterface;
  */
 class EntityContentLink
 {
-    /**
-     * @var Repository
-     */
-    private $repository;
-
-    public function __construct(Repository $repository)
+    public function __construct(private readonly Repository $repository, private readonly LocationService $locationService)
     {
-        $this->repository = $repository;
     }
 
-    /** @PostLoad */
-    public function postLoadHandler(ContentInterface $entity, LifecycleEventArgs $event): void
+    /**
+     * @PostLoad
+     *
+     *  @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function postLoadHandler(ContentInterface $entity, PostLoadEventArgs $event): void
     {
-        if (null !== $entity->getLocationId()) {
+        if ($entity->getLocationId() !== null) {
             try {
                 $this->repository->sudo(function () use ($entity) {
-                    $location = $this->repository->getLocationService()->loadLocation($entity->getLocationId());
-                    $content = $this->repository->getContentService()->loadContentByContentInfo($location->contentInfo);
+                    $location = $this->locationService->loadLocation($entity->getLocationId());
                     $entity->setLocation($location);
-                    $entity->setContent($content);
+                    $entity->setContent($location->getContent());
                 });
             } catch (NotFoundException) {
             }

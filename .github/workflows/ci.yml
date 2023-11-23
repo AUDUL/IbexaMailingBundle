@@ -1,0 +1,79 @@
+name: IbexaMailing
+
+on:
+    push:
+        branches: [ "master" ]
+    pull_request:
+        branches: [ "master" ]
+
+permissions:
+    contents: read
+
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+            -   name: Cache Composer packages
+                id: composer-cache
+                uses: actions/cache@v3
+                with:
+                    path: vendor
+                    key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-php-
+            -   name: Install dependencies
+                run: composer install --prefer-dist --no-progress
+            -   name: Run test suite
+                run: composer run-script test
+    php-stan:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+            -   uses: php-actions/composer@v6
+                with:
+                    php_extensions: gd zip intl xsl
+            -   name: PHPStan Static Analysis
+                uses: php-actions/phpstan@v3
+                with:
+                    configuration: phpstan.neon.dist
+                    memory_limit: 256M
+    php-cs-fixer:
+        name: PHP-CS-Fixer
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: PHP-CS-Fixer
+              uses: docker://oskarstark/php-cs-fixer-ga
+              with:
+                args: --config=.php-cs-fixer.dist.php --diff --dry-run
+    phpmd:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   name: Composer install
+                uses: php-actions/composer@v6
+                with:
+                    php_extensions: gd zip intl xsl
+
+            -   name: PHP Mess Detector
+                uses: php-actions/phpmd@v1
+                with:
+                    path: bundle/
+                    output: text
+                    ruleset: phpmd.xml
+                    exclude: '*/bundle/Entity/*'
+    sonar:
+        name: Sonar analyse
+        runs-on: ubuntu-latest
+        permissions: read-all
+        steps:
+            -   uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+            -   uses: sonarsource/sonarqube-scan-action@master
+                env:
+                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                    SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

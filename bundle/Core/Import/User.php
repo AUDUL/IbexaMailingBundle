@@ -1,47 +1,27 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <j.canat@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Import;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Import;
 
 use Carbon\Carbon;
-use DateTime;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\UserImport;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
+use CodeRhapsodie\IbexaMailingBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use Generator;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\UserImport;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Entity\Registration;
-use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class User
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly UserRepository $userRepository)
     {
-        $this->entityManager = $entityManager;
     }
 
-    public function rowsIterator(UserImport $userImport): Generator
+    public function rowsIterator(UserImport $userImport): \Generator
     {
-
         $encoding = Csv::guessEncoding($userImport->getFile()->getPathname());
         $reader = new Csv();
         $reader->setInputEncoding($encoding);
@@ -49,7 +29,7 @@ class User
 
         $worksheet = $spreadsheet->getActiveSheet();
         foreach ($worksheet->getRowIterator() as $row) {
-            if (1 === $row->getRowIndex()) {
+            if ($row->getRowIndex() === 1) {
                 continue;
             }
             $cells = [];
@@ -65,17 +45,19 @@ class User
     /**
      * Hydrate user.
      *
+     * @param array<int, mixed> $cells
+     *
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function hydrateUser(array $cells): UserEntity
     {
-        $repo = $this->entityManager->getRepository(UserEntity::class);
         $user = new UserEntity();
         if (isset($cells[0])) {
-            $user = $repo->findOneByEmail($cells[0]);
+            $user = $this->userRepository->findOneBy(['email' => $cells[0]]);
             if (!$user instanceof UserEntity) {
                 $user = new UserEntity();
-                $user->setEmail(filter_var($cells[0], FILTER_SANITIZE_EMAIL));
+                $user->setEmail(filter_var($cells[0], \FILTER_SANITIZE_EMAIL));
             }
         }
         if (isset($cells[1])) {
@@ -89,17 +71,17 @@ class User
         }
         if (isset($cells[4])) {
             try {
-                $date = Carbon::createFromFormat('Y-m-d', (string)$cells[4]);
-            } catch (Exception $e) {
-                $date = Date::excelToDateTimeObject((string)$cells[4]);
+                $date = Carbon::createFromFormat('Y-m-d', (string) $cells[4]);
+            } catch (\Exception) {
+                $date = Date::excelToDateTimeObject((int) $cells[4]);
             }
             $user->setBirthDate($date);
         }
         if (isset($cells[5])) {
-            $user->setPhone((string)$cells[5]);
+            $user->setPhone((string) $cells[5]);
         }
         if (isset($cells[6])) {
-            $user->setZipcode((string)$cells[6]);
+            $user->setZipcode((string) $cells[6]);
         }
         if (isset($cells[7])) {
             $user->setCity($cells[7]);
@@ -127,7 +109,7 @@ class User
     }
 
     /**
-     * Register the user to the MailingList.
+     * Register the user to the MailingListRepository.
      */
     public function registerUser(UserEntity $user, MailingList $mailingList): UserEntity
     {
@@ -136,7 +118,7 @@ class User
             ->setUser($user)
             ->setMailingList($mailingList)
             ->setApproved(true)
-            ->setUpdated(new DateTime());
+            ->setUpdated(new \DateTime());
         $user->addRegistration($registration);
         $this->entityManager->persist($user);
         $this->entityManager->flush();

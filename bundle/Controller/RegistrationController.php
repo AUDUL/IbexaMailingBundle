@@ -1,52 +1,43 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Controller;
+namespace CodeRhapsodie\IbexaMailingBundle\Controller;
 
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Unregistration;
+use CodeRhapsodie\IbexaMailingBundle\Core\Registrar;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Campaign;
+use CodeRhapsodie\IbexaMailingBundle\Entity\ConfirmationToken;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Form\RegistrationType;
+use CodeRhapsodie\IbexaMailingBundle\Security\Voter\Campaign as CampaignVoter;
+use CodeRhapsodie\IbexaMailingBundle\Security\Voter\Mailing as MailingVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Registration;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Unregistration;
-use Novactive\Bundle\eZMailingBundle\Core\Registrar;
-use Novactive\Bundle\eZMailingBundle\Entity\Campaign;
-use Novactive\Bundle\eZMailingBundle\Entity\ConfirmationToken;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
-use Novactive\Bundle\eZMailingBundle\Form\RegistrationType;
-use Novactive\Bundle\eZMailingBundle\Security\Voter\Campaign as CampaignVoter;
-use Novactive\Bundle\eZMailingBundle\Security\Voter\Mailing as MailingVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class RegistrationController
+class RegistrationController extends AbstractController
 {
-
     public function __construct(
-        private readonly Registrar                     $registrar,
-        private readonly ConfigResolverInterface       $configResolver,
-        private readonly EntityManagerInterface        $entityManager,
+        private readonly Registrar $registrar,
+        private readonly ConfigResolverInterface $configResolver,
+        private readonly EntityManagerInterface $entityManager,
         private readonly AuthorizationCheckerInterface $authorizationChecker
-    )
-    {
+    ) {
     }
 
     /**
-     * @Route("/register", name="novaezmailing_registration_create")
+     * @Route("/register", name="ibexamailing_registration_create")
      *
-     * @Template()
+     * @SuppressWarnings(PHPMD.ElseExpression)
      */
-    public function registerAction(Request $request, FormFactoryInterface $formFactory): array
+    public function registerAction(Request $request, FormFactoryInterface $formFactory): Response
     {
         $params = [
             'pagelayout' => $this->getPagelayout(),
@@ -66,15 +57,15 @@ class RegistrationController
             ];
         }
 
-        return $params;
+        return $this->render('@IbexaMailing/registration/register.html.twig', $params);
     }
 
     /**
-     * @Route("/register/default", name="novaezmailing_registration_default_create")
+     * @Route("/register/default", name="ibexamailing_registration_default_create")
      *
-     * @Template()
+     * @SuppressWarnings(PHPMD.ElseExpression)
      */
-    public function registerDefaultAction(Request $request, FormFactoryInterface $formFactory): array
+    public function registerDefaultAction(Request $request, FormFactoryInterface $formFactory): Response
     {
         $params = [
             'pagelayout' => $this->getPagelayout(),
@@ -98,29 +89,25 @@ class RegistrationController
             ];
         }
 
-        return $params;
+        return $this->render('@IbexaMailing/registration/register_default.html.twig', $params);
     }
 
     /**
-     * @Route("/register/confirm/{id}", name="novaezmailing_registration_confirm")
-     *
-     * @Template()
+     * @Route("/register/confirm/{id}", name="ibexamailing_registration_confirm")
      */
-    public function registerConfirmationAction(ConfirmationToken $token): array
+    public function registerConfirmationAction(ConfirmationToken $token): Response
     {
-        return [
+        return $this->render('@IbexaMailing/registration/register_confirmation.html.twig', [
             'pagelayout' => $this->getPagelayout(),
             'title' => 'Confirm registration to Mailing Lists',
             'isConfirmed' => $this->registrar->confirm($token),
-        ];
+        ]);
     }
 
     /**
-     * @Route("/unregister/{email}", name="novaezmailing_registration_remove")
-     *
-     * @Template()
+     * @Route("/unregister/{email}", name="ibexamailing_registration_remove")
      */
-    public function unregisterAction(string $email = null, Request $request, FormFactoryInterface $formFactory): array
+    public function unregisterAction(string $email = null, Request $request, FormFactoryInterface $formFactory): Response
     {
         $params = [
             'pagelayout' => $this->getPagelayout(),
@@ -137,21 +124,8 @@ class RegistrationController
             $unregistration->setUser($user);
         }
 
-        if ($this->configResolver->getParameter('unsubscribe_all', 'nova_ezmailing')) {
-            $allowedMailingList = [];
-            $campaignRepository = $this->entityManager->getRepository(Campaign::class);
-            // permissions on Campaing can be more complex, then we don't filter in SQL
-            foreach ($campaignRepository->findAll() as $campaign) {
-                if ($this->authorizationChecker->isGranted(CampaignVoter::VIEW, $campaign)) {
-                    foreach ($campaign->getMailingLists() as $mailingList) {
-                        if ($this->authorizationChecker->isGranted(MailingVoter::VIEW, $mailingList)) {
-                            $allowedMailingList[] = $mailingList;
-                        }
-                    }
-                }
-            }
-
-            $unregistration->setMailingLists($allowedMailingList);
+        if ($this->configResolver->getParameter('unsubscribe_all', 'ibexamailing')) {
+            $this->unsubscribeAll($unregistration);
         }
 
         $form = $formFactory->create(RegistrationType::class, $unregistration);
@@ -160,34 +134,50 @@ class RegistrationController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->registrar->askForUnregisterConfirmation($unregistration)) {
-                return $params;
+                return $this->render('@IbexaMailing/registration/register_confirmation.html.twig', $params);
             }
         }
 
         $params += [
             'form' => $form->createView(),
-            'unsubscribeAll' => $this->configResolver->getParameter('unsubscribe_all', 'nova_ezmailing'),
+            'unsubscribeAll' => $this->configResolver->getParameter('unsubscribe_all', 'ibexamailing'),
         ];
 
-        return $params;
+        return $this->render('@IbexaMailing/registration/unregister.html.twig', $params);
     }
 
     /**
-     * @Route("/unregister/confirm/{id}", name="novaezmailing_unregistration_confirm")
-     *
-     * @Template()
+     * @Route("/unregister/confirm/{id}", name="ibexamailing_unregistration_confirm")
      */
-    public function unregisterConfirmationAction(ConfirmationToken $token): array
+    public function unregisterConfirmationAction(ConfirmationToken $token): Response
     {
-        return [
+        return $this->render('@IbexaMailing/registration/unregister_confirmation.html.twig', [
             'pagelayout' => $this->getPagelayout(),
             'title' => 'Confirm unregistration to Mailing Lists',
             'isConfirmed' => $this->registrar->confirm($token),
-        ];
+        ]);
     }
 
     private function getPagelayout(): string
     {
         return $this->configResolver->getParameter('pagelayout');
+    }
+
+    private function unsubscribeAll(Unregistration $unregistration): void
+    {
+        $allowedMailingList = [];
+        $campaignRepository = $this->entityManager->getRepository(Campaign::class);
+        // permissions on Campaing can be more complex, then we don't filter in SQL
+        foreach ($campaignRepository->findAll() as $campaign) {
+            if ($this->authorizationChecker->isGranted(CampaignVoter::VIEW, $campaign)) {
+                foreach ($campaign->getMailingLists() as $mailingList) {
+                    if ($this->authorizationChecker->isGranted(MailingVoter::VIEW, $mailingList)) {
+                        $allowedMailingList[] = $mailingList;
+                    }
+                }
+            }
+        }
+
+        $unregistration->setMailingLists($allowedMailingList);
     }
 }

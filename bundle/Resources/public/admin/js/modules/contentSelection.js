@@ -1,7 +1,7 @@
 export const eZMailingContentSelectionModule = function () {
     function _init ($, $app) {
 
-        $("button.js-novaezmailing-select-location-id", $app).click(function () {
+        $("button.js-ibexamailing-select-location-id", $app).click(function () {
             var token = document.querySelector('meta[name="CSRF-Token"]').content;
             var siteaccess = document.querySelector('meta[name="SiteAccess"]').content;
             var udwContainer = $("#react-udw").get(0);
@@ -26,7 +26,7 @@ export const eZMailingContentSelectionModule = function () {
         });
 
 
-        $("button.js-novaezmailing-create-content", $app).click(function () {
+        $("button.js-ibexamailing-create-content", $app).click(function () {
             var token = document.querySelector('meta[name="CSRF-Token"]').content;
             var siteaccess = document.querySelector('meta[name="SiteAccess"]').content;
             var udwContainer = $("#react-udw").get(0);

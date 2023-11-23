@@ -1,36 +1,26 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Mailer;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Mailer;
 
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Registration;
-use Novactive\Bundle\eZMailingBundle\Core\DataHandler\Unregistration;
-use Novactive\Bundle\eZMailingBundle\Core\Provider\MessageContent;
-use Novactive\Bundle\eZMailingBundle\Entity\ConfirmationToken;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing as MailingEntity;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Registration;
+use CodeRhapsodie\IbexaMailingBundle\Core\DataHandler\Unregistration;
+use CodeRhapsodie\IbexaMailingBundle\Core\Provider\MessageContent;
+use CodeRhapsodie\IbexaMailingBundle\Entity\ConfirmationToken;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing as MailingEntity;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Message;
 
 class Simple
 {
-    public function __construct(private readonly MessageContent  $messageProvider,
-                                private readonly LoggerInterface $logger,
-                                private readonly MailerInterface $mailer,
-                                private readonly string          $simpleMailer
-    )
-    {
+    public function __construct(
+        private readonly MessageContent $messageProvider,
+        private readonly LoggerInterface $logger,
+        private readonly MailerInterface $mailer,
+        private readonly string $simpleMailer
+    ) {
     }
 
     public function sendStartSendingMailingMessage(MailingEntity $mailing): void
@@ -59,7 +49,7 @@ class Simple
 
     private function sendMessage(Message $message): void
     {
-        $this->logger->debug("Simple Mailer sends {$message->getSubject()}.");
+        $this->logger->debug("Simple Mailer sends {$message->getHeaders()->get('subject')->getBody()}.");
         $message->getHeaders()->addTextHeader('X-Transport', $this->simpleMailer);
 
         $this->mailer->send($message);

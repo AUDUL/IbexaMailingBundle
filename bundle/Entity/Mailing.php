@@ -1,32 +1,23 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Entity;
+namespace CodeRhapsodie\IbexaMailingBundle\Entity;
 
 use Carbon\Carbon;
-use DateTime;
+use CodeRhapsodie\IbexaMailingBundle\Core\Utils\Clock;
+use CodeRhapsodie\IbexaMailingBundle\Validator\Constraints as IbexaMailing;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Novactive\Bundle\eZMailingBundle\Core\Utils\Clock;
-use Novactive\Bundle\eZMailingBundle\Validator\Constraints as NovaEzMailingAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="novaezmailing_mailing")
+ * @ORM\Table(name="mailing_mailing")
  *
- * @ORM\Entity(repositoryClass="Novactive\Bundle\eZMailingBundle\Repository\Mailing")
- * @ORM\EntityListeners({"Novactive\Bundle\eZMailingBundle\Listener\EntityContentLink"})
+ * @ORM\Entity(repositoryClass="CodeRhapsodie\IbexaMailingBundle\Repository\MailingRepository")
+ *
+ * @ORM\EntityListeners({"CodeRhapsodie\IbexaMailingBundle\Listener\EntityContentLink"})
  */
 class Mailing implements eZ\ContentInterface
 {
@@ -84,99 +75,126 @@ class Mailing implements eZ\ContentInterface
 
     /**
      * @var int
+     *
      * @ORM\Column(name="MAIL_id", type="bigint", nullable=false)
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="MAIL_status", type="string", nullable=false)
      */
     private $status;
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="MAIL_recurring", type="boolean", nullable=false)
      */
     private $recurring;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=0,max=24)
+     *
+     * @IbexaMailing\ArrayRange(min=0,max=24)
+     *
      * @ORM\Column(name="MAIL_hours_of_day", type="array", nullable=false)
      */
     private $hoursOfDay;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=7)
+     *
+     * @IbexaMailing\ArrayRange(min=1,max=7)
+     *
      * @ORM\Column(name="MAIL_days_of_week", type="array", nullable=true)
      */
     private $daysOfWeek;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=31)
+     *
+     * @IbexaMailing\ArrayRange(min=1,max=31)
+     *
      * @ORM\Column(name="MAIL_days_of_month", type="array", nullable=true)
      */
     private $daysOfMonth;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=365)
+     *
+     * @IbexaMailing\ArrayRange(min=1,max=365)
+     *
      * @ORM\Column(name="MAIL_days_of_year", type="array", nullable=true)
      */
     private $daysOfYear;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=5)
+     *
+     * @IbexaMailing\ArrayRange(min=1,max=5)
+     *
      * @ORM\Column(name="MAIL_weeks_of_month", type="array", nullable=true)
      */
     private $weeksOfMonth;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=12)
+     *
+     * @IbexaMailing\ArrayRange(min=1,max=12)
+     *
      * @ORM\Column(name="MAIL_months_of_year", type="array", nullable=true)
      */
     private $monthsOfYear;
 
     /**
      * @var array
-     * @NovaEzMailingAssert\ArrayRange(min=1,max=53)
+     *
+     * @IbexaMailing\ArrayRange(min=1,max=53)
+     *
      * @ORM\Column(name="MAIL_weeks_of_year", type="array", nullable=true)
      */
     private $weeksOfYear;
 
     /**
      * @var Campaign
-     * @ORM\ManyToOne(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\Campaign", inversedBy="mailings")
+     *
+     * @ORM\ManyToOne(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Campaign", inversedBy="mailings")
+     *
      * @ORM\JoinColumn(name="CAMP_id", referencedColumnName="CAMP_id")
      */
     private $campaign;
 
     /**
-     * @var Broadcast[]
-     * @ORM\OneToMany(targetEntity="Novactive\Bundle\eZMailingBundle\Entity\Broadcast", mappedBy="mailing",
+     * @var ArrayCollection<int, Broadcast>
+     *
+     * @ORM\OneToMany(targetEntity="CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast", mappedBy="mailing",
      *                                                                                  cascade={"persist","remove"},
      *                                                                                  fetch="EXTRA_LAZY")
      */
-    private $broadcasts;
+    private Collection $broadcasts;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="MAIL_subject", type="string", length=255, nullable=false)
+     *
      * @Assert\NotBlank()
      */
     private $subject;
 
     /**
      * @var string
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="MAIL_siteaccess", type="string", nullable=false)
      */
     private $siteAccess;
@@ -184,9 +202,8 @@ class Mailing implements eZ\ContentInterface
     public function __construct()
     {
         $this->recurring = false;
-        $this->statHits = new ArrayCollection();
         $this->broadcasts = new ArrayCollection();
-        $this->created = new DateTime();
+        $this->created = new \DateTime();
         $this->hoursOfDay = [];
         $this->daysOfWeek = [];
         $this->daysOfMonth = [];
@@ -220,19 +237,18 @@ class Mailing implements eZ\ContentInterface
         return $this;
     }
 
-    public function getLastSent(): ?DateTime
+    public function getLastSent(): ?\DateTime
     {
-        if (0 == $this->broadcasts->count()) {
+        if ($this->broadcasts->isEmpty()) {
             return null;
         }
-        if (1 == $this->broadcasts->count() && 0 === $this->broadcasts[0]->getEmailSentCount()) {
+        if ($this->broadcasts->count() === 1 && $this->broadcasts->first()->getEmailSentCount() === 0) {
             return null;
         }
 
-        $lastSent = $this->broadcasts[0]->getStarted();
+        $lastSent = $this->broadcasts->first()->getStarted();
         foreach ($this->broadcasts as $broadcast) {
-            /** @var Broadcast $broadcast */
-            if (0 === $broadcast->getEmailSentCount()) {
+            if ($broadcast->getEmailSentCount() === 0) {
                 // it was a test
                 continue;
             }
@@ -352,7 +368,7 @@ class Mailing implements eZ\ContentInterface
         return $this;
     }
 
-    public function nextTick(): ?DateTime
+    public function nextTick(): ?\DateTime
     {
         try {
             $clock = new Clock(Carbon::now());
@@ -366,38 +382,38 @@ class Mailing implements eZ\ContentInterface
     public function hasBeenSent(): bool
     {
         return
-            (false === $this->isRecurring() && self::SENT === $this->status) ||
-            (true === $this->isRecurring() && null !== $this->getLastSent());
+            ($this->isRecurring() === false && $this->status === self::SENT)
+            || ($this->isRecurring() === true && $this->getLastSent() !== null);
     }
 
     public function isPending(): bool
     {
-        return self::PENDING === $this->status;
+        return $this->status === self::PENDING;
     }
 
     public function isDraft(): bool
     {
-        return self::DRAFT === $this->status;
+        return $this->status === self::DRAFT;
     }
 
     public function isArchived(): bool
     {
-        return self::ARCHIVED === $this->status;
+        return $this->status === self::ARCHIVED;
     }
 
     public function isAborted(): bool
     {
-        return self::ABORTED === $this->status;
+        return $this->status === self::ABORTED;
     }
 
     public function isProcessing(): bool
     {
-        return self::PROCESSING === $this->status;
+        return $this->status === self::PROCESSING;
     }
 
     public function isTested(): bool
     {
-        return self::TESTED === $this->status;
+        return $this->status === self::TESTED;
     }
 
     public function getBroadcasts()
@@ -405,7 +421,7 @@ class Mailing implements eZ\ContentInterface
         return $this->broadcasts;
     }
 
-    public function setBroadcasts(array $broadcasts): self
+    public function setBroadcasts(Collection $broadcasts): self
     {
         $this->broadcasts = $broadcasts;
 
@@ -417,8 +433,10 @@ class Mailing implements eZ\ContentInterface
         if ($this->broadcasts->contains($broadcast)) {
             return $this;
         }
-        $this->broadcasts->add($broadcast);
+
         $broadcast->setMailing($this);
+
+        $this->broadcasts->add($broadcast);
 
         return $this;
     }

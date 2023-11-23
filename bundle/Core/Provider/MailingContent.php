@@ -1,26 +1,17 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\Provider;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\Provider;
 
-use App\Kernel;
-use Novactive\Bundle\eZMailingBundle\Core\Modifier\ModifierInterface;
-use Novactive\Bundle\eZMailingBundle\Entity\Broadcast as BroadcastEntity;
-use Novactive\Bundle\eZMailingBundle\Entity\Mailing;
-use Novactive\Bundle\eZMailingBundle\Entity\User as UserEntity;
+use CodeRhapsodie\IbexaMailingBundle\Core\Modifier\ModifierInterface;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Broadcast as BroadcastEntity;
+use CodeRhapsodie\IbexaMailingBundle\Entity\Mailing;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User as UserEntity;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\HttpKernel\HttpKernelBrowser;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -29,37 +20,23 @@ use Symfony\Component\Routing\RouterInterface;
 class MailingContent
 {
     /**
-     * @var array
+     * @var array<int, string>
      */
     protected $nativeContent;
-
-    /**
-     * @var ModifierInterface[]
-     */
-    protected $modifiers;
-
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
 
     /**
      * MailingContent constructor.
      *
      * @param ModifierInterface[] $modifiers
      */
-    public function __construct(iterable $modifiers, RouterInterface $router, private readonly string $kernelEnv)
+    public function __construct(protected readonly iterable $modifiers, protected readonly RouterInterface $router, private readonly HttpKernelInterface $httpKernel, private readonly Router $ibexaRouter)
     {
-        $this->modifiers = $modifiers;
-        $this->router = $router;
     }
 
     public function preFetchContent(Mailing $mailing): string
     {
-        $kernel = new Kernel($this->kernelEnv, false);
-        $client = new HttpKernelBrowser($kernel);
         $url = $this->router->generate(
-            '_novaezmailing_ez_content_view',
+            '_ibexamailing_ez_content_view',
             [
                 'locationId' => $mailing->getLocation()->id,
                 'contentId' => $mailing->getContent()->id,
@@ -68,29 +45,21 @@ class MailingContent
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
-
-        $crawler = $client->request('/GET', $url);
-        $this->nativeContent[$mailing->getLocationId()] = "<!DOCTYPE html><html>{$crawler->html()}</html>";
-
-        return $this->nativeContent[$mailing->getLocationId()];
-    }
-
-    private function getNativeContent(Mailing $mailing): string
-    {
-        if (!isset($this->nativeContent[$mailing->getLocationId()])) {
-            $this->preFetchContent($mailing);
-        }
+        $request = Request::create($url);
+        $request->attributes->set('siteaccess', $this->ibexaRouter->matchByName($mailing->getSiteAccess()));
+        $response = $this->httpKernel->handle($request);
+        $this->nativeContent[$mailing->getLocationId()] = $response->getContent();
 
         return $this->nativeContent[$mailing->getLocationId()];
     }
 
     public function getContentMailing(
-        Mailing         $mailing,
-        UserEntity      $recipient,
+        Mailing $mailing,
+        UserEntity $recipient,
         BroadcastEntity $broadcast
-    ): Email
-    {
+    ): Email {
         $html = $this->getNativeContent($mailing);
+
         foreach ($this->modifiers as $modifier) {
             $html = $modifier->modify($mailing, $recipient, $html, ['broadcast' => $broadcast]);
         }
@@ -100,11 +69,19 @@ class MailingContent
         $campaign = $mailing->getCampaign();
         $message->from(new Address($campaign->getSenderEmail(), $campaign->getSenderName()));
         $message->to($recipient->getEmail());
-        $message->bcc($campaign->getReportEmail());
         if (!empty($campaign->getReturnPathEmail())) {
             $message->returnPath($campaign->getReturnPathEmail());
         }
 
         return $message;
+    }
+
+    public function getNativeContent(Mailing $mailing): string
+    {
+        if (!isset($this->nativeContent[$mailing->getLocationId()])) {
+            $this->preFetchContent($mailing);
+        }
+
+        return $this->nativeContent[$mailing->getLocationId()];
     }
 }

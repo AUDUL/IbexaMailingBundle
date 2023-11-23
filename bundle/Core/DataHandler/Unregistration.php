@@ -1,38 +1,24 @@
 <?php
 
-/**
- * NovaeZMailingBundle Bundle.
- *
- * @package   Novactive\Bundle\eZMailingBundle
- *
- * @author    Novactive <s.morel@novactive.com>
- * @copyright 2018 Novactive
- * @license   https://github.com/Novactive/NovaeZMailingBundle/blob/master/LICENSE MIT Licence
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZMailingBundle\Core\DataHandler;
+namespace CodeRhapsodie\IbexaMailingBundle\Core\DataHandler;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Novactive\Bundle\eZMailingBundle\Entity\MailingList;
-use Novactive\Bundle\eZMailingBundle\Entity\User;
+use CodeRhapsodie\IbexaMailingBundle\Entity\MailingList;
+use CodeRhapsodie\IbexaMailingBundle\Entity\User;
 
 class Unregistration
 {
-    /**
-     * @var User
-     */
-    private $user;
+    private ?User $user;
 
     /**
-     * @var MailingList[]
+     * @var array<MailingList>
      */
-    private $mailingLists;
+    private array $mailingLists;
 
     public function __construct()
     {
-        $this->mailingLists = new ArrayCollection();
+        $this->mailingLists = [];
     }
 
     public function getUser(): ?User
@@ -48,9 +34,9 @@ class Unregistration
     }
 
     /**
-     * @return MailingList[]|mixed
+     * @return MailingList[]
      */
-    public function getMailingLists()
+    public function getMailingLists(): array
     {
         return $this->mailingLists;
     }
