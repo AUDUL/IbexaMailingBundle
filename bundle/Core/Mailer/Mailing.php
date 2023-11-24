@@ -93,8 +93,10 @@ class Mailing
         do {
             $usersId = [];
 
-            foreach ($users as $user) {
+            foreach ($users as $key => $user) {
                 $usersId[] = $user->getId();
+                unset($users[$key]);
+
                 if (\count($usersId) === $iterationCount) {
                     $data = $usersId;
                     $usersId = [];
