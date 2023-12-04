@@ -43,7 +43,7 @@ class MigrateNovaEzMailingCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $dumpSql = $input->getOption('dump-sql') === true;
-        $removeTables = $input->getOption('remove tables') === true;
+        $removeTables = $input->getOption('remove-tables') === true;
 
         foreach (self::TABLES as $oldTable => $newTable) {
             try {
