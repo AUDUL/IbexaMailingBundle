@@ -35,29 +35,19 @@ class MigrateNovaEzMailingCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addOption('dump-sql', null, InputOption::VALUE_NONE, 'Instead of trying to apply generated SQLs into EntityManager Storage Connection, output them.')
-            ->addOption('remove-tables', null, InputOption::VALUE_NONE, 'Remove old tables.');
+            ->addOption('dump-sql', null, InputOption::VALUE_NONE, 'Instead of trying to apply generated SQLs into EntityManager Storage Connection, output them.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $dumpSql = $input->getOption('dump-sql') === true;
-        $removeTables = $input->getOption('remove-tables') === true;
 
         foreach (self::TABLES as $oldTable => $newTable) {
             try {
                 $this->connection->executeQuery("SELECT * from $oldTable");
             } catch (\Exception) {
                 $io->error("Missing table : $oldTable");
-
-                return parent::FAILURE;
-            }
-
-            try {
-                $this->connection->executeQuery("SELECT * from $newTable");
-            } catch (\Exception) {
-                $io->error("Missing table : $newTable (please execute ibexamailing:install)");
 
                 return parent::FAILURE;
             }
@@ -69,18 +59,6 @@ class MigrateNovaEzMailingCommand extends Command
             }
 
             $this->connection->executeQuery($sql);
-        }
-
-        if ($removeTables) {
-            foreach (array_reverse(self::TABLES) as $oldTable => $newTable) {
-                $sql = "DROP TABLE $oldTable";
-                if ($dumpSql) {
-                    $io->writeln($sql);
-                    continue;
-                }
-
-                $this->connection->executeQuery($sql);
-            }
         }
 
         return parent::SUCCESS;
