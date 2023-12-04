@@ -36,7 +36,7 @@ class MigrateNovaEzMailingCommand extends Command
     {
         $this
             ->addOption('dump-sql', null, InputOption::VALUE_NONE, 'Instead of trying to apply generated SQLs into EntityManager Storage Connection, output them.')
-            ->addOption('remove tables', null, InputOption::VALUE_NONE, 'Remove old tables.');
+            ->addOption('remove-tables', null, InputOption::VALUE_NONE, 'Remove old tables.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -62,7 +62,7 @@ class MigrateNovaEzMailingCommand extends Command
                 return parent::FAILURE;
             }
 
-            $sql = "INSERT INTO $newTable SELECT * FROM $oldTable";
+            $sql = "ALTER TABLE $oldTable RENAME $newTable;";
             if ($dumpSql) {
                 $io->writeln($sql);
                 continue;
