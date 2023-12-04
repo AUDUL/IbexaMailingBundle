@@ -3,6 +3,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1]
+
+- fix novaezmailing command
+
 ## [2.0.0]
 
 - Global refactoring
