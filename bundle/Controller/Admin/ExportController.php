@@ -57,7 +57,9 @@ from mailing_user u;';
                 array_walk(
                     $user,
                     function (&$entry) {
-                        $entry = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $entry);
+                        if ($entry) {
+                            $entry = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $entry);
+                        }
                     }
                 );
                 fputcsv($csv, $user, ';');

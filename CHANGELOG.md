@@ -3,6 +3,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.3]
+
+- fix excel export
+
+## [2.0.2]
+
+- add excel export
+
 ## [2.0.1]
 
 - fix novaezmailing command
