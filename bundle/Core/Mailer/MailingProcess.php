@@ -21,10 +21,10 @@ class MailingProcess
         int $broadcastId,
         \Generator $generator,
     ): void {
-        /** @var \Symfony\Component\Process\Process[]|null[] */
+        /** @var Process[]|null[] */
         $processes = array_fill(0, $this->getNumberOfCPUCores() - 1, null);
         do {
-            /** @var \Symfony\Component\Process\Process $process */
+            /** @var Process $process */
             foreach ($processes as $key => $process) {
                 if ($process !== null && $process->isRunning()) {
                     continue;
