@@ -3,6 +3,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.5]
+
+- return path can be empty
+
 ## [2.0.4]
 
 - fix unregister template

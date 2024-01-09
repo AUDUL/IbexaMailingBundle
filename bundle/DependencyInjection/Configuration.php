@@ -19,7 +19,7 @@ class Configuration extends SiteAccessAware\Configuration
                 ->scalarNode('email_subject_prefix')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('email_from_address')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('email_from_name')->isRequired()->cannotBeEmpty()->end()
-                ->scalarNode('email_return_path')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('email_return_path')->isRequired()->end()
                 ->scalarNode('simple_mailer')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('mailing_mailer')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('default_mailinglist_id')->isRequired()->cannotBeEmpty()->end()
