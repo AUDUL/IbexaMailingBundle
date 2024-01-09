@@ -3,6 +3,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.4]
+
+- fix unregister template
+
 ## [2.0.3]
 
 - fix excel export
