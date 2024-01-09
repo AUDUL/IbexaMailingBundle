@@ -25,9 +25,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class RegistrationController extends AbstractController
 {
     public function __construct(
-        private readonly Registrar                     $registrar,
-        private readonly ConfigResolverInterface       $configResolver,
-        private readonly EntityManagerInterface        $entityManager,
+        private readonly Registrar $registrar,
+        private readonly ConfigResolverInterface $configResolver,
+        private readonly EntityManagerInterface $entityManager,
         private readonly AuthorizationCheckerInterface $authorizationChecker
     ) {
     }
@@ -135,6 +135,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->registrar->askForUnregisterConfirmation($unregistration)) {
                 $params['isConfirmed'] = true;
+
                 return $this->render('@IbexaMailing/registration/unregister_confirmation.html.twig', $params);
             }
         }
